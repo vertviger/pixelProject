@@ -1,17 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
-#include "cPosition.h"
 class cEntity
 {
 public:
-	cPosition position;
-	void drawEntity(int x, int y);
+	sf::Vector2f position = { 0, 0 };
+	sf::Vector2f direction = { 1, 0};
+	void draw(sf::RenderWindow& window);
 private:
-	sf::RectangleShape shape = sf::RectangleShape(position.position);
-	cPosition setPosition(int x, int y)
-	{
-		return pu
-	}
+	//sf::Shape shape;
+	
 };
 

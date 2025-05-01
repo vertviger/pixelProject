@@ -1,7 +1,7 @@
 #include "cMainMenu.h"
 
 
-cMainMenu::cMainMenu(float width, float height)
+cMainMenu::cMainMenu(int width, int height)
 {
 	font = sf::Font("../fonts/jersey25.ttf");
 	//play
