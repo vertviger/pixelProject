@@ -1,5 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "cMainMenu.h"
+#include "cScene.h"
+
 using namespace sf;
 
 int main()
@@ -16,12 +18,22 @@ int main()
     {
         return -1;
     }
+    auto font = sf::Font("../fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
     while (window.isOpen())
     {
+        //1.input handling
         while (auto const event = window.pollEvent())
         {
+            if (mainMenu.IsOpened())
+            {
+                mainMenu.EventHandle(event, window);
+            }
+            else
+            {
+
+            }
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
@@ -30,14 +42,21 @@ int main()
             {
                 switch (keyEvent->code)
                 {
-                case sf::Keyboard::Key::Up: mainMenu.MoveUp();      break;
-                case sf::Keyboard::Key::Down: mainMenu.MoveDown();  break;
-                //case sf::Keyboard::Key::Enter: window.close();      break;
+                    case sf::Keyboard::Key::Escape: mainMenu.ChangeOpened(); break;
                 }
             }
         }
+        //2. Do game control
+        
+        //3. Do game logic
+        
+        //4. Draw all
         window.clear(sf::Color::White);
-        mainMenu.draw(window);
+        if (mainMenu.IsOpened()) { mainMenu.Draw(window); }
+        else
+        {
+            cScene::Get()->Draw(window);
+        }
         window.display();
     }
 }

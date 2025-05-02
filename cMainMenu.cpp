@@ -1,6 +1,7 @@
 #include "cMainMenu.h"
 
 
+
 cMainMenu::cMainMenu(int width, int height)
 {
 	font = sf::Font("../fonts/jersey25.ttf");
@@ -25,44 +26,72 @@ cMainMenu::cMainMenu(int width, int height)
 	textExit.setPosition({ 400, 500 });
 	items.push_back(textExit);
 
-	MainMenuSelected = 0;
+	mainMenuSelected = 0;
 }
 cMainMenu::~cMainMenu()
 {
 
 }
 //Draw main menu
-void cMainMenu::draw(RenderWindow& window)
+void cMainMenu::Draw(RenderWindow& window)
 {
 	for (int i = 0; i < items.size(); i++)
 	{
 		window.draw(items[i]);
 	}
+	opened = true;
 }
 //move up
 void cMainMenu::MoveUp()
 {
-	if (MainMenuSelected >= 0)
+	if (mainMenuSelected >= 0)
 	{
-		items[MainMenuSelected].setFillColor(Color::Black);
-		MainMenuSelected--;
-		if (MainMenuSelected == -1)
+		items[mainMenuSelected].setFillColor(Color::Black);
+		mainMenuSelected--;
+		if (mainMenuSelected == -1)
 		{
-			MainMenuSelected = items.size()-1;
+			mainMenuSelected = items.size()-1;
 		}
-		items[MainMenuSelected].setFillColor(Color::Green);
+		items[mainMenuSelected].setFillColor(Color::Green);
 	}
 }
+//move down
 void cMainMenu::MoveDown()
 {
-	if (MainMenuSelected <= items.size()-1)
+	if (mainMenuSelected <= items.size()-1)
 	{
-		items[MainMenuSelected].setFillColor(Color::Black);
-		MainMenuSelected++;
-		if (MainMenuSelected == items.size())
+		items[mainMenuSelected].setFillColor(Color::Black);
+		mainMenuSelected++;
+		if (mainMenuSelected == items.size())
 		{
-			MainMenuSelected = 0;
+			mainMenuSelected = 0;
 		}
-		items[MainMenuSelected].setFillColor(Color::Green);
+		items[mainMenuSelected].setFillColor(Color::Green);
 	}
 }
+void cMainMenu::ChangeToSelected(RenderWindow& window)
+{
+	cLevels levels(window.getSize().x, window.getSize().y);
+	cGame* game = cGame::Get();
+	switch (mainMenuSelected)
+	{
+	case 0: game->start(); ChangeOpened(); break; //continue
+	case 1: ChangeOpened();break; //levels list
+	case 2: break;				//options
+	case 3:	window.close(); break; //exit
+	}
+}
+//event handling
+void cMainMenu::EventHandle(optional<Event> event, RenderWindow& window)
+{
+	if (auto const keyEvent = event->getIf<sf::Event::KeyReleased>())
+	{
+		switch (keyEvent->code)
+		{
+		case sf::Keyboard::Key::Up: MoveUp();						  break;
+		case sf::Keyboard::Key::Down: MoveDown();					  break;
+		case sf::Keyboard::Key::Enter: ChangeToSelected(window);      break;
+		}
+	}
+}
+

@@ -1,14 +1,23 @@
 #pragma once
 #include <vector>
 #include "cEntity.h"
+#include <SFML/Graphics.hpp>
+
+using namespace sf;
+using namespace std;
+
 class cScene
 {
 public: 
-	cEntity* controlledEntity();
-	void draw(sf::RenderWindow& window);
-	void onKeyReleased(sf::Event::KeyReleased key);
+	cScene();
+	~cScene();
+	cEntity* AddEnity();
+	cEntity* ControlledEntity();
+	static cScene* Get();
+	void Draw(RenderWindow& window);
+	void EventHandle(optional<Event> event);
 	//void spawn();
 private:
-	std::vector<cEntity> entities;
+	vector<cEntity> entities;
 };
 

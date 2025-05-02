@@ -2,18 +2,19 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-#include "cLevels.h"
+#include "cMainMenu.h"
 #include "cGame.h"
+
 
 
 using namespace std;
 using namespace sf;
 
-class cMainMenu
+class cLevels
 {
-public: 
-	cMainMenu(int width, int height);
-	~cMainMenu();
+public:
+	cLevels(int width, int height);
+	~cLevels();
 	void Draw(RenderWindow& window);
 	void EventHandle(optional<Event> event, RenderWindow& window);
 	void MoveUp();
@@ -21,14 +22,14 @@ public:
 	bool IsOpened() { return opened; }
 	bool ChangeOpened() { return opened = !opened; }
 	void ChangeToSelected(RenderWindow& window);
-	int MainMenuPressed()
+	int LevelPressed()
 	{
-		return mainMenuSelected;
+		return levelSelected;
 	}
 private:
-	bool opened = true;
-	int mainMenuSelected;
+	bool opened = false;
+	int levelSelected;
 	Font font;
-	vector<Text> items;
+	vector<Text> levels;
 };
 

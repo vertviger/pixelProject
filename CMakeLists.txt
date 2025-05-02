@@ -16,10 +16,11 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(SFML)
-#include_directories("${CMAKE_CURRENT_SOURCE_DIR}")
-file(GLOB SRCH "*.h")
-file(GLOB SRCCXX ".cpp")
-source_group("" FILES ${SRCCXX} ${SRCH})
 
-add_executable(pixelProject main.cpp)
+file(GLOB SRCCXX "*.cpp")
+file(GLOB SRCC "*.c")
+file(GLOB SRCH "*.h")
+source_group("" FILES ${SRCCXX} ${SRCC} ${SRCH})
+
+add_executable(${PROJECT_NAME} ${SRCCXX} ${SRCC} ${SRCH})
 target_link_libraries(pixelProject PRIVATE SFML::Graphics)
