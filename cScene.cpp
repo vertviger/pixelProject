@@ -12,12 +12,16 @@ cScene::cScene()
 }
 cScene::~cScene()
 {
-
+	for(auto* e : entities)
+	{
+		delete e;
+	}
+	entities.clear();
 }
 cEntity* cScene::AddEnity()
 {
-	entities.push_back(cEntity());
-	return &entities.back();
+	entities.push_back(new cEntity());
+	return entities.back();
 }
 cScene* cScene::Get()
 {
@@ -26,9 +30,9 @@ cScene* cScene::Get()
 void cScene::Draw(sf::RenderWindow& window)
 {
 	//window.draw(background);
-	for (auto& e : entities)
+	for (auto* e : entities)
 	{
-		e.Draw(window);
+		e->Draw(window);
 	}
 }
 void cScene::EventHandle(optional<Event> event)
@@ -59,7 +63,7 @@ void cScene::EventHandle(optional<Event> event)
 }
 cEntity* cScene::ControlledEntity()
 {
-	return &entities[0];
+	return entities[0];
 }
 
 

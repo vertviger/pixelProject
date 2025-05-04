@@ -1,5 +1,6 @@
 #include "cEntity.h"
 #include "cScene.h"
+#include "cGraphics.h"
 
 Vector2f CameraScale(Vector2f scenePos)
 {
@@ -16,7 +17,7 @@ void cEntity::Draw(sf::RenderWindow& window)
 }
 cEntity::cEntity()
 {
-	Texture texture = sf::Texture("../Visuals/Sprites/player.png");
+	const Texture& texture = GetTexture("../Visuals/Sprites/player.png");
 	sprite = new Sprite(texture);
 	sprite->setPosition(position);
 }
