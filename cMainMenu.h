@@ -18,15 +18,15 @@ public:
 	void EventHandle(optional<Event> event, RenderWindow& window);
 	void MoveUp();
 	void MoveDown();
-	bool IsOpened() { return opened; }
-	bool ChangeOpened() { return opened = !opened; }
+	static bool IsOpened() { return opened; }
+	static bool ChangeOpened() { return opened = !opened; }
 	void ChangeToSelected(RenderWindow& window);
 	int MainMenuPressed()
 	{
 		return mainMenuSelected;
 	}
 private:
-	bool opened = true;
+	inline static bool opened = true;
 	int mainMenuSelected;
 	Font font;
 	vector<Text> items;

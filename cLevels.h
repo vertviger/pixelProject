@@ -19,15 +19,15 @@ public:
 	void EventHandle(optional<Event> event, RenderWindow& window);
 	void MoveUp();
 	void MoveDown();
-	bool IsOpened() { return opened; }
-	bool ChangeOpened() { return opened = !opened; }
+	static bool IsOpened() { return opened; } /////////////
+	static void ChangeOpened() { opened = !opened; } //////////////
 	void ChangeToSelected(RenderWindow& window);
 	int LevelPressed()
 	{
 		return levelSelected;
 	}
 private:
-	bool opened = false;
+	inline static bool opened = false; //????????????????
 	int levelSelected;
 	Font font;
 	vector<Text> levels;

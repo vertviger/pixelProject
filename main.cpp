@@ -21,14 +21,19 @@ int main()
     auto font = sf::Font("../fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
+    cLevels levels(window.getSize().x, window.getSize().y);
     while (window.isOpen())
     {
         //1.input handling
         while (auto const event = window.pollEvent())
         {
-            if (mainMenu.IsOpened())
+            if (cMainMenu::IsOpened())
             {
                 mainMenu.EventHandle(event, window);
+            }
+            if (cLevels::IsOpened())
+            {
+                levels.EventHandle(event, window);
             }
             else
             {
@@ -42,7 +47,7 @@ int main()
             {
                 switch (keyEvent->code)
                 {
-                    case sf::Keyboard::Key::Escape: mainMenu.ChangeOpened(); break;
+                case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); break;
                 }
             }
         }
@@ -52,11 +57,9 @@ int main()
         
         //4. Draw all
         window.clear(sf::Color::White);
-        if (mainMenu.IsOpened()) { mainMenu.Draw(window); }
-        else
-        {
-            cScene::Get()->Draw(window);
-        }
+        if (cMainMenu::IsOpened()) { mainMenu.Draw(window); }
+        if (cLevels::IsOpened()) { levels.Draw(window); }
+        else { cScene::Get()->Draw(window); }
         window.display();
     }
 }

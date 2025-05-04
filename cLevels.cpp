@@ -1,9 +1,13 @@
 #include "cLevels.h"
 
-
 cLevels::cLevels(int width, int height)
 {
 	font = sf::Font("../fonts/jersey25.ttf");
+	//1
+	auto textStart = sf::Text(font, "Choose a level", 60);
+	textStart.setFillColor(Color::Black);
+	textStart.setPosition({ 400, 100 });
+	levels.push_back(textStart);
 	//1
 	auto textlvl1 = sf::Text(font, "Level 1", 60);
 	textlvl1.setFillColor(Color::Green);
@@ -26,9 +30,9 @@ cLevels::cLevels(int width, int height)
 	levels.push_back(textlvl4);
 	//5
 	auto textlvl5 = sf::Text(font, "Level 5", 60);
-	textlvl4.setFillColor(Color::Black);
-	textlvl4.setPosition({ 400, 600 });
-	levels.push_back(textlvl4);
+	textlvl5.setFillColor(Color::Black);
+	textlvl5.setPosition({ 400, 600 });
+	levels.push_back(textlvl5);
 	//back
 	auto textBack = sf::Text(font, "Go back", 60);
 	textBack.setFillColor(Color::Black);
@@ -61,7 +65,7 @@ void cLevels::MoveUp()
 		{
 			levelSelected = levels.size() - 1;
 		}
-		levels[levelSelected].setFillColor(Color::Green);
+		if(levelSelected != 0) levels[levelSelected].setFillColor(Color::Green);
 	}
 }
 //move down
@@ -75,20 +79,24 @@ void cLevels::MoveDown()
 		{
 			levelSelected = 0;
 		}
-		levels[levelSelected].setFillColor(Color::Green);
+		if (levelSelected != 0) levels[levelSelected].setFillColor(Color::Green);
+		//levels[levelSelected].setFillColor(Color::Green);
 	}
 }
 //selecting
 void cLevels::ChangeToSelected(RenderWindow& window)
 {
+	cGame* game = cGame::Get();
 	switch (levelSelected)
 	{
-	case 0: break; //Level1
-	case 1: break; //level2
-	case 2: break; //level3
-	case 3:	break; //level4
-	case 4:	break; //level5
-	case 5:	window.close(); break; //back
+	case 0:	break; //Manual(possibly)
+	case 1: cLevels::ChangeOpened(); game->start(); levelSelected = 0; break; //level1
+	case 2: break; //level2
+	case 3:	break; //level3
+	case 4:	break; //level4
+	case 5:	break; //level5
+	case 6:	cMainMenu::ChangeOpened(); cLevels::ChangeOpened(); levelSelected = 0;break; //back
+
 	}
 }
 //event handling
@@ -101,6 +109,7 @@ void cLevels::EventHandle(optional<Event> event, RenderWindow& window)
 		case sf::Keyboard::Key::Up: MoveUp();						  break;
 		case sf::Keyboard::Key::Down: MoveDown();					  break;
 		case sf::Keyboard::Key::Enter: ChangeToSelected(window);      break;
+		case sf::Keyboard::Key::Escape: cLevels::ChangeOpened();      break;
 		}
 	}
 }

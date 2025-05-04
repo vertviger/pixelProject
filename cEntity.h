@@ -1,12 +1,15 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+
 using namespace std;
 using namespace sf;
 
 class cEntity
 {
 public:
+	cEntity();
+	~cEntity();
 	void ChangePosition(const Vector2f& newPosition)
 	{
 		position = newPosition;
@@ -28,10 +31,9 @@ public:
 	void GoRight();
 	void GoLeft();
 	void Draw(RenderWindow& window);
-
+	sf::Sprite* sprite = NULL;
 private:
 	Vector2f position = { 0, 0 };
 	Vector2f direction = { 1, 0 };
-	//sf::Shape shape;
 };
 

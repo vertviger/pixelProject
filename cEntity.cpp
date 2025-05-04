@@ -1,11 +1,28 @@
 #include "cEntity.h"
+#include "cScene.h"
 
+Vector2f CameraScale(Vector2f scenePos)
+{
+	return { scenePos.x * 120, scenePos.y * 120 };
+}
 void cEntity::Draw(sf::RenderWindow& window)
 {
-	auto shape = CircleShape(20, 6);
-	shape.setFillColor(Color::Cyan);
-	shape.setPosition(position);
-	window.draw(shape);
+	if (!sprite) return;
+	auto scene = cScene::Get();
+	float kx = window.getSize().x / scene->GetSize().x;
+	float ky = window.getSize().y / scene->GetSize().y;
+	sprite->setPosition({ position.x * kx, position.y * ky });
+	window.draw(*sprite);
+}
+cEntity::cEntity()
+{
+	Texture texture = sf::Texture("../Visuals/Sprites/player.png");
+	sprite = new Sprite(texture);
+	sprite->setPosition(position);
+}
+cEntity::~cEntity()
+{
+	if (sprite) delete sprite;
 }
 void cEntity::Jump()
 {

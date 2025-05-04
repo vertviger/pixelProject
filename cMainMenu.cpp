@@ -71,12 +71,11 @@ void cMainMenu::MoveDown()
 }
 void cMainMenu::ChangeToSelected(RenderWindow& window)
 {
-	cLevels levels(window.getSize().x, window.getSize().y);
 	cGame* game = cGame::Get();
 	switch (mainMenuSelected)
 	{
-	case 0: game->start(); ChangeOpened(); break; //continue
-	case 1: ChangeOpened();break; //levels list
+	case 0: game->start(); cMainMenu::ChangeOpened(); break; //continue
+	case 1: cLevels::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
 	case 2: break;				//options
 	case 3:	window.close(); break; //exit
 	}
@@ -88,8 +87,8 @@ void cMainMenu::EventHandle(optional<Event> event, RenderWindow& window)
 	{
 		switch (keyEvent->code)
 		{
-		case sf::Keyboard::Key::Up: MoveUp();						  break;
-		case sf::Keyboard::Key::Down: MoveDown();					  break;
+		case sf::Keyboard::Key::Up: MoveUp();								  break;
+		case sf::Keyboard::Key::Down: MoveDown();							  break;
 		case sf::Keyboard::Key::Enter: ChangeToSelected(window);      break;
 		}
 	}
