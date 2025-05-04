@@ -6,14 +6,16 @@ void cEntity::Draw(sf::RenderWindow& window)
 {
 	if (!sprite) return;
 	auto scene = cScene::Get();
-	float kx = window.getSize().x / scene->GetSize().x;
-	float ky = window.getSize().y / scene->GetSize().y;
-	Vector2f origin = { position.x * kx, position.y * ky };
-	origin.x -= (size.x / 2) * kx; // shifting position cords to the middle of the sprite X axis
-	origin.y -= size.y * ky; // shifting position cords to the middle of the sprite Y axis
-	sprite->setPosition(origin);
+	Vector2f screen_size = window.getView().getSize();
+	float kx = screen_size.x / scene->GetSize().x;
+	float ky = screen_size.y / scene->GetSize().y;
+	Vector2f pos = { position.x * kx, position.y * ky };
+	sprite->setPosition(pos);
 	Vector2u textureSize = sprite->getTexture().getSize();
 	Vector2f textureSizeF = { (float)textureSize.x, (float)textureSize.y };
+	Vector2f origin = textureSizeF;
+	origin.x *= 0.5f; // shifting position cords to the middle of the sprite X axis
+	sprite->setOrigin(origin);
 	Vector2f scale = { (size.x * kx)/textureSizeF.x, (size.y * ky) / textureSizeF.y};
 	sprite->setScale(scale);
 	window.draw(*sprite);
