@@ -33,7 +33,8 @@ public:
 	void Draw(RenderWindow& window);
 	sf::Sprite* sprite = NULL;
 private:
-	Vector2f position = { 0, 0 };
+	Vector2f position = { 8.0 , 4.5 };
 	Vector2f direction = { 1, 0 };
+	Vector2f size = { 1, 1 };
 };
 
