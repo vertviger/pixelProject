@@ -1,11 +1,18 @@
+#include <SFML/System/Clock.hpp>
+#include <SFML/System/Time.hpp>
+
 #pragma once
-#include <SFML/Graphics.hpp>
 
 class cGame
 {
 public:
 	static cGame* Get();
-	void start();
-private:
-};
+	void Start();
+	void Pause(bool _on) { pause = _on; }
+	void Quant();
 
+private:
+	bool pause = false;
+	sf::Clock clock;
+	sf::Time passedFromLastQuant = sf::Time::Zero;
+};

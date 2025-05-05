@@ -90,7 +90,7 @@ void cLevels::ChangeToSelected(RenderWindow& window)
 	switch (levelSelected)
 	{
 	case 0:	break; //Manual(possibly)
-	case 1: cLevels::ChangeOpened(); game->start(); levelSelected = 0; break; //level1
+	case 1: cLevels::ChangeOpened(); game->Start(); levelSelected = 0; break; //level1
 	case 2: break; //level2
 	case 3:	break; //level3
 	case 4:	break; //level4

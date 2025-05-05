@@ -20,6 +20,7 @@ void cEntity::Draw(sf::RenderWindow& window)
 	sprite->setScale(scale);
 	window.draw(*sprite);
 }
+
 cEntity::cEntity()
 {
 	const Texture& texture = GetTexture("../Visuals/Sprites/player.png");
@@ -30,6 +31,64 @@ cEntity::~cEntity()
 {
 	if (sprite) delete sprite;
 }
+
+void cEntity::StartAction(cActionType _at, const cTarget& _t)
+{
+	if(!Can(_at)) return;
+	switch(_at)
+	{
+	case A_NONE:
+		break;
+	case A_MOVE_LEFT:
+		move_direction = { -1.0f , 0.0f };
+		break;
+	case A_MOVE_RIGHT:
+		break;
+	case A_MOVE_STOP:
+		move_direction = { 1.0f , 0.0f };
+		break;
+	case A_JUMP:
+		move_direction.y = 1.0f;
+		break;
+	case A_TELEPORT:
+		break;
+	case A_FIREBALL:
+		break;
+	default:
+		break;
+	}
+}
+
+bool cEntity::Can(cActionType _a)
+{
+	switch(_a)
+	{
+	case A_NONE:
+		break;
+	case A_MOVE_LEFT:
+		break;
+	case A_MOVE_RIGHT:
+		break;
+	case A_MOVE_STOP:
+		break;
+	case A_JUMP:
+		break;
+	case A_TELEPORT:
+		break;
+	case A_FIREBALL:
+		break;
+	default:
+		break;
+	}
+	return true;
+}
+
+void cEntity::Quant(float _deltaTimeSec)
+{
+	// process movement and jump and spells
+}
+
+/*
 void cEntity::Jump()
 {
 	Vector2f currentPos = GetPosition();
@@ -54,3 +113,4 @@ void cEntity::GoLeft()
 	Vector2f newPos = { (currentPos.x + 1) ,currentPos.y };
 	ChangePosition(newPos);
 }
+*/

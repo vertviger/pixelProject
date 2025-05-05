@@ -74,7 +74,7 @@ void cMainMenu::ChangeToSelected(RenderWindow& window)
 	cGame* game = cGame::Get();
 	switch (mainMenuSelected)
 	{
-	case 0: game->start(); cMainMenu::ChangeOpened(); break; //continue
+	case 0: game->Start(); cMainMenu::ChangeOpened(); break; //continue
 	case 1: cLevels::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
 	case 2: break;				//options
 	case 3:	window.close(); break; //exit

@@ -14,8 +14,20 @@ cGame* cGame::Get()
 	}
 	return game.get();
 }
-void cGame::start()
+void cGame::Start()
 {
 	cScene::Get()->AddEnity();
+	clock.restart();
 }
-
+void cGame::Quant()
+{
+	Time delta = clock.restart();
+	if(pause) return;
+	passedFromLastQuant += delta;
+	const float quantPeriodMs = 50.0f;
+	if(passedFromLastQuant.asMicroseconds() > quantPeriodMs)
+	{
+		cScene::Get()->Quant(passedFromLastQuant.asSeconds());
+		passedFromLastQuant = sf::Time::Zero;
+	}
+}

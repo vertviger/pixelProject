@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include "cMainMenu.h"
 #include "cScene.h"
+#include "cGameControl.h"
 
 using namespace sf;
 
@@ -50,11 +51,13 @@ int main()
                 case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); break;
                 }
             }
+            //2. Do game control
+            cGameControl::Get()->EventHandle(event);
         }
-        //2. Do game control
         
         //3. Do game logic
-        
+        cGame::Get()->Quant();
+
         //4. Draw all
         window.clear(sf::Color::White);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window); }

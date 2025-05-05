@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include "cAction.h"
 
 using namespace std;
 using namespace sf;
@@ -26,15 +27,22 @@ public:
 	{
 		return direction;
 	}
-	void Jump();
-	void Sneak();
-	void GoRight();
-	void GoLeft();
+
+	void StartAction(cActionType _at, const cTarget& _t);
+	void Quant(float _deltaTimeSec);
 	void Draw(RenderWindow& window);
+
 	sf::Sprite* sprite = NULL;
 private:
+
+	bool Can(cActionType);
+
 	Vector2f position = { 8.0 , 4.5 };
 	Vector2f direction = { 1, 0 };
+	Vector2f move_direction = { 0, 0 }; // x < 0 - left, x > 0 - right, y > 0 - up, y < 0 - down
 	Vector2f size = { 1, 1 };
+	float mana = 100.0f;
+	const float maxMovementSpeed = 1.0f; // m/s
+	cActionType currentAction = A_NONE;
 };
 
