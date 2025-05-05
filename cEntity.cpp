@@ -46,8 +46,11 @@ void cEntity::StartAction(cActionType _at, const cTarget& _t)
 	case A_MOVE_RIGHT:
 		move_direction.x = 1.0f;
 		break;
-	case A_MOVE_STOP:
-		move_direction = { 0.0f, 0.0f };
+	case A_MOVE_STOP_X:
+		move_direction.x = 0.0f;
+		break;
+	case A_MOVE_STOP_Y:
+		move_direction.y = 0.0f;
 		break;
 	case A_MOVE_UP:
 		move_direction.y = -1.0f;
@@ -68,29 +71,11 @@ bool cEntity::Can(cActionType _a)
 {
 	switch(_a)
 	{
-	case A_NONE:
-		break;
-	case A_MOVE_LEFT:
-		break;
-	case A_MOVE_RIGHT:
-		break;
-	case A_MOVE_STOP:
-		break;
-	case A_MOVE_UP:
-		break;
-	case A_MOVE_DOWN:
-		break;
 	case A_TELEPORT:
-		if (mana > 25.0f)
-		{
-			//StartAction(A_TELEPORT, );  
-		}
+		//return mana > 25.0f;  
 		break;
 	case A_FIREBALL:
-		if (mana > 10.0f)
-		{
-			//StartAction(A_FIREBALL, );  
-		}
+		//return mana > 10.0f;  
 		break;
 	default:
 		break;

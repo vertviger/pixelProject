@@ -33,7 +33,6 @@ void cGame::Quant()
 		passedFromLastQuant = sf::Time::Zero;
 	}
 }
-
 void cGame::Draw(sf::RenderWindow& window)
 {
 	if (!running) return;

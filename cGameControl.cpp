@@ -14,11 +14,12 @@ cGameControl::cGameControl()
 {
 	const Texture& texture = GetTexture("../Visuals/Sprites/uiActionsFrame.png");
 	slotsSprite = new Sprite(texture);
-	slotsSprite->setPosition({});
 	const Texture& texture1 = GetTexture("../Visuals/Sprites/Actions/actionFireball.png");
 	Sprite* fireball = new Sprite(texture1);
-	fireball->setPosition({});
 	actionSprites[A_FIREBALL] = fireball;
+	const Texture& texture2 = GetTexture("../Visuals/Sprites/Actions/actionTeleport.png");
+	Sprite* teleport = new Sprite(texture2);
+	actionSprites[A_TELEPORT] = teleport;
 	/*const Texture& texture2 = GetTexture("../Visuals/Sprites/Actions/actionTeleport.png");
 	Sprite* action2 = new Sprite(texture2);
 	action2->setPosition({});
@@ -49,7 +50,15 @@ cGameControl* cGameControl::Get()
 
 void cGameControl::Draw(RenderWindow& window)
 {
+	float yPos = (float)window.getSize().y - (float)(slotsSprite->getScale().y * slotsSprite->getTexture().getSize().y);
+	slotsSprite->setPosition({ 0.0, yPos });
+	slotsSprite->setOrigin({0.0f, (float)(slotsSprite->getScale().y * slotsSprite->getTexture().getSize().y) });
+	slotsSprite->setScale({ 0.4, 0.4 });
 	window.draw(*slotsSprite);
+	actionSprites[A_FIREBALL]->setScale({ 0.15, 0.15 });
+	actionSprites[A_FIREBALL]->setPosition({ 25.0, yPos-5 });
+	actionSprites[A_TELEPORT]-> setScale({ 0.125, 0.125 });
+	actionSprites[A_TELEPORT]->setPosition({ 100.0, yPos-5});
 	for (auto& i : actionSprites)
 	{
 		window.draw(*i.second);
@@ -78,9 +87,11 @@ void cGameControl::EventHandle(optional<Event> event)
 		{
 		case Keyboard::Key::A: // no break;	 //stop go right
 		case Keyboard::Key::D:
+			action = A_MOVE_STOP_X; 
+			break;
 		case Keyboard::Key::W:
 		case Keyboard::Key::S:
-			action = A_MOVE_STOP; 
+			action = A_MOVE_STOP_Y;
 			break;
 		}
 	}
