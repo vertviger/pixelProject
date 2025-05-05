@@ -15,6 +15,7 @@ public:
 	cEntity* ControlledEntity();
 	static cScene* Get();
 	void Draw(RenderWindow& window);
+	cEntity* findEntity(Vector2f pos);
 	Vector2f GetSize() { return size; }
 
 	void Quant(float deltaTimeSec);

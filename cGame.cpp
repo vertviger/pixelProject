@@ -2,6 +2,7 @@
 #include "cScene.h"
 #include "cEntity.h"
 #include <memory>
+#include "cGameControl.h"
 using namespace std;
 
 static std::unique_ptr<cGame> game;
@@ -18,16 +19,23 @@ void cGame::Start()
 {
 	cScene::Get()->AddEnity();
 	clock.restart();
+	running = true;
 }
 void cGame::Quant()
 {
 	Time delta = clock.restart();
 	if(pause) return;
 	passedFromLastQuant += delta;
-	const float quantPeriodMs = 50.0f;
+	const float quantPeriodMs = 10.0f;
 	if(passedFromLastQuant.asMicroseconds() > quantPeriodMs)
 	{
 		cScene::Get()->Quant(passedFromLastQuant.asSeconds());
 		passedFromLastQuant = sf::Time::Zero;
 	}
+}
+
+void cGame::Draw(sf::RenderWindow& window)
+{
+	if (!running) return;
+	cGameControl::Get()->Draw(window);
 }

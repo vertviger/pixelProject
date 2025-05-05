@@ -2,16 +2,61 @@
 #include "cScene.h"
 #include "cEntity.h"
 #include "cAction.h"
+#include "cGraphics.h"
+
 #include <memory>
 
 using namespace std;
+using namespace sf;
 
-static cGameControl gameControl;
+
+cGameControl::cGameControl()
+{
+	const Texture& texture = GetTexture("../Visuals/Sprites/uiActionsFrame.png");
+	slotsSprite = new Sprite(texture);
+	slotsSprite->setPosition({});
+	const Texture& texture1 = GetTexture("../Visuals/Sprites/Actions/actionFireball.png");
+	Sprite* fireball = new Sprite(texture1);
+	fireball->setPosition({});
+	actionSprites[A_FIREBALL] = fireball;
+	/*const Texture& texture2 = GetTexture("../Visuals/Sprites/Actions/actionTeleport.png");
+	Sprite* action2 = new Sprite(texture2);
+	action2->setPosition({});
+	const Texture& texture3 = GetTexture("../Visuals/Sprites/Actions/actionSpeed.png");
+	Sprite* action3 = new Sprite(texture3);
+	action3->setPosition({});
+	const Texture& texture4 = GetTexture("../Visuals/Sprites/Actions/actionTransform.png");
+	Sprite* action4 = new Sprite(texture4);
+	action4->setPosition({});
+	const Texture& texture5 = GetTexture("../Visuals/Sprites/hpBar.png");
+	Sprite* hpBar = new Sprite(texture5);
+	hpBar->setPosition({});
+	const Texture& texture6 = GetTexture("../Visuals/Sprites/hpBar.png");
+	Sprite* manaBar = new Sprite(texture6);
+	manaBar->setPosition({});*/
+}
+
+cGameControl::~cGameControl()
+{
+
+}
 
 cGameControl* cGameControl::Get()
 {
+	static cGameControl gameControl;
 	return &gameControl;
 }
+
+void cGameControl::Draw(RenderWindow& window)
+{
+	window.draw(*slotsSprite);
+	for (auto& i : actionSprites)
+	{
+		window.draw(*i.second);
+	}
+}
+
+
 
 void cGameControl::EventHandle(optional<Event> event)
 {
@@ -20,8 +65,8 @@ void cGameControl::EventHandle(optional<Event> event)
 	{
 		switch(keyEvent->code)
 		{
-		case Keyboard::Key::W: action = A_JUMP;			break;
-		case Keyboard::Key::S: action = A_SNEAK;		break;
+		case Keyboard::Key::W: action = A_MOVE_UP;		break;
+		case Keyboard::Key::S: action = A_MOVE_DOWN;	break;
 		case Keyboard::Key::A: action = A_MOVE_LEFT;	break;
 		case Keyboard::Key::D: action = A_MOVE_RIGHT;	break;
 			//@to_do selectedAction
@@ -32,7 +77,9 @@ void cGameControl::EventHandle(optional<Event> event)
 		switch(keyEvent->code)
 		{
 		case Keyboard::Key::A: // no break;	 //stop go right
-		case Keyboard::Key::D: 
+		case Keyboard::Key::D:
+		case Keyboard::Key::W:
+		case Keyboard::Key::S:
 			action = A_MOVE_STOP; 
 			break;
 		}

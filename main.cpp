@@ -10,12 +10,12 @@ int main()
     //make a main window
     auto window = sf::RenderWindow
     (
-        sf::VideoMode({ 1920, 1080 }), "CHERWYAK",
+        sf::VideoMode({ 1920, 1080 }), "DefendTheForest",
         sf::Style::Default, sf::State::Windowed,
         sf::ContextSettings{ .antiAliasingLevel = 8 }
     );
     sf::Image icon;
-    if (!icon.loadFromFile("../Visuals/icon.png"))
+    if (!icon.loadFromFile("../Visuals/icon2.png"))
     {
         return -1;
     }
@@ -62,7 +62,12 @@ int main()
         window.clear(sf::Color::White);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window); }
         if (cLevels::IsOpened()) { levels.Draw(window); }
-        else { cScene::Get()->Draw(window); }
+        else 
+        { 
+            
+            cScene::Get()->Draw(window); 
+            cGame::Get()->Draw(window);
+        }
         window.display();
     }
 }

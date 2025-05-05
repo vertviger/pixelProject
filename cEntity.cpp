@@ -15,6 +15,7 @@ void cEntity::Draw(sf::RenderWindow& window)
 	Vector2f textureSizeF = { (float)textureSize.x, (float)textureSize.y };
 	Vector2f origin = textureSizeF;
 	origin.x *= 0.5f; // shifting position cords to the middle of the sprite X axis
+	origin.y *= 0.5f; // shifting position cords to the middle of the sprite Y axis
 	sprite->setOrigin(origin);
 	Vector2f scale = { (size.x * kx)/textureSizeF.x, (size.y * ky) / textureSizeF.y};
 	sprite->setScale(scale);
@@ -40,15 +41,19 @@ void cEntity::StartAction(cActionType _at, const cTarget& _t)
 	case A_NONE:
 		break;
 	case A_MOVE_LEFT:
-		move_direction = { -1.0f , 0.0f };
+		move_direction.x = -1.0f;
 		break;
 	case A_MOVE_RIGHT:
+		move_direction.x = 1.0f;
 		break;
 	case A_MOVE_STOP:
-		move_direction = { 1.0f , 0.0f };
+		move_direction = { 0.0f, 0.0f };
 		break;
-	case A_JUMP:
-		move_direction.y = 1.0f;
+	case A_MOVE_UP:
+		move_direction.y = -1.0f;
+		break;
+	case A_MOVE_DOWN:
+		move_direction.y = +1.0f;
 		break;
 	case A_TELEPORT:
 		break;
@@ -71,11 +76,21 @@ bool cEntity::Can(cActionType _a)
 		break;
 	case A_MOVE_STOP:
 		break;
-	case A_JUMP:
+	case A_MOVE_UP:
+		break;
+	case A_MOVE_DOWN:
 		break;
 	case A_TELEPORT:
+		if (mana > 25.0f)
+		{
+			//StartAction(A_TELEPORT, );  
+		}
 		break;
 	case A_FIREBALL:
+		if (mana > 10.0f)
+		{
+			//StartAction(A_FIREBALL, );  
+		}
 		break;
 	default:
 		break;
@@ -85,32 +100,6 @@ bool cEntity::Can(cActionType _a)
 
 void cEntity::Quant(float _deltaTimeSec)
 {
+	position += (move_direction * maxMovementSpeed) * _deltaTimeSec;
 	// process movement and jump and spells
 }
-
-/*
-void cEntity::Jump()
-{
-	Vector2f currentPos = GetPosition();
-	Vector2f newPos = { currentPos.x ,(currentPos.y - 1) };
-	ChangePosition(newPos);
-}
-void cEntity::Sneak()
-{
-	Vector2f currentPos = GetPosition();
-	Vector2f newPos = { currentPos.x ,(currentPos.y + 1) };
-	ChangePosition(newPos);
-}
-void cEntity::GoRight()
-{
-	Vector2f currentPos = GetPosition();
-	Vector2f newPos = { (currentPos.x - 1) ,currentPos.y };
-	ChangePosition(newPos);
-}
-void cEntity::GoLeft()
-{
-	Vector2f currentPos = GetPosition();
-	Vector2f newPos = { (currentPos.x + 1) ,currentPos.y };
-	ChangePosition(newPos);
-}
-*/

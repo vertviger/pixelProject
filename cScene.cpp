@@ -43,6 +43,11 @@ void cScene::Draw(sf::RenderWindow& window)
 	}
 }
 
+cEntity* cScene::findEntity(Vector2f pos)
+{
+	return nullptr;
+}
+
 cEntity* cScene::ControlledEntity()
 {
 	return entities[0];

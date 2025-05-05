@@ -17,7 +17,7 @@ public:
 	}
 	void ChangeDirection(const Vector2f& newDirection)
 	{
-		direction = newDirection;
+		lookAt = newDirection;
 	}
 	const Vector2f& GetPosition() const
 	{
@@ -25,7 +25,7 @@ public:
 	}
 	const Vector2f& GetDirection() const
 	{
-		return direction;
+		return lookAt;
 	}
 
 	void StartAction(cActionType _at, const cTarget& _t);
@@ -38,9 +38,9 @@ private:
 	bool Can(cActionType);
 
 	Vector2f position = { 8.0 , 4.5 };
-	Vector2f direction = { 1, 0 };
+	Vector2f lookAt;
 	Vector2f move_direction = { 0, 0 }; // x < 0 - left, x > 0 - right, y > 0 - up, y < 0 - down
-	Vector2f size = { 1, 1 };
+	Vector2f size = { 0.8, 1 };
 	float mana = 100.0f;
 	const float maxMovementSpeed = 1.0f; // m/s
 	cActionType currentAction = A_NONE;
