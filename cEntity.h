@@ -6,10 +6,12 @@
 using namespace std;
 using namespace sf;
 
+class cBrain;
+
 class cEntity
 {
 public:
-	cEntity();
+	cEntity(const string& _name);
 	~cEntity();
 	void ChangePosition(const Vector2f& newPosition)
 	{
@@ -44,5 +46,7 @@ private:
 	float mana = 100.0f;
 	const float maxMovementSpeed = 1.0f; // m/s
 	cActionType currentAction = A_NONE;
+	cBrain* brain = NULL;
+	std::string name;
 };
 

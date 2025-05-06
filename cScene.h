@@ -11,14 +11,14 @@ class cScene
 public: 
 	cScene();
 	~cScene();
-	cEntity* AddEnity();
-	cEntity* ControlledEntity();
 	static cScene* Get();
-	void Draw(RenderWindow& window);
-	cEntity* findEntity(Vector2f pos);
-	Vector2f GetSize() { return size; }
 
-	void Quant(float deltaTimeSec);
+	cEntity*	AddEnity(const string& _name);
+	void		Draw(RenderWindow& window);
+	cEntity*	FindEntity(Vector2f pos);
+	Vector2f	GetSize() { return size; }
+
+	void		Quant(float deltaTimeSec);
 private:
 	vector<cEntity*> entities;
 	Vector2f size = {16.0f, 9.0f};

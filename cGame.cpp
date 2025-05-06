@@ -5,19 +5,15 @@
 #include "cGameControl.h"
 using namespace std;
 
-static std::unique_ptr<cGame> game;
-
 cGame* cGame::Get()
 {
-	if (!game)
-	{
-		game = std::make_unique<cGame>();
-	}
-	return game.get();
+	static cGame game;
+	return &game;
 }
 void cGame::Start()
 {
-	cScene::Get()->AddEnity();
+	auto hero = cScene::Get()->AddEnity("hero");
+	cGameControl::Get()->ControledEntity(hero);
 	clock.restart();
 	running = true;
 }

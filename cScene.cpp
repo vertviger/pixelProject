@@ -3,7 +3,6 @@
 using namespace std;
 using namespace sf;
 
-static cScene scene;
 cScene::cScene()
 {
 	/*Texture backgroundTexture;
@@ -18,13 +17,14 @@ cScene::~cScene()
 	}
 	entities.clear();
 }
-cEntity* cScene::AddEnity()
+cEntity* cScene::AddEnity(const string& _name)
 {
-	entities.push_back(new cEntity());
+	entities.push_back(new cEntity(_name));
 	return entities.back();
 }
 cScene* cScene::Get()
 {
+	static cScene scene;
 	return &scene;
 }
 void cScene::Quant(float deltaTimeSec)
@@ -43,12 +43,7 @@ void cScene::Draw(sf::RenderWindow& window)
 	}
 }
 
-cEntity* cScene::findEntity(Vector2f pos)
+cEntity* cScene::FindEntity(Vector2f pos)
 {
 	return nullptr;
-}
-
-cEntity* cScene::ControlledEntity()
-{
-	return entities[0];
 }

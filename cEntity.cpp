@@ -1,6 +1,7 @@
 #include "cEntity.h"
 #include "cScene.h"
 #include "cGraphics.h"
+#include "cBrain.h"
 
 void cEntity::Draw(sf::RenderWindow& window)
 {
@@ -22,8 +23,9 @@ void cEntity::Draw(sf::RenderWindow& window)
 	window.draw(*sprite);
 }
 
-cEntity::cEntity()
+cEntity::cEntity(const string& _name) : name(_name)
 {
+	brain = new cBrain(this);
 	const Texture& texture = GetTexture("../Visuals/Sprites/player.png");
 	sprite = new Sprite(texture);
 	sprite->setPosition(position);
@@ -31,6 +33,7 @@ cEntity::cEntity()
 cEntity::~cEntity()
 {
 	if (sprite) delete sprite;
+	delete brain;
 }
 
 void cEntity::StartAction(cActionType _at, const cTarget& _t)
