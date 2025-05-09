@@ -2,6 +2,8 @@
 #include "cMainMenu.h"
 #include "cScene.h"
 #include "cGameControl.h"
+#include "cMenuLevels.h"
+#include "cGame.h"
 
 using namespace sf;
 
@@ -15,11 +17,11 @@ int main()
         sf::ContextSettings{ .antiAliasingLevel = 8 }
     );
     sf::Image icon;
-    if (!icon.loadFromFile("../Visuals/icon2.png"))
+    if (!icon.loadFromFile("../resources/Visuals/icon2.png"))
     {
         return -1;
     }
-    auto font = sf::Font("../fonts/jersey25.ttf");
+    auto font = sf::Font("../resources/fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
     cLevels levels(window.getSize().x, window.getSize().y);
@@ -48,7 +50,7 @@ int main()
             {
                 switch (keyEvent->code)
                 {
-                case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); break;
+                case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); cGame::Get()->Pause(mainMenu.IsOpened()); break;
                 }
             }
             //2. Do game control

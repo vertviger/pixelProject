@@ -1,10 +1,12 @@
 #include "cMainMenu.h"
+#include "cGame.h"
+#include "cMenuLevels.h"
 
 
 
 cMainMenu::cMainMenu(int width, int height)
 {
-	font = sf::Font("../fonts/jersey25.ttf");
+	font = sf::Font("../resources/fonts/jersey25.ttf");
 	//play
 	auto textContinue = sf::Text(font, "Continue", 70);
 	textContinue.setFillColor(Color::Green);

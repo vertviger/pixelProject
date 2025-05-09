@@ -25,10 +25,22 @@ void cEntity::Draw(sf::RenderWindow& window)
 
 cEntity::cEntity(const string& _name) : name(_name)
 {
-	brain = new cBrain(this);
-	const Texture& texture = GetTexture("../Visuals/Sprites/player.png");
+	//to do load config by name
+	if (!config.brainName.empty())
+	{
+		brain = new cBrain(this, config.brainName);
+	}
+	const Texture& texture = GetTexture("../resources/Visuals/Sprites/" +_name+ ".png");
 	sprite = new Sprite(texture);
 	sprite->setPosition(position);
+	if (_name == "tree")
+	{
+		size = { 3.0, 3.0 };
+	}
+	else if(_name == "player")
+	{
+		size = { 0.8, 1.0 };
+	}
 }
 cEntity::~cEntity()
 {
@@ -44,22 +56,22 @@ void cEntity::StartAction(cActionType _at, const cTarget& _t)
 	case A_NONE:
 		break;
 	case A_MOVE_LEFT:
-		move_direction.x = -1.0f;
+		moveDirection.x = -1.0f;
 		break;
 	case A_MOVE_RIGHT:
-		move_direction.x = 1.0f;
+		moveDirection.x = 1.0f;
 		break;
 	case A_MOVE_STOP_X:
-		move_direction.x = 0.0f;
+		moveDirection.x = 0.0f;
 		break;
 	case A_MOVE_STOP_Y:
-		move_direction.y = 0.0f;
+		moveDirection.y = 0.0f;
 		break;
 	case A_MOVE_UP:
-		move_direction.y = -1.0f;
+		moveDirection.y = -1.0f;
 		break;
 	case A_MOVE_DOWN:
-		move_direction.y = +1.0f;
+		moveDirection.y = +1.0f;
 		break;
 	case A_TELEPORT:
 		break;
@@ -88,6 +100,11 @@ bool cEntity::Can(cActionType _a)
 
 void cEntity::Quant(float _deltaTimeSec)
 {
-	position += (move_direction * maxMovementSpeed) * _deltaTimeSec;
+	if (brain)
+	{
+		brain->Think();
+	}
+	//if (moveDirection.x != 0 && moveDirection.y != 0) moveDirection = moveDirection.normalized();
+	position += (moveDirection * maxMovementSpeed) * _deltaTimeSec;
 	// process movement and jump and spells
 }

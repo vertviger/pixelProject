@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 
 #pragma once
+class cEntity;
 
 class cGame
 {
@@ -16,5 +17,7 @@ private:
 	bool pause = false;
 	bool running = false;
 	sf::Clock clock;
+	sf::Clock clockEnemySpawn;
 	sf::Time passedFromLastQuant = sf::Time::Zero;
+	std::vector<cEntity*> trees;
 };

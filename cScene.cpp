@@ -17,7 +17,7 @@ cScene::~cScene()
 	}
 	entities.clear();
 }
-cEntity* cScene::AddEnity(const string& _name)
+cEntity* cScene::Spawn(const string& _name)
 {
 	entities.push_back(new cEntity(_name));
 	return entities.back();

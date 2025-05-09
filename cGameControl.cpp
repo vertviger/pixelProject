@@ -12,30 +12,34 @@ using namespace sf;
 
 cGameControl::cGameControl()
 {
-	const Texture& texture = GetTexture("../Visuals/Sprites/uiActionsFrame.png");
+	const Texture& texture = GetTexture("../resources/Visuals/Sprites/uiActionsFrame.png");
 	slotsSprite = new Sprite(texture);
 	slotsSprite->setPosition({ 100, 500 });
-	const Texture& texture1 = GetTexture("../Visuals/Sprites/Actions/actionFireball.png");
+	const Texture& texture1 = GetTexture("../resources/Visuals/Sprites/Actions/actionFireball.png");
 	Sprite* fireball = new Sprite(texture1);
 	fireball->setPosition({ 100, 600 });
 	actionSprites[A_FIREBALL] = fireball;
-	const Texture& texture2 = GetTexture("../Visuals/Sprites/Actions/actionTeleport.png");
+	const Texture& texture2 = GetTexture("../resources/Visuals/Sprites/Actions/actionTeleport.png");
 	Sprite* teleport = new Sprite(texture2);
 	actionSprites[A_TELEPORT] = teleport;
-
-	/*const Texture& texture2 = GetTexture("../Visuals/Sprites/Actions/actionTeleport.png");
-	Sprite* action2 = new Sprite(texture2);
+	const Texture& texture3 = GetTexture("../resources/Visuals/Sprites/Actions/actionSpeed.png");
+	Sprite* speed = new Sprite(texture3);
+	actionSprites[A_SPEED] = speed;
+	const Texture& texture4 = GetTexture("../resources/Visuals/Sprites/Actions/actionTransform.png");
+	Sprite* transform = new Sprite(texture4);
+	actionSprites[A_TRANSFORM] = transform;
+	/*Sprite* action2 = new Sprite(texture2);
 	action2->setPosition({});
-	const Texture& texture3 = GetTexture("../Visuals/Sprites/Actions/actionSpeed.png");
+	const Texture& texture3 = GetTexture("../resources/Visuals/Sprites/Actions/actionSpeed.png");
 	Sprite* action3 = new Sprite(texture3);
 	action3->setPosition({});
-	const Texture& texture4 = GetTexture("../Visuals/Sprites/Actions/actionTransform.png");
+	const Texture& texture4 = GetTexture("../resources/Visuals/Sprites/Actions/actionTransform.png");
 	Sprite* action4 = new Sprite(texture4);
 	action4->setPosition({});
-	const Texture& texture5 = GetTexture("../Visuals/Sprites/hpBar.png");
+	const Texture& texture5 = GetTexture("../resources/Visuals/Sprites/hpBar.png");
 	Sprite* hpBar = new Sprite(texture5);
 	hpBar->setPosition({});
-	const Texture& texture6 = GetTexture("../Visuals/Sprites/hpBar.png");
+	const Texture& texture6 = GetTexture("../resources/Visuals/Sprites/hpBar.png");
 	Sprite* manaBar = new Sprite(texture6);
 	manaBar->setPosition({});*/
 }
@@ -53,11 +57,17 @@ cGameControl* cGameControl::Get()
 
 void cGameControl::Draw(RenderWindow& window)
 {
-	window.draw(*slotsSprite);
+	float actionPosX = 24;
+	float actionPosY = window.getView().getSize().y - (float)slotsSprite->getTexture().getSize().y;
+	slotsSprite->setPosition({0, actionPosY});
+	actionPosY += 40;
 	for (auto& i : actionSprites)
 	{
 		window.draw(*i.second);
+		i.second->setPosition({actionPosX, actionPosY});
+		actionPosX += 74.5;
 	}
+	window.draw(*slotsSprite);
 }
 
 

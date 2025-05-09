@@ -8,12 +8,14 @@ class cEntity;
 class cBrain
 {
 public:
-	cBrain(cEntity* _owner) : owner(_owner) {}
-
-	void AllowAction(cActionType a) { allowedActions.insert(a); }
-	void Think();
-
-private:
-	std::set<cActionType> allowedActions;
+	cBrain(cEntity* _owner, const std::string& name);
+	virtual void Think();
+protected:
+	cEntity* FindClosestTarget(const std::string& target) const;
+	std::vector<cActionType> possibleActions;
+	std::vector<std::string> possibleTargets;
 	cEntity* owner = NULL;
+	cEntity* target = NULL;
 };
+
+

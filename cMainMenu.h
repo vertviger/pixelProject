@@ -2,8 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
-#include "cMenuLevels.h"
-#include "cGame.h"
 
 
 using namespace std;
@@ -19,7 +17,7 @@ public:
 	void MoveUp();
 	void MoveDown();
 	static bool IsOpened() { return opened; }
-	static bool ChangeOpened() { return opened = !opened; }
+	static void ChangeOpened() { opened = !opened; }
 	void ChangeToSelected(RenderWindow& window);
 	int MainMenuPressed()
 	{

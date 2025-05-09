@@ -3,6 +3,7 @@
 #include "cEntity.h"
 #include <memory>
 #include "cGameControl.h"
+
 using namespace std;
 
 cGame* cGame::Get()
@@ -12,19 +13,47 @@ cGame* cGame::Get()
 }
 void cGame::Start()
 {
-	auto hero = cScene::Get()->AddEnity("hero");
+	auto hero = cScene::Get()->Spawn("player");
+	auto scene = cScene::Get();
+	sf::Vector2f sceneSize = scene->GetSize();
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 2; j++)
+		{
+			sf::Vector2f pos;
+			pos.x = sceneSize.x / 4 + i * sceneSize.x / 2;
+			pos.y = sceneSize.y / 4 + j * sceneSize.y / 2;
+			auto tree = scene->Spawn("tree");
+			tree->ChangePosition(pos);
+		}
+	}
 	cGameControl::Get()->ControledEntity(hero);
 	clock.restart();
 	running = true;
 }
 void cGame::Quant()
 {
+	if (!running) return;
+	cScene* scene = cScene::Get();
+	sf::Vector2f sceneSize = scene->GetSize();
 	Time delta = clock.restart();
 	if(pause) return;
+	std::srand(std::time({}));
 	passedFromLastQuant += delta;
 	const float quantPeriodMs = 10.0f;
 	if(passedFromLastQuant.asMicroseconds() > quantPeriodMs)
 	{
+		if (clockEnemySpawn.getElapsedTime().asSeconds() >= 5)
+		{
+			std::vector<string> enemyNames = { "enemyAxe", "enemySaw", "enemyChainSaw", "enemyEngeneer" };
+			std::vector<Vector2f> enemySpawnPosRel = { {0.1, 0.1}, {0.9, 0.1}, {0.1, 0.9}, {0.9, 0.9} };
+			auto enemy = scene->Spawn(enemyNames[std::rand() % enemyNames.size()]);
+			auto enemyRelSpawnPos = enemySpawnPosRel[std::rand() % enemySpawnPosRel.size()];
+			Vector2f enemySpawnPos = { sceneSize.x*enemyRelSpawnPos.x, sceneSize.y * enemyRelSpawnPos.y };
+			enemy->ChangePosition(enemySpawnPos);
+			clockEnemySpawn.restart();
+		}
+		
 		cScene::Get()->Quant(passedFromLastQuant.asSeconds());
 		passedFromLastQuant = sf::Time::Zero;
 	}
