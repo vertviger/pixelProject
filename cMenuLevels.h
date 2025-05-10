@@ -10,11 +10,11 @@
 using namespace std;
 using namespace sf;
 
-class cLevels
+class cMenuLevels
 {
 public:
-	cLevels(int width, int height);
-	~cLevels();
+	cMenuLevels(int width, int height);
+	~cMenuLevels();
 	void Draw(RenderWindow& window);
 	void EventHandle(optional<Event> event, RenderWindow& window);
 	void MoveUp();

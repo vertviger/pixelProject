@@ -24,7 +24,7 @@ int main()
     auto font = sf::Font("../resources/fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
-    cLevels levels(window.getSize().x, window.getSize().y);
+    cMenuLevels levels(window.getSize().x, window.getSize().y);
     while (window.isOpen())
     {
         //1.input handling
@@ -34,7 +34,7 @@ int main()
             {
                 mainMenu.EventHandle(event, window);
             }
-            if (cLevels::IsOpened())
+            if (cMenuLevels::IsOpened())
             {
                 levels.EventHandle(event, window);
             }
@@ -62,8 +62,8 @@ int main()
 
         //4. Draw all
         window.clear(sf::Color::White);
-        if (cMainMenu::IsOpened()) { mainMenu.Draw(window); }
-        if (cLevels::IsOpened()) { levels.Draw(window); }
+        if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
+        if (cMenuLevels::IsOpened()) { levels.Draw(window); }
         else 
         { 
             

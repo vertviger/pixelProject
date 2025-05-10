@@ -37,6 +37,11 @@ cMainMenu::~cMainMenu()
 //Draw main menu
 void cMainMenu::Draw(RenderWindow& window)
 {
+	Texture backgroundTexture;
+	backgroundTexture.loadFromFile("../resources/Visuals/mainMenuFrame.png");
+	Sprite background(backgroundTexture);
+	background.setPosition({ 325, 135 });
+	window.draw(background);
 	for (int i = 0; i < items.size(); i++)
 	{
 		window.draw(items[i]);
@@ -76,8 +81,9 @@ void cMainMenu::ChangeToSelected(RenderWindow& window)
 	cGame* game = cGame::Get();
 	switch (mainMenuSelected)
 	{
-	case 0: game->Start(); cMainMenu::ChangeOpened(); break; //continue
-	case 1: cLevels::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
+	case 0: if (!game->IsRunning()) { game->Start(); cMainMenu::ChangeOpened(); }
+		  else { game->Pause(false); cMainMenu::ChangeOpened(); }  break; //continue
+	case 1: cMenuLevels::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
 	case 2: break;				//options
 	case 3:	window.close(); break; //exit
 	}

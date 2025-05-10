@@ -1,6 +1,6 @@
 #include "cMenuLevels.h"
 
-cLevels::cLevels(int width, int height)
+cMenuLevels::cMenuLevels(int width, int height)
 {
 	font = sf::Font("../resources/fonts/jersey25.ttf");
 	//1
@@ -41,12 +41,12 @@ cLevels::cLevels(int width, int height)
 
 	levelSelected = 0;
 }
-cLevels::~cLevels()
+cMenuLevels::~cMenuLevels()
 {
 
 }
 //drawing
-void cLevels::Draw(RenderWindow& window)
+void cMenuLevels::Draw(RenderWindow& window)
 {
 	for (int i = 0; i < levels.size(); i++)
 	{
@@ -55,7 +55,7 @@ void cLevels::Draw(RenderWindow& window)
 	opened = true;
 }
 //move up
-void cLevels::MoveUp()
+void cMenuLevels::MoveUp()
 {
 	if (levelSelected >= 0)
 	{
@@ -69,7 +69,7 @@ void cLevels::MoveUp()
 	}
 }
 //move down
-void cLevels::MoveDown()
+void cMenuLevels::MoveDown()
 {
 	if (levelSelected <= levels.size() - 1)
 	{
@@ -84,23 +84,24 @@ void cLevels::MoveDown()
 	}
 }
 //selecting
-void cLevels::ChangeToSelected(RenderWindow& window)
+void cMenuLevels::ChangeToSelected(RenderWindow& window)
 {
 	cGame* game = cGame::Get();
 	switch (levelSelected)
 	{
 	case 0:	break; //Manual(possibly)
-	case 1: cLevels::ChangeOpened(); game->Start(); levelSelected = 0; break; //level1
+	case 1: if (!game->IsRunning()) { game->Start(); cMenuLevels::ChangeOpened(); levelSelected = 0; }
+		  else { game->Pause(false); cMenuLevels::ChangeOpened(); levelSelected = 0; }  break; //level1
 	case 2: break; //level2
 	case 3:	break; //level3
 	case 4:	break; //level4
 	case 5:	break; //level5
-	case 6:	cMainMenu::ChangeOpened(); cLevels::ChangeOpened(); levelSelected = 0;break; //back
+	case 6:	cMainMenu::ChangeOpened(); cMenuLevels::ChangeOpened(); levelSelected = 0;break; //back
 
 	}
 }
 //event handling
-void cLevels::EventHandle(optional<Event> event, RenderWindow& window)
+void cMenuLevels::EventHandle(optional<Event> event, RenderWindow& window)
 {
 	if (auto const keyEvent = event->getIf<sf::Event::KeyReleased>())
 	{
@@ -109,7 +110,7 @@ void cLevels::EventHandle(optional<Event> event, RenderWindow& window)
 		case sf::Keyboard::Key::Up: MoveUp();						  break;
 		case sf::Keyboard::Key::Down: MoveDown();					  break;
 		case sf::Keyboard::Key::Enter: ChangeToSelected(window);      break;
-		case sf::Keyboard::Key::Escape: cLevels::ChangeOpened();      break;
+		case sf::Keyboard::Key::Escape: cMenuLevels::ChangeOpened();      break;
 		}
 	}
 }

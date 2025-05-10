@@ -13,6 +13,7 @@ public:
 	void Pause(bool _on) { pause = _on; }
 	void Quant();
 	void Draw(sf::RenderWindow& window);
+	bool IsRunning() { return running; }
 private:
 	bool pause = false;
 	bool running = false;
