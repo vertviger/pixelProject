@@ -11,11 +11,11 @@ public:
 	cBrain(cEntity* _owner, const std::string& name);
 	virtual void Think();
 protected:
+	struct cConfig;
 	cEntity* FindClosestTarget(const std::string& target) const;
-	std::vector<cActionType> possibleActions;
-	std::vector<std::string> possibleTargets;
 	cEntity* owner = NULL;
 	cEntity* target = NULL;
+	const cConfig* config;
 };
 
 

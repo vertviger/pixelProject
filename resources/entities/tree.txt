@@ -1,0 +1,2 @@
+health 1000.0f
+movementSpeed 0.0f

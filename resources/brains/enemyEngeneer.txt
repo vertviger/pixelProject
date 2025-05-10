@@ -1,0 +1,2 @@
+possibleActions attack_melee
+possibleTargets player

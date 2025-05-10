@@ -1,0 +1,4 @@
+health 50.0f
+mana 100.0f
+movementSpeed 2.0f
+brainName enemyAxe

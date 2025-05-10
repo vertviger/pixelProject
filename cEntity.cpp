@@ -2,6 +2,72 @@
 #include "cScene.h"
 #include "cGraphics.h"
 #include "cBrain.h"
+#include <map>
+#include <fstream>
+#include <iostream>
+
+struct cEntity::cConfig
+{
+	static const cConfig* Get(const std::string& name);
+	bool loaded = false;
+	float maxMana = 100.0f;
+	float maxHealth = 100.0f;
+	float maxMovementSpeed = 1.0f;
+	string brainName;
+};
+const cEntity::cConfig* cEntity::cConfig::Get(const std::string& _name)
+{
+	static map<std::string, cEntity::cConfig> configStorage;
+	cEntity::cConfig& config = configStorage[_name];
+	if (config.loaded) return &config;
+
+	config.loaded = true;
+	std::string path = "../resources/entities/" + _name + ".txt";
+	auto file = std::fstream(path);
+	if (file.is_open())
+	{
+		auto words = std::string();
+		while (getline(file, words))
+		{
+			stringstream s(words);
+			string str;
+			s >> str;
+			if (str == "health")
+			{
+				while (s >> str)
+				{
+					config.maxHealth = std::stof(str);
+				}
+			}
+			else if (str == "mana")
+			{
+				while (s >> str)
+				{
+					config.maxMana = std::stof(str);
+				}
+			}
+			else if (str == "movementSpeed")
+			{
+				while (s >> str)
+				{
+					config.maxMovementSpeed = std::stof(str);
+				}
+			}
+			else if (str == "brainName")
+			{
+				while (s >> str)
+				{
+					config.brainName = str;
+				}
+			}
+		}
+	}
+	else
+	{
+		std::cout << "File not found: " << path << std::endl;
+	}
+	return &config;
+}
 
 void cEntity::Draw(sf::RenderWindow& window)
 {
@@ -25,11 +91,15 @@ void cEntity::Draw(sf::RenderWindow& window)
 
 cEntity::cEntity(const string& _name) : name(_name)
 {
+	config = cConfig::Get(_name);
 	//to do load config by name
-	if (!config.brainName.empty())
+	if (!config->brainName.empty())
 	{
-		brain = new cBrain(this, config.brainName);
+		brain = new cBrain(this, config->brainName);
 	}
+	mana = config->maxMana;
+	health = config->maxHealth;
+	maxMovementSpeed = config->maxMovementSpeed;
 	const Texture& texture = GetTexture("../resources/Visuals/Sprites/" +_name+ ".png");
 	sprite = new Sprite(texture);
 	sprite->setPosition(position);

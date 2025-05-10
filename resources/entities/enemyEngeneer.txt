@@ -1,0 +1,4 @@
+health 50.0f
+mana 200.0f
+movementSpeed 0.5f
+brainName enemyEngeneer
