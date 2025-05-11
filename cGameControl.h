@@ -14,7 +14,7 @@ public:
 	void Draw(sf::RenderWindow& window);
 	void EventHandle(std::optional<sf::Event> event);
 	void ControledEntity(cEntity* _e) { controlledEntity = _e; }
-
+	cEntity* ControledEntity() const { return controlledEntity; }
 private:
 	cActionType selectedAction = A_NONE;
 	sf::Sprite* slotsSprite;

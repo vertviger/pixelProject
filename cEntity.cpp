@@ -22,7 +22,7 @@ const cEntity::cConfig* cEntity::cConfig::Get(const std::string& _name)
 	if (config.loaded) return &config;
 
 	config.loaded = true;
-	std::string path = "../resources/entities/" + _name + ".txt";
+	std::string path = "../assets/entities/" + _name + ".txt";
 	auto file = std::fstream(path);
 	if (file.is_open())
 	{
@@ -72,6 +72,7 @@ const cEntity::cConfig* cEntity::cConfig::Get(const std::string& _name)
 void cEntity::Draw(sf::RenderWindow& window)
 {
 	if (!sprite) return;
+	if (health <= 0) return;
 	auto scene = cScene::Get();
 	Vector2f screen_size = window.getView().getSize();
 	float kx = screen_size.x / scene->GetSize().x;
@@ -89,10 +90,28 @@ void cEntity::Draw(sf::RenderWindow& window)
 	window.draw(*sprite);
 }
 
+void cEntity::TakeDamage(float damage)
+{
+	std::srand(std::time({}));
+	string damageStr = to_string(damage);
+	damageMessage->setString(damageStr);
+	damageMessage->setFillColor(Color::Red);
+	int damageTextSize = int(damage / 5);
+	damageMessage->setCharacterSize(15);
+	float randPosX = std::rand() / RAND_MAX * 200.0f - 100.0f;
+	float randPosY = std::rand() / RAND_MAX * 200.0f - 100.0f;
+	damageMessage->setPosition({ position.x + randPosX, position.y + randPosY });
+	health -= damage;
+	if (health <= 0) return;
+	if (health >= 75);
+	else if (health >= 50) sprite = sprite75;
+	else if (health >= 25) sprite = sprite50;
+	else if (health >= 0) sprite = sprite25;
+}
+static const Font font("../assets/fonts/jersey25.ttf");
 cEntity::cEntity(const string& _name) : name(_name)
 {
 	config = cConfig::Get(_name);
-	//to do load config by name
 	if (!config->brainName.empty())
 	{
 		brain = new cBrain(this, config->brainName);
@@ -100,9 +119,11 @@ cEntity::cEntity(const string& _name) : name(_name)
 	mana = config->maxMana;
 	health = config->maxHealth;
 	maxMovementSpeed = config->maxMovementSpeed;
-	const Texture& texture = GetTexture("../resources/Visuals/Sprites/" +_name+ ".png");
-	sprite = new Sprite(texture);
-	sprite->setPosition(position);
+	damageMessage = new Text(font);
+	const Texture& texture = GetTexture("../assets/Visuals/Sprites/" +_name+ "100.png");
+	sprite100 = new Sprite(texture);
+	sprite100->setPosition(position);
+	sprite = sprite25 = sprite50 = sprite75 = sprite100; //to do make correct sprites setup
 	if (_name == "tree")
 	{
 		size = { 3.0, 3.0 };
@@ -114,8 +135,12 @@ cEntity::cEntity(const string& _name) : name(_name)
 }
 cEntity::~cEntity()
 {
-	if (sprite) delete sprite;
+	if (sprite100) delete sprite100;
+	/*if (sprite75) delete sprite75;
+	if (sprite50) delete sprite50;
+	if (sprite25) delete sprite25;*/
 	delete brain;
+	delete damageMessage;
 }
 
 void cEntity::StartAction(cActionType _at, const cTarget& _t)
@@ -170,10 +195,8 @@ bool cEntity::Can(cActionType _a)
 
 void cEntity::Quant(float _deltaTimeSec)
 {
-	if (brain)
-	{
-		brain->Think();
-	}
+	if (health <= 0) return;
+	if (brain) brain->Think();
 	//if (moveDirection.x != 0 && moveDirection.y != 0) moveDirection = moveDirection.normalized();
 	position += (moveDirection * maxMovementSpeed) * _deltaTimeSec;
 	// process movement and jump and spells

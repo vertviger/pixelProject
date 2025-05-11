@@ -2,7 +2,7 @@
 
 cMenuLevels::cMenuLevels(int width, int height)
 {
-	font = sf::Font("../resources/fonts/jersey25.ttf");
+	font = sf::Font("../assets/fonts/jersey25.ttf");
 	//1
 	auto textStart = sf::Text(font, "Choose a level", 60);
 	textStart.setFillColor(Color::Black);

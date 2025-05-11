@@ -6,7 +6,7 @@
 
 cMainMenu::cMainMenu(int width, int height)
 {
-	font = sf::Font("../resources/fonts/jersey25.ttf");
+	font = sf::Font("../assets/fonts/jersey25.ttf");
 	//play
 	auto textContinue = sf::Text(font, "Continue", 70);
 	textContinue.setFillColor(Color::Green);
@@ -38,7 +38,7 @@ cMainMenu::~cMainMenu()
 void cMainMenu::Draw(RenderWindow& window)
 {
 	Texture backgroundTexture;
-	backgroundTexture.loadFromFile("../resources/Visuals/mainMenuFrame.png");
+	backgroundTexture.loadFromFile("../assets/Visuals/mainMenuFrame.png");
 	Sprite background(backgroundTexture);
 	background.setPosition({ 325, 135 });
 	window.draw(background);

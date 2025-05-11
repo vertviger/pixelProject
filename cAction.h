@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
 
 #pragma once
 
@@ -9,15 +10,20 @@ class cEntity;
 class cTarget
 {
 	sf::Vector2f position;
-	const cEntity* entity = NULL;
+	cEntity* entity = NULL;
 };
 
-/*
+
 class cAction
 {
 public:
-	static const cAction* Get(cActionType);
-	virtual bool Can(const cEntity* _who, const cTarget& _target) = 0;
-	virtual void Do(const cEntity* _who, const cTarget& _target) = 0;
+	cAction(const std::string& name, cEntity* _owner);
+	//virtual bool Can(const cEntity* _who, const cTarget& _target) = 0;
+	bool Do(cEntity* _target); // return false if finished action
+private:
+	void Move(cEntity* target);
+	struct cConfig;
+	const cConfig* config = NULL;
+	cEntity* owner = NULL;
+	sf::Clock clockForAction;
 };
-*/

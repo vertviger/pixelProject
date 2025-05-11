@@ -28,7 +28,8 @@ void cGame::Start()
 		}
 	}
 	cGameControl::Get()->ControledEntity(hero);
-	clock.restart();
+	clockGame.restart();
+	clockQuant.restart();
 	running = true;
 }
 void cGame::Quant()
@@ -36,7 +37,7 @@ void cGame::Quant()
 	if (!running) return;
 	cScene* scene = cScene::Get();
 	sf::Vector2f sceneSize = scene->GetSize();
-	Time delta = clock.restart();
+	Time delta = clockQuant.restart();
 	if(pause) return;
 	std::srand(std::time({}));
 	passedFromLastQuant += delta;
@@ -53,9 +54,39 @@ void cGame::Quant()
 			enemy->ChangePosition(enemySpawnPos);
 			clockEnemySpawn.restart();
 		}
-		
 		cScene::Get()->Quant(passedFromLastQuant.asSeconds());
+		CheckGameOver();
 		passedFromLastQuant = sf::Time::Zero;
+	}
+}
+void cGame::CheckGameOver()
+{
+	
+	if (clockGame.getElapsedTime().asSeconds() >= 180)
+	{
+		win = true;
+		return;
+	}
+	if (cGameControl::Get()->ControledEntity()->Health() <= 0)
+	{
+		loose = false; 
+		return;
+	}
+	else
+	{	
+		bool allDead = true;
+		for (cEntity* entityToCheck : cScene::Get()->Entities())
+		{
+			if (entityToCheck->Name() == "tree")
+			{
+				if (entityToCheck->Health() > 0)
+				{
+					allDead = false;
+					break;
+				}
+			}
+		}
+		loose = allDead;
 	}
 }
 void cGame::Draw(sf::RenderWindow& window)

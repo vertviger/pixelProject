@@ -17,11 +17,11 @@ int main()
         sf::ContextSettings{ .antiAliasingLevel = 8 }
     );
     sf::Image icon;
-    if (!icon.loadFromFile("../resources/Visuals/icon2.png"))
+    if (!icon.loadFromFile("../assets/Visuals/icon2.png"))
     {
         return -1;
     }
-    auto font = sf::Font("../resources/fonts/jersey25.ttf");
+    auto font = sf::Font("../assets/fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
     cMenuLevels levels(window.getSize().x, window.getSize().y);
@@ -64,6 +64,8 @@ int main()
         window.clear(sf::Color::White);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
         if (cMenuLevels::IsOpened()) { levels.Draw(window); }
+        if (cGame::Get()->Win()) { /*winScreen.Draw(window);*/ }
+        if (cGame::Get()->Loose()) { /*looseScreen.Draw(window);*/ }
         else 
         { 
             

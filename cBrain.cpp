@@ -5,26 +5,27 @@
 #include <fstream>
 #include <iostream>
 
+using namespace std;
 
 struct cBrain::cConfig
 {
-	static const cConfig* Get(const std::string& name);
+	static const cConfig* Get(const string& name);
 	bool loaded = false;
-	std::vector<cActionType> possibleActions;
-	std::vector<std::string> possibleTargets;
+	vector<string> possibleActions;
+	vector<string> possibleTargets;
 };
-const cBrain::cConfig* cBrain::cConfig::Get(const std::string& _name)
+const cBrain::cConfig* cBrain::cConfig::Get(const string& _name)
 {
-	static map<std::string, cBrain::cConfig> configStorage;
+	static map<string, cBrain::cConfig> configStorage;
 	cBrain::cConfig& config = configStorage[_name];
 	if (config.loaded) return &config;
 
 	config.loaded = true;
-	std::string path = "../resources/brains/" +_name+ ".txt";
-	auto file = std::fstream(path);
+	string path = "../assets/brains/" +_name+ ".txt";
+	auto file = fstream(path);
 	if (file.is_open())
 	{
-		auto words = std::string();
+		auto words = string();
 		while (getline(file, words))
 		{
 			stringstream s(words);
@@ -32,23 +33,11 @@ const cBrain::cConfig* cBrain::cConfig::Get(const std::string& _name)
 			s >> str;
 			if (str == "possibleActions")
 			{
-				while (s >> str)
-				{
-					cActionType action;
-					if (str == "attack_melee")
-					{
-						action = A_ATTACK_MELEE;
-					}
-					//to_do add new actions support
-					config.possibleActions.push_back(action);
-				}
+				while (s >> str) config.possibleActions.push_back(str);
 			}
 			else if(str == "possibleTargets")
 			{
-				while (s >> str)
-				{
-					config.possibleTargets.push_back(str);
-				}
+				while (s >> str) config.possibleTargets.push_back(str);
 			}
 		}
 	}
@@ -59,14 +48,15 @@ const cBrain::cConfig* cBrain::cConfig::Get(const std::string& _name)
 	return &config;
 }
 
-float Distance(const Vector2f& p1, const Vector2f& p2)
-{
-	return (p2 - p1).length();
-}
+
 cBrain::cBrain(cEntity* _owner, const std::string& name) : owner(_owner)
 {
 	config = cConfig::Get(name);
 	//to do load config by name
+}
+cBrain::~cBrain()
+{
+	if (action) delete action;
 }
 void cBrain::Think()
 {
@@ -77,20 +67,23 @@ void cBrain::Think()
 		int randIndx = std::rand() / RAND_MAX * config->possibleTargets.size();
 		target = FindClosestTarget(config->possibleTargets[randIndx]);
 	}
-	float dist = Distance(owner->GetPosition(), target->GetPosition());
-	const float maxDistanceToAttack = 0.5; // to do: calc by size of the target
-	if (dist > maxDistanceToAttack)
+	if (!action)
 	{
-		Vector2f dir = target->GetPosition() - owner->GetPosition();
-		dir /= dist;
-		owner->SetMoveDirection(dir);
+		int randIndx = std::rand() / RAND_MAX * config->possibleActions.size();
+		action = new cAction(config->possibleActions[randIndx], owner);
 	}
-	else
+	if (action->Do(target)) //Do returns true when action is finished
 	{
-		owner->SetMoveDirection({0,0});
+		target = NULL;
+		delete action;
+		action = NULL;
 	}
+	
 }
-
+float Distance(const Vector2f& p1, const Vector2f& p2)
+{
+	return (p2 - p1).length();
+}
 cEntity* cBrain::FindClosestTarget(const std::string& name) const
 {
 	auto& myPos = owner->GetPosition();
@@ -98,10 +91,10 @@ cEntity* cBrain::FindClosestTarget(const std::string& name) const
 	cEntity* target = NULL;
 	for (auto* i : cScene::Get()->Entities())
 	{
-		if (i->Name() == name)
+		if (i->Name() == name && i->Health() > 0)
 		{
-			auto& treePos = i->GetPosition();
-			float dist = Distance(treePos, myPos);
+			auto& targetPos = i->GetPosition();
+			float dist = Distance(targetPos, myPos);
 			if (dist < distMin)
 			{
 				distMin = dist;

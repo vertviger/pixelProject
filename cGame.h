@@ -14,10 +14,16 @@ public:
 	void Quant();
 	void Draw(sf::RenderWindow& window);
 	bool IsRunning() { return running; }
+	bool Win() { return win; }
+	bool Loose() { return loose; }
 private:
+	void CheckGameOver();
 	bool pause = false;
 	bool running = false;
-	sf::Clock clock;
+	bool win = false;
+	bool loose = false;
+	sf::Clock clockGame;
+	sf::Clock clockQuant;
 	sf::Clock clockEnemySpawn;
 	sf::Time passedFromLastQuant = sf::Time::Zero;
 	std::vector<cEntity*> trees;

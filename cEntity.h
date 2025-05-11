@@ -21,17 +21,17 @@ public:
 	{
 		return position;
 	}
-	const float& Health(){ return health;}
+	float Health(){ return health;}
 	void SetMoveDirection(const Vector2f& newDirection) { moveDirection = newDirection; }
 	void StartAction(cActionType _at, const cTarget& _t);
 	void Quant(float _deltaTimeSec);
 	void Draw(RenderWindow& window);
+	void TakeDamage(float damage);
 	const string& Name() const { return name; }
-	sf::Sprite* sprite = NULL;
+	
 protected:
 	struct cConfig;
 private:
-
 	bool Can(cActionType);
 	Vector2f position = { 8.0 , 4.5 };
 	Vector2f moveDirection = { 0, 0 }; // x < 0 - left, x > 0 - right, y > 0 - up, y < 0 - down
@@ -43,5 +43,12 @@ private:
 	cActionType currentAction = A_NONE;
 	cBrain* brain = NULL;
 	std::string name;
+	Text* damageMessage = NULL;
+	Clock damageClock;
+	sf::Sprite* sprite = NULL;
+	sf::Sprite* sprite100 = NULL;
+	sf::Sprite* sprite75 = NULL;
+	sf::Sprite* sprite50 = NULL;
+	sf::Sprite* sprite25 = NULL;
 };
 
