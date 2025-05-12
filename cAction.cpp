@@ -77,21 +77,6 @@ cAction::cAction(const string& name, cEntity* _owner) : owner(_owner)
 }
 
 float Distance(const Vector2f& p1, const Vector2f& p2);
-void cAction::Move(cEntity* target)
-{
-	float dist = Distance(owner->GetPosition(), target->GetPosition());
-	if (dist > config->distance)
-	{
-		Vector2f dir = target->GetPosition() - owner->GetPosition();
-		dir /= dist;
-		owner->SetMoveDirection(dir);
-	}
-	else
-	{
-		owner->SetMoveDirection({ 0,0 });
-	}
-}
-
 
 bool cAction::Do(cEntity* _target)
 {
