@@ -37,12 +37,14 @@ void cGame::Quant()
 	if (!running) return;
 	cScene* scene = cScene::Get();
 	sf::Vector2f sceneSize = scene->GetSize();
-	Time delta = clockQuant.restart();
-	if(pause) return;
-	//std::srand(std::time({}));
-	passedFromLastQuant += delta;
+	if(pause)
+	{
+		clockQuant.restart();
+		return;
+	}
 	const float quantPeriodMs = 10.0f;
-	if(passedFromLastQuant.asMicroseconds() > quantPeriodMs)
+	float deltaQuant = clockQuant.getElapsedTime().asMilliseconds();
+	if(deltaQuant > quantPeriodMs)
 	{
 		if (clockEnemySpawn.getElapsedTime().asSeconds() >= 5)
 		{
@@ -54,9 +56,9 @@ void cGame::Quant()
 			enemy->ChangePosition(enemySpawnPos);
 			clockEnemySpawn.restart();
 		}
-		cScene::Get()->Quant(passedFromLastQuant.asSeconds());
+		cScene::Get()->Quant(deltaQuant / 1000.0f); // ms -> sec
 		CheckGameOver();
-		passedFromLastQuant = sf::Time::Zero;
+		clockQuant.restart();
 	}
 }
 void cGame::CheckGameOver()

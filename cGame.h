@@ -25,6 +25,5 @@ private:
 	sf::Clock clockGame;
 	sf::Clock clockQuant;
 	sf::Clock clockEnemySpawn;
-	sf::Time passedFromLastQuant = sf::Time::Zero;
 	std::vector<cEntity*> trees;
 };
