@@ -56,7 +56,8 @@ void cGame::Quant()
 			enemy->ChangePosition(enemySpawnPos);
 			clockEnemySpawn.restart();
 		}
-		cScene::Get()->Quant(deltaQuant / 1000.0f); // ms -> sec
+		cGameControl::Get()->Quant();
+		scene->Quant(deltaQuant / 1000.0f); // ms -> sec
 		CheckGameOver();
 		clockQuant.restart();
 	}

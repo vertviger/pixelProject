@@ -58,6 +58,16 @@ cGameControl* cGameControl::Get()
 	return &gameControl;
 }
 
+void cGameControl::Quant()
+{
+	sf::Vector2f moveDirection(0.0f, 0.0f);
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))		moveDirection.y = -1.0f; // up
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))	moveDirection.y = +1.0f; // down
+	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))		moveDirection.x = -1.0f; // left
+	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))	moveDirection.x = +1.0f; // right
+	controlledEntity->SetMoveDirection(moveDirection);
+}
+
 void cGameControl::Draw(RenderWindow& window)
 {
 	float actionPosX = 24;
@@ -73,8 +83,6 @@ void cGameControl::Draw(RenderWindow& window)
 	window.draw(*slotsSprite);
 }
 
-
-
 void cGameControl::EventHandle(optional<Event> event)
 {
 	cActionType action = A_NONE;
@@ -82,24 +90,15 @@ void cGameControl::EventHandle(optional<Event> event)
 	{
 		switch(keyEvent->code)
 		{
-		case Keyboard::Key::W: action = A_MOVE_UP;		break;
-		case Keyboard::Key::S: action = A_MOVE_DOWN;	break;
-		case Keyboard::Key::A: action = A_MOVE_LEFT;	break;
-		case Keyboard::Key::D: action = A_MOVE_RIGHT;	break;
-			//@to_do selectedAction
+		case Keyboard::Key::Num1: //@to_do selectedAction
+			break; 
 		}
 	}
 	if(auto const keyEvent = event->getIf<Event::KeyReleased>())
 	{
 		switch(keyEvent->code)
 		{
-		case Keyboard::Key::A: // no break;	 //stop go right
-		case Keyboard::Key::D:
-			action = A_MOVE_STOP_X; 
-			break;
-		case Keyboard::Key::W:
-		case Keyboard::Key::S:
-			action = A_MOVE_STOP_Y;
+		case Keyboard::Key::Num1: //@to_do selectedAction
 			break;
 		}
 	}

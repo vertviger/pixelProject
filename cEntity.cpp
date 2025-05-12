@@ -151,24 +151,6 @@ void cEntity::StartAction(cActionType _at, const cTarget& _t)
 	{
 	case A_NONE:
 		break;
-	case A_MOVE_LEFT:
-		moveDirection.x = -1.0f;
-		break;
-	case A_MOVE_RIGHT:
-		moveDirection.x = 1.0f;
-		break;
-	case A_MOVE_STOP_X:
-		moveDirection.x = 0.0f;
-		break;
-	case A_MOVE_STOP_Y:
-		moveDirection.y = 0.0f;
-		break;
-	case A_MOVE_UP:
-		moveDirection.y = -1.0f;
-		break;
-	case A_MOVE_DOWN:
-		moveDirection.y = +1.0f;
-		break;
 	case A_TELEPORT:
 		break;
 	case A_FIREBALL:
