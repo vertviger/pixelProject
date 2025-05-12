@@ -43,7 +43,6 @@ private:
 	cActionType currentAction = A_NONE;
 	cBrain* brain = NULL;
 	std::string name;
-	Text* damageMessage = NULL;
 	Clock damageClock;
 	sf::Sprite* sprite = NULL;
 	sf::Sprite* sprite100 = NULL;

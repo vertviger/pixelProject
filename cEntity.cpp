@@ -93,14 +93,12 @@ void cEntity::Draw(sf::RenderWindow& window)
 void cEntity::TakeDamage(float damage)
 {
 	std::srand(std::time({}));
-	string damageStr = to_string(damage);
-	damageMessage->setString(damageStr);
-	damageMessage->setFillColor(Color::Red);
+	string damageStr = to_string((int)damage);
 	int damageTextSize = int(damage / 5);
-	damageMessage->setCharacterSize(15);
-	float randPosX = std::rand() / RAND_MAX * 200.0f - 100.0f;
-	float randPosY = std::rand() / RAND_MAX * 200.0f - 100.0f;
-	damageMessage->setPosition({ position.x + randPosX, position.y + randPosY });
+	float randPosX = std::rand() / RAND_MAX * 0.1f - 0.05f;
+	float randPosY = std::rand() / RAND_MAX * 0.1f - 0.05f;
+	ShowText(damageStr, sf::Vector2f(position.x, position.y - size.y * 0.5f), Color::Red, 3.0f);
+
 	health -= damage;
 	if (health <= 0) return;
 	if (health >= 75);
@@ -108,7 +106,7 @@ void cEntity::TakeDamage(float damage)
 	else if (health >= 25) sprite = sprite50;
 	else if (health >= 0) sprite = sprite25;
 }
-static const Font font("../assets/fonts/jersey25.ttf");
+
 cEntity::cEntity(const string& _name) : name(_name)
 {
 	config = cConfig::Get(_name);
@@ -119,7 +117,6 @@ cEntity::cEntity(const string& _name) : name(_name)
 	mana = config->maxMana;
 	health = config->maxHealth;
 	maxMovementSpeed = config->maxMovementSpeed;
-	damageMessage = new Text(font);
 	const Texture& texture = GetTexture("../assets/Visuals/Sprites/" +_name+ "100.png");
 	sprite100 = new Sprite(texture);
 	sprite100->setPosition(position);
@@ -140,7 +137,6 @@ cEntity::~cEntity()
 	if (sprite50) delete sprite50;
 	if (sprite25) delete sprite25;*/
 	delete brain;
-	delete damageMessage;
 }
 
 void cEntity::StartAction(cActionType _at, const cTarget& _t)

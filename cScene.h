@@ -24,3 +24,4 @@ private:
 	Vector2f size = {16.0f, 9.0f};
 };
 
+void ShowText(const std::string& _text, const sf::Vector2f& _scene_pos, sf::Color _color, float _duration);
