@@ -94,7 +94,7 @@ void cEntity::Draw(sf::RenderWindow& window)
 float RandValue()
 {
 	//std::srand(std::time({}));
-	return (float)std::rand() / RAND_MAX;
+	return (float)std::rand() / (RAND_MAX + 2);
 }
 void cEntity::TakeDamage(float damage)
 {
