@@ -65,6 +65,11 @@ void cGameControl::Quant()
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))	moveDirection.y = +1.0f; // down
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))		moveDirection.x = -1.0f; // left
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))	moveDirection.x = +1.0f; // right
+	float l = moveDirection.length();
+	if(l > 0.0f)
+	{
+		moveDirection /= l; // normalize
+	}
 	controlledEntity->SetMoveDirection(moveDirection);
 }
 
