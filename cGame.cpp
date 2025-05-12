@@ -62,7 +62,7 @@ void cGame::Quant()
 void cGame::CheckGameOver()
 {
 	
-	if (clockGame.getElapsedTime().asSeconds() >= 180)
+	if (clockGame.getElapsedTime().asSeconds() >= 2)
 	{
 		win = true;
 		return;

@@ -3,6 +3,8 @@
 #include "cScene.h"
 #include "cGameControl.h"
 #include "cMenuLevels.h"
+#include "cWinScreen.h"
+#include "cLooseScreen.h"
 #include "cGame.h"
 
 using namespace sf;
@@ -31,19 +33,26 @@ int main()
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
     cMenuLevels levels(window.getSize().x, window.getSize().y);
+    cWinScreen winScreen(window.getSize().x, window.getSize().y);
+    cLooseScreen looseScreen(window.getSize().x, window.getSize().y);
     while (window.isOpen())
     {
         //1.input handling
         while (auto const event = window.pollEvent())
         {
-            if (cMainMenu::IsOpened())
-            {
-                mainMenu.EventHandle(event, window);
-            }
-            if (cMenuLevels::IsOpened())
-            {
-                levels.EventHandle(event, window);
-            }
+            if (cMainMenu::IsOpened()) mainMenu.EventHandle(event, window);
+            
+            if (cMenuLevels::IsOpened()) levels.EventHandle(event, window);
+            
+            if (cWinScreen::IsOpened()) winScreen.EventHandle(event, window);
+
+            if (cLooseScreen::IsOpened()) looseScreen.EventHandle(event, window);
+
+            if(cGame::Get()->Win()) cWinScreen::GameWon();
+            
+            if (cGame::Get()->Loose()) cLooseScreen::GameLost();
+
+
             else
             {
 
@@ -68,15 +77,15 @@ int main()
 
         //4. Draw all
         window.clear(sf::Color::White);
+        cScene::Get()->Draw(window);
+        cGame::Get()->Draw(window);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
-        if (cMenuLevels::IsOpened()) { levels.Draw(window); }
-        if (cGame::Get()->Win()) { /*winScreen.Draw(window);*/ }
-        if (cGame::Get()->Loose()) { /*looseScreen.Draw(window);*/ }
+        else if (cMenuLevels::IsOpened()) { levels.Draw(window); }
+        else if (cWinScreen::IsOpened()) { cGame::Get()->Pause(true); winScreen.Draw(window); }
+        else if (cGame::Get()->Loose()) { cGame::Get()->Pause(true); looseScreen.Draw(window); }
         else 
         { 
             
-            cScene::Get()->Draw(window); 
-            cGame::Get()->Draw(window);
         }
         window.display();
     }

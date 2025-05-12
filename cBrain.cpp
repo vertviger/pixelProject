@@ -68,6 +68,7 @@ void cBrain::Think()
 	{
 		int randIndx = std::rand() / RAND_MAX * config->possibleTargets.size();
 		target = FindClosestTarget(config->possibleTargets[randIndx]);
+		if (!target) return;
 	}
 	if (!action)
 	{
