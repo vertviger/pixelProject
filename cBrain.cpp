@@ -7,6 +7,8 @@
 
 using namespace std;
 
+const string& AssetsPath();
+
 struct cBrain::cConfig
 {
 	static const cConfig* Get(const string& name);
@@ -21,7 +23,7 @@ const cBrain::cConfig* cBrain::cConfig::Get(const string& _name)
 	if (config.loaded) return &config;
 
 	config.loaded = true;
-	string path = "../assets/brains/" +_name+ ".txt";
+	string path = AssetsPath() + "brains/" +_name+ ".txt";
 	auto file = fstream(path);
 	if (file.is_open())
 	{

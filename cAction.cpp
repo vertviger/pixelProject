@@ -6,6 +6,8 @@
 
 
 using namespace std;
+const string& AssetsPath();
+
 struct cAction::cConfig
 {
 	static const cConfig* Get(const std::string& name);
@@ -22,7 +24,7 @@ const cAction::cConfig* cAction::cConfig::Get(const std::string& _name)
 	if (config.loaded) return &config;
 
 	config.loaded = true;
-	std::string path = "../assets/actions/" + _name + ".txt";
+	std::string path = AssetsPath() + "actions/" + _name + ".txt";
 	auto file = std::fstream(path);
 	if (file.is_open())
 	{

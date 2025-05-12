@@ -6,6 +6,8 @@
 #include <fstream>
 #include <iostream>
 
+const string& AssetsPath();
+
 struct cEntity::cConfig
 {
 	static const cConfig* Get(const std::string& name);
@@ -22,7 +24,7 @@ const cEntity::cConfig* cEntity::cConfig::Get(const std::string& _name)
 	if (config.loaded) return &config;
 
 	config.loaded = true;
-	std::string path = "../assets/entities/" + _name + ".txt";
+	std::string path = AssetsPath() + "entities/" + _name + ".txt";
 	auto file = std::fstream(path);
 	if (file.is_open())
 	{
@@ -117,7 +119,7 @@ cEntity::cEntity(const string& _name) : name(_name)
 	mana = config->maxMana;
 	health = config->maxHealth;
 	maxMovementSpeed = config->maxMovementSpeed;
-	const Texture& texture = GetTexture("../assets/Visuals/Sprites/" +_name+ "100.png");
+	const Texture& texture = GetTexture(AssetsPath() + "Visuals/Sprites/" +_name+ "100.png");
 	sprite100 = new Sprite(texture);
 	sprite100->setPosition(position);
 	sprite = sprite25 = sprite50 = sprite75 = sprite100; //to do make correct sprites setup

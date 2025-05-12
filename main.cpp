@@ -7,6 +7,12 @@
 
 using namespace sf;
 
+const std::string& AssetsPath()
+{
+	static const std::string assetsPath = "../assets/";
+	return assetsPath;
+}
+
 int main()
 {
     //make a main window
@@ -17,11 +23,11 @@ int main()
         sf::ContextSettings{ .antiAliasingLevel = 8 }
     );
     sf::Image icon;
-    if (!icon.loadFromFile("../assets/Visuals/icon2.png"))
+    if (!icon.loadFromFile(AssetsPath() + "Visuals/icon2.png"))
     {
         return -1;
     }
-    auto font = sf::Font("../assets/fonts/jersey25.ttf");
+    auto font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
     cMenuLevels levels(window.getSize().x, window.getSize().y);

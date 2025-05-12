@@ -3,10 +3,12 @@
 using namespace std;
 using namespace sf;
 
+const std::string& AssetsPath();
+
 class cSceneTexts
 {
 public:
-	cSceneTexts() : font("../assets/fonts/jersey25.ttf") {}
+	cSceneTexts() : font(AssetsPath() + "fonts/jersey25.ttf") {}
 	void Add(const std::string& _text, const sf::Vector2f& _pos, sf::Color _color, float _duration)
 	{
 		items.emplace_back(eItem(font));

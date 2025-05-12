@@ -9,37 +9,40 @@
 using namespace std;
 using namespace sf;
 
+const string& AssetsPath();
 
 cGameControl::cGameControl()
 {
-	const Texture& texture = GetTexture("../assets/Visuals/Sprites/uiActionsFrame.png");
+	string spritesPath = AssetsPath() + "Visuals/Sprites/";
+
+	const Texture& texture = GetTexture(spritesPath + "uiActionsFrame.png");
 	slotsSprite = new Sprite(texture);
 	slotsSprite->setPosition({ 100, 500 });
-	const Texture& texture1 = GetTexture("../assets/Visuals/Sprites/Actions/actionFireball.png");
+	const Texture& texture1 = GetTexture(spritesPath + "Actions/actionFireball.png");
 	Sprite* fireball = new Sprite(texture1);
 	fireball->setPosition({ 100, 600 });
 	actionSprites[A_FIREBALL] = fireball;
-	const Texture& texture2 = GetTexture("../assets/Visuals/Sprites/Actions/actionTeleport.png");
+	const Texture& texture2 = GetTexture(spritesPath + "Actions/actionTeleport.png");
 	Sprite* teleport = new Sprite(texture2);
 	actionSprites[A_TELEPORT] = teleport;
-	const Texture& texture3 = GetTexture("../assets/Visuals/Sprites/Actions/actionSpeed.png");
+	const Texture& texture3 = GetTexture(spritesPath + "Actions/actionSpeed.png");
 	Sprite* speed = new Sprite(texture3);
 	actionSprites[A_SPEED] = speed;
-	const Texture& texture4 = GetTexture("../assets/Visuals/Sprites/Actions/actionTransform.png");
+	const Texture& texture4 = GetTexture(spritesPath + "Actions/actionTransform.png");
 	Sprite* transform = new Sprite(texture4);
 	actionSprites[A_TRANSFORM] = transform;
 	/*Sprite* action2 = new Sprite(texture2);
 	action2->setPosition({});
-	const Texture& texture3 = GetTexture("../resources/Visuals/Sprites/Actions/actionSpeed.png");
+	const Texture& texture3 = GetTexture(spritesPath + "Actions/actionSpeed.png");
 	Sprite* action3 = new Sprite(texture3);
 	action3->setPosition({});
-	const Texture& texture4 = GetTexture("../resources/Visuals/Sprites/Actions/actionTransform.png");
+	const Texture& texture4 = GetTexture(spritesPath + "Actions/actionTransform.png");
 	Sprite* action4 = new Sprite(texture4);
 	action4->setPosition({});
-	const Texture& texture5 = GetTexture("../resources/Visuals/Sprites/hpBar.png");
+	const Texture& texture5 = GetTexture(spritesPath "hpBar.png");
 	Sprite* hpBar = new Sprite(texture5);
 	hpBar->setPosition({});
-	const Texture& texture6 = GetTexture("../resources/Visuals/Sprites/hpBar.png");
+	const Texture& texture6 = GetTexture(spritesPath + "hpBar.png");
 	Sprite* manaBar = new Sprite(texture6);
 	manaBar->setPosition({});*/
 }
