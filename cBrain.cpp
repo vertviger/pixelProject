@@ -9,6 +9,8 @@ using namespace std;
 
 const string& AssetsPath();
 
+float RandValue();
+
 struct cBrain::cConfig
 {
 	static const cConfig* Get(const string& name);
@@ -62,17 +64,17 @@ cBrain::~cBrain()
 }
 void cBrain::Think()
 {
-	std::srand(std::time({}));
+	//std::srand(std::time({}));
 	//@to_do: take a string from allowed targets and search for it
 	if (!target)
 	{
-		int randIndx = std::rand() / RAND_MAX * config->possibleTargets.size();
+		int randIndx = RandValue() * config->possibleTargets.size();
 		target = FindClosestTarget(config->possibleTargets[randIndx]);
 		if (!target) return;
 	}
 	if (!action)
 	{
-		int randIndx = std::rand() / RAND_MAX * config->possibleActions.size();
+		int randIndx = RandValue() * config->possibleActions.size();
 		action = new cAction(config->possibleActions[randIndx], owner);
 	}
 	if (action->Do(target)) //Do returns true when action is finished

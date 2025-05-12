@@ -9,6 +9,7 @@
 
 using namespace sf;
 
+
 const std::string& AssetsPath()
 {
 	static const std::string assetsPath = "../assets/";
@@ -18,6 +19,7 @@ const std::string& AssetsPath()
 int main()
 {
     //make a main window
+    std::srand(std::time({}));
     auto window = sf::RenderWindow
     (
         sf::VideoMode({ 1920, 1080 }), "DefendTheForest",

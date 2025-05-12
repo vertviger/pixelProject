@@ -39,7 +39,7 @@ void cGame::Quant()
 	sf::Vector2f sceneSize = scene->GetSize();
 	Time delta = clockQuant.restart();
 	if(pause) return;
-	std::srand(std::time({}));
+	//std::srand(std::time({}));
 	passedFromLastQuant += delta;
 	const float quantPeriodMs = 10.0f;
 	if(passedFromLastQuant.asMicroseconds() > quantPeriodMs)
@@ -62,7 +62,7 @@ void cGame::Quant()
 void cGame::CheckGameOver()
 {
 	
-	if (clockGame.getElapsedTime().asSeconds() >= 2)
+	if (clockGame.getElapsedTime().asSeconds() >= 60)
 	{
 		win = true;
 		return;

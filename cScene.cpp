@@ -11,7 +11,7 @@ public:
 	cSceneTexts() : font(AssetsPath() + "fonts/jersey25.ttf") {}
 	void Add(const std::string& _text, const sf::Vector2f& _pos, sf::Color _color, float _duration)
 	{
-		items.emplace_back(eItem(font));
+		items.emplace_back(cItem(font));
 		auto& item = items.back();
 		item.duration = _duration;
 		item.text.setString(_text);
@@ -46,18 +46,18 @@ public:
 	}
 
 private:
-	struct eItem
+	struct cItem
 	{
-		eItem(const sf::Font& _font) : text(_font)
+		cItem(const sf::Font& _font) : text(_font)
 		{
 			clock.start();
 		}
 		sf::Text	 text;
 		sf::Vector2f position;
-		float		 duration;
+		float		 duration = 2.0;
 		sf::Clock	 clock;
 	};
-	std::vector<eItem> items;
+	std::vector<cItem> items;
 	const sf::Font font;
 };
 static cSceneTexts scene_texts;

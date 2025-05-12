@@ -91,15 +91,18 @@ void cEntity::Draw(sf::RenderWindow& window)
 	sprite->setScale(scale);
 	window.draw(*sprite);
 }
-
+float RandValue()
+{
+	//std::srand(std::time({}));
+	return (float)std::rand() / RAND_MAX;
+}
 void cEntity::TakeDamage(float damage)
 {
-	std::srand(std::time({}));
 	string damageStr = to_string((int)damage);
 	int damageTextSize = int(damage / 5);
-	float randPosX = std::rand() / RAND_MAX * 0.1f - 0.05f;
-	float randPosY = std::rand() / RAND_MAX * 0.1f - 0.05f;
-	ShowText(damageStr, sf::Vector2f(position.x, position.y - size.y * 0.5f), Color::Red, 3.0f);
+	float randPosX = RandValue() * 0.6f - 0.3f;
+	float randPosY = RandValue() * 0.3f - 0.15f;
+	ShowText(damageStr, sf::Vector2f(position.x + randPosX, position.y - size.y * 0.5f + randPosY), Color::Red, 3.0f);
 
 	health -= damage;
 	if (health <= 0) return;
