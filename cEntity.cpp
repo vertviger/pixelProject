@@ -83,10 +83,6 @@ void cEntity::Draw(sf::RenderWindow& window)
 	sprite->setPosition(pos);
 	Vector2u textureSize = sprite->getTexture().getSize();
 	Vector2f textureSizeF = { (float)textureSize.x, (float)textureSize.y };
-	Vector2f origin = textureSizeF;
-	origin.x *= 0.5f; // shifting position cords to the middle of the sprite X axis
-	origin.y *= 0.5f; // shifting position cords to the middle of the sprite Y axis
-	sprite->setOrigin(origin);
 	Vector2f scale = { (size.x * kx)/textureSizeF.x, (size.y * ky) / textureSizeF.y};
 	sprite->setScale(scale);
 	window.draw(*sprite);
@@ -126,6 +122,13 @@ cEntity::cEntity(const string& _name) : name(_name)
 	sprite100 = new Sprite(texture);
 	sprite100->setPosition(position);
 	sprite = sprite25 = sprite50 = sprite75 = sprite100; //to do make correct sprites setup
+	Vector2u textureSize = sprite->getTexture().getSize();
+	Vector2f textureSizeF = { (float)textureSize.x, (float)textureSize.y };
+	Vector2f origin = textureSizeF;
+	origin.x *= 0.5f; // shifting position cords to the middle of the sprite X axis
+	origin.y *= 0.5f; // shifting position cords to the middle of the sprite Y axis
+	sprite->setOrigin(origin);
+
 	if (_name == "tree")
 	{
 		size = { 3.0, 3.0 };
