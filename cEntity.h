@@ -21,9 +21,9 @@ public:
 	{
 		return position;
 	}
+	FloatRect Bound() const { return FloatRect(position - Vector2f(size.x/2, size.y/2), size);}
 	float Health(){ return health;}
 	void SetMoveDirection(const Vector2f& newDirection) { moveDirection = newDirection; }
-	void StartAction(cActionType _at, const cTarget& _t);
 	void Quant(float _deltaTimeSec);
 	void Draw(RenderWindow& window);
 	void TakeDamage(float damage);
@@ -32,7 +32,6 @@ public:
 protected:
 	struct cConfig;
 private:
-	bool Can(cActionType);
 	Vector2f position = { 8.0 , 4.5 };
 	Vector2f moveDirection = { 0, 0 }; // x < 0 - left, x > 0 - right, y > 0 - up, y < 0 - down
 	Vector2f size = { 1, 1 };

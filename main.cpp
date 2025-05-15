@@ -15,6 +15,17 @@ const std::string& AssetsPath()
 	static const std::string assetsPath = "../assets/";
 	return assetsPath;
 }
+sf::Vector2u windowSize = { 1920, 1080 };
+sf::Vector2u windowSizeCurrent = windowSize;
+
+sf::Vector2f MouseToScene(sf::Vector2i mousePosition)
+{
+    auto scene = cScene::Get();
+    float kx = windowSizeCurrent.x / scene->GetSize().x;
+    float ky = windowSizeCurrent.y / scene->GetSize().y;
+    Vector2f pos = { mousePosition.x / kx, mousePosition.y / ky };
+    return pos;
+}
 
 int main()
 {
@@ -22,7 +33,7 @@ int main()
     std::srand(std::time({}));
     auto window = sf::RenderWindow
     (
-        sf::VideoMode({ 1920, 1080 }), "DefendTheForest",
+        sf::VideoMode(windowSize), "DefendTheForest",
         sf::Style::Default, sf::State::Windowed,
         sf::ContextSettings{ .antiAliasingLevel = 8 }
     );
@@ -54,16 +65,15 @@ int main()
             
             if (cGame::Get()->Loose()) cLooseScreen::GameLost();
 
-
-            else
-            {
-
-            }
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
             }
-            if (auto const keyEvent = event->getIf<sf::Event::KeyReleased>())
+            else if (const auto* resized = event->getIf<sf::Event::Resized>())
+            {
+                windowSizeCurrent = resized->size;
+            }
+            else if (auto const keyEvent = event->getIf<sf::Event::KeyReleased>())
             {
                 switch (keyEvent->code)
                 {

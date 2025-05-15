@@ -7,6 +7,8 @@
 
 using namespace std;
 const string& AssetsPath();
+float RandValue();
+
 
 struct cAction::cConfig
 {
@@ -84,7 +86,7 @@ bool cAction::Do(cEntity* _target)
 	//check distance to target, if greater than distance, start Move();
 	//if distance less than distance from config, change sprite to doing action,do damage to target
 	float dist = Distance(owner->GetPosition(), _target->GetPosition());
-	if (dist > config->distance)
+	if (dist > config->distance + RandValue() * 1.5)
 	{
 		Vector2f dir = _target->GetPosition() - owner->GetPosition();
 		dir /= dist;
@@ -93,10 +95,14 @@ bool cAction::Do(cEntity* _target)
 	}
 	else
 	{
-		owner->SetMoveDirection({ 0,0 });
+		if (owner->Name() != "player") owner->SetMoveDirection({ 0,0 });
 		if (clockForAction.getElapsedTime().asSeconds() >= config->timeForAction)
 		{
 			_target->TakeDamage(config->damage);
+			if (owner->Name() == "player")
+			{
+				return true;
+			}
 			clockForAction.restart();
 		}
 	}

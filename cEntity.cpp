@@ -147,38 +147,6 @@ cEntity::~cEntity()
 	delete brain;
 }
 
-void cEntity::StartAction(cActionType _at, const cTarget& _t)
-{
-	if(!Can(_at)) return;
-	switch(_at)
-	{
-	case A_NONE:
-		break;
-	case A_TELEPORT:
-		break;
-	case A_FIREBALL:
-		break;
-	default:
-		break;
-	}
-}
-
-bool cEntity::Can(cActionType _a)
-{
-	switch(_a)
-	{
-	case A_TELEPORT:
-		//return mana > 25.0f;  
-		break;
-	case A_FIREBALL:
-		//return mana > 10.0f;  
-		break;
-	default:
-		break;
-	}
-	return true;
-}
-
 void cEntity::Quant(float _deltaTimeSec)
 {
 	if (health <= 0) return;

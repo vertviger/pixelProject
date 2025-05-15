@@ -17,9 +17,11 @@ public:
 	void ControledEntity(cEntity* _e) { controlledEntity = _e; }
 	cEntity* ControledEntity() const { return controlledEntity; }
 private:
-	cActionType selectedAction = A_NONE;
+	cEntity* target = NULL;
+	cAction* action = NULL;
+	std::string selectedActionName;
 	sf::Sprite* slotsSprite;
-	std::map<cActionType, sf::Sprite*> actionSprites;
+	std::vector<sf::Sprite*> actionSprites;
 	cEntity* controlledEntity = NULL;
 };
 
