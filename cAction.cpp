@@ -18,6 +18,8 @@ struct cAction::cConfig
 	float manaRequired = 10.0;
 	float damage = 10.0;
 	float timeForAction = 3.0; //seconds
+	string actionSprite = "";
+	bool teleport = false;
 };
 const cAction::cConfig* cAction::cConfig::Get(const std::string& _name)
 {
@@ -64,6 +66,17 @@ const cAction::cConfig* cAction::cConfig::Get(const std::string& _name)
 					config.timeForAction = std::stof(str);
 				}
 			}
+			else if (str == "actionSprite")
+			{
+				while (s >> str)
+				{
+					config.actionSprite = str;
+				}
+			}
+			else if (str == "teleport")
+			{
+				config.teleport = true;
+			}
 		}
 	}
 	else
@@ -76,19 +89,38 @@ cAction::cAction(const string& name, cEntity* _owner) : owner(_owner)
 {
 	config = cConfig::Get(name);
 	clockForAction.start();
+	randOffset.x = RandValue() * 2 - 1;
+	randOffset.y = RandValue() * 2 - 1;
 }
 
 float Distance(const Vector2f& p1, const Vector2f& p2);
+void ShowSprite(const std::string& _name, const sf::Vector2f& _pos, sf::Color _color, float _duration);
+
+bool cAction::Teleport(Vector2f newPos)
+{
+	if (clockForAction.getElapsedTime().asSeconds() >= config->timeForAction)
+	{
+		owner->ChangePosition(newPos);
+		clockForAction.restart();
+		return true;
+	}
+	return false;
+}
 
 bool cAction::Do(cEntity* _target)
 {
+	if (config->teleport)
+	{
+		return Teleport(_target->GetPosition());
+	}
 	if (_target->Health() <= 0) return true;
+	Vector2f dest = _target->GetPosition() + randOffset;
 	//check distance to target, if greater than distance, start Move();
 	//if distance less than distance from config, change sprite to doing action,do damage to target
-	float dist = Distance(owner->GetPosition(), _target->GetPosition());
-	if (dist > config->distance + RandValue() * 1.5)
+	float dist = Distance(owner->GetPosition(), dest);
+	if (dist > config->distance)
 	{
-		Vector2f dir = _target->GetPosition() - owner->GetPosition();
+		Vector2f dir = dest - owner->GetPosition();
 		dir /= dist;
 		owner->SetMoveDirection(dir);
 		clockForAction.restart();
@@ -98,6 +130,7 @@ bool cAction::Do(cEntity* _target)
 		if (owner->Name() != "player") owner->SetMoveDirection({ 0,0 });
 		if (clockForAction.getElapsedTime().asSeconds() >= config->timeForAction)
 		{
+			if(config->actionSprite != "") ShowSprite(AssetsPath() + "Visuals/Sprites/Actions/" +config->actionSprite+ ".png", _target->GetPosition(), Color::White, 3.0f);
 			_target->TakeDamage(config->damage);
 			if (owner->Name() == "player")
 			{

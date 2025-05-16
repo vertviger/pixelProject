@@ -1,4 +1,4 @@
 distance 0.5f
 damage 5.0f
 manaRequired 10.0f
-timeForAction 3.0f
+timeForAction 0.1f

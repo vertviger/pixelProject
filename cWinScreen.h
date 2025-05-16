@@ -16,6 +16,7 @@ public:
 	void MoveUp();
 	void MoveDown();
 	static bool IsOpened() { return opened; }
+	static void ResetCounter() { counter = 0; }
 	static void ChangeOpened() { opened = !opened; }
 	static void GameWon() { if (counter == 0) opened = !opened; counter++; }
 	void ChangeToSelected(RenderWindow& window);

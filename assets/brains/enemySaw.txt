@@ -1,2 +1,2 @@
-possibleActions attack_melee
+possibleActions attackSaw
 possibleTargets tree

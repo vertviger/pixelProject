@@ -4,6 +4,7 @@
 #include "cBrain.h"
 #include <map>
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 
 const string& AssetsPath();
@@ -99,13 +100,18 @@ void cEntity::TakeDamage(float damage)
 	float randPosX = RandValue() * 0.6f - 0.3f;
 	float randPosY = RandValue() * 0.3f - 0.15f;
 	ShowText(damageStr, sf::Vector2f(position.x + randPosX, position.y - size.y * 0.5f + randPosY), Color::Red, 3.0f);
-
 	health -= damage;
+	float healthPercentage = HealthPercentage()*100;
 	if (health <= 0) return;
-	if (health >= 75);
-	else if (health >= 50) sprite = sprite75;
-	else if (health >= 25) sprite = sprite50;
-	else if (health >= 0) sprite = sprite25;
+	if (healthPercentage >= 75);
+	else if (healthPercentage >= 50 && sprite75) sprite = sprite75;
+	else if (healthPercentage >= 25 && sprite50) sprite = sprite50;
+	else if (healthPercentage >= 0 && sprite25) sprite = sprite25;
+}
+
+bool ExistsFile(const std::string& fileName)
+{
+	return std::filesystem::exists(fileName);
 }
 
 cEntity::cEntity(const string& _name) : name(_name)
@@ -118,15 +124,36 @@ cEntity::cEntity(const string& _name) : name(_name)
 	mana = config->maxMana;
 	health = config->maxHealth;
 	maxMovementSpeed = config->maxMovementSpeed;
-	const Texture& texture = GetTexture(AssetsPath() + "Visuals/Sprites/" +_name+ "100.png");
-	sprite100 = new Sprite(texture);
+	const Texture& texture100 = GetTexture(AssetsPath() + "Visuals/Sprites/" +_name+ "100.png");
+	sprite100 = new Sprite(texture100);
 	sprite100->setPosition(position);
-	sprite = sprite25 = sprite50 = sprite75 = sprite100; //to do make correct sprites setup
+	sprite = sprite100;
 	Vector2u textureSize = sprite->getTexture().getSize();
 	Vector2f textureSizeF = { (float)textureSize.x, (float)textureSize.y };
 	Vector2f origin = textureSizeF;
 	origin.x *= 0.5f; // shifting position cords to the middle of the sprite X axis
 	origin.y *= 0.5f; // shifting position cords to the middle of the sprite Y axis
+	std::string path75 = AssetsPath() + "Visuals/Sprites/" + _name + "75.png";
+	if (std::filesystem::exists(path75))
+	{
+		const Texture& texture75 = GetTexture(path75);
+		sprite75 = new Sprite(texture75);
+		sprite75->setOrigin(origin);
+	}
+	std::string path50 = AssetsPath() + "Visuals/Sprites/" + _name + "50.png";
+	if (std::filesystem::exists(path50))
+	{
+		const Texture& texture50 = GetTexture(path50);
+		sprite50 = new Sprite(texture50);
+		sprite50->setOrigin(origin);
+	}
+	std::string path25 = AssetsPath() + "Visuals/Sprites/" + _name + "25.png";
+	if (std::filesystem::exists(path25))
+	{
+		const Texture& texture25 = GetTexture(path25);
+		sprite25 = new Sprite(texture25);
+		sprite25->setOrigin(origin);
+	}
 	sprite->setOrigin(origin);
 
 	if (_name == "tree")
@@ -141,10 +168,15 @@ cEntity::cEntity(const string& _name) : name(_name)
 cEntity::~cEntity()
 {
 	if (sprite100) delete sprite100;
-	/*if (sprite75) delete sprite75;
+	if (sprite75) delete sprite75;
 	if (sprite50) delete sprite50;
-	if (sprite25) delete sprite25;*/
+	if (sprite25) delete sprite25;
 	delete brain;
+}
+
+float cEntity::HealthPercentage()
+{
+	return health / config->maxHealth;
 }
 
 void cEntity::Quant(float _deltaTimeSec)

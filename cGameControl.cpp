@@ -71,8 +71,14 @@ void cGameControl::Quant()
 
 void cGameControl::Draw(RenderWindow& window)
 {
+	Vector2f windowSize = window.getView().getSize();
+	float percent = controlledEntity->HealthPercentage();
+	RectangleShape healthBar = RectangleShape({ 300 * percent, 50 });
+	healthBar.setPosition(windowSize - healthBar.getSize());
+	healthBar.setFillColor(Color::Red);
+	window.draw(healthBar);
 	float actionPosX = 24;
-	float actionPosY = window.getView().getSize().y - (float)slotsSprite->getTexture().getSize().y;
+	float actionPosY = windowSize.y - (float)slotsSprite->getTexture().getSize().y;
 	slotsSprite->setPosition({0, actionPosY});
 	actionPosY += 40;
 	for (auto& i : actionSprites)
@@ -90,16 +96,10 @@ void cGameControl::EventHandle(optional<Event> event)
 	{
 		switch(keyEvent->code)
 		{
-		case Keyboard::Key::Num1: //@to_do selectedAction
-			break; 
-		}
-	}
-	if(auto const keyEvent = event->getIf<Event::KeyReleased>())
-	{
-		switch(keyEvent->code)
-		{
-		case Keyboard::Key::Num1: //@to_do selectedAction
-			break;
+			case Keyboard::Key::Num1: selectedActionName = actions[0]; break;
+			case Keyboard::Key::Num2: selectedActionName = actions[1]; break;
+			case Keyboard::Key::Num3: selectedActionName = actions[2]; break;
+			case Keyboard::Key::Num4: selectedActionName = actions[3]; break;
 		}
 	}
 	if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
@@ -111,7 +111,7 @@ void cGameControl::EventHandle(optional<Event> event)
 				auto mouseScenePos = MouseToScene(mouseButtonPressed->position);
 				for (auto e : cScene::Get()->Entities())
 				{
-					if (e->Bound().contains(mouseScenePos) && e->Name() != "tree")
+					if (e->Bound().contains(mouseScenePos) && e->Name() != "tree" && e->Name() != "player")
 					{
 						target = e;
 						action = new cAction(selectedActionName, controlledEntity);

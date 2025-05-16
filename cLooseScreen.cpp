@@ -11,18 +11,21 @@ cLooseScreen::cLooseScreen(int widthScreen, int heightScreen)
 	float yOffset = 100.0f;
 	//Text
 	auto textContinue = sf::Text(font, "You Lost!", 100);
-	textContinue.setFillColor(Color::Green);
-	textContinue.setPosition({ xPos, yPos + yOffset });
+	textContinue.setFillColor(Color::Red);
+	textContinue.setPosition({ 400, 200 });
+	//textContinue.setPosition({ xPos, yPos });
 	items.push_back(textContinue);
 	//next level
 	auto textLoadLevel = sf::Text(font, "Retry", 70);
-	textLoadLevel.setFillColor(Color::Black);
-	textLoadLevel.setPosition({ xPos, yPos });
+	textLoadLevel.setFillColor(Color::White);
+	textLoadLevel.setPosition({ 400, 350 });
+	//textLoadLevel.setPosition({ xPos, yPos + yOffset });
 	items.push_back(textLoadLevel);
 	//back
 	auto textOptions = sf::Text(font, "Back to main menu", 70);
-	textOptions.setFillColor(Color::Black);
-	textOptions.setPosition({ xPos, yPos + 2*yOffset });
+	textOptions.setFillColor(Color::White);
+	textOptions.setPosition({ 400, 450 });
+	//textOptions.setPosition({ xPos, yPos + 2*yOffset });
 	items.push_back(textOptions);
 	
 	looseMenuSelected = 0;
@@ -34,11 +37,6 @@ cLooseScreen::~cLooseScreen()
 //Draw main menu
 void cLooseScreen::Draw(RenderWindow& window)
 {
-	/*Texture backgroundTexture;
-	backgroundTexture.loadFromFile("../assets/Visuals/mainMenuFrame.png");
-	Sprite background(backgroundTexture);
-	background.setPosition({ 325, 135 });
-	window.draw(background);*/
 	for (int i = 0; i < items.size(); i++)
 	{
 		window.draw(items[i]);
@@ -50,7 +48,7 @@ void cLooseScreen::MoveUp()
 {
 	if (looseMenuSelected >= 0)
 	{
-		items[looseMenuSelected].setFillColor(Color::Black);
+		items[looseMenuSelected].setFillColor(Color::White);
 		looseMenuSelected--;
 		if (looseMenuSelected == -1)
 		{
@@ -64,7 +62,7 @@ void cLooseScreen::MoveDown()
 {
 	if (looseMenuSelected <= items.size() - 1)
 	{
-		items[looseMenuSelected].setFillColor(Color::Black);
+		items[looseMenuSelected].setFillColor(Color::White);
 		looseMenuSelected++;
 		if (looseMenuSelected == items.size())
 		{
@@ -79,7 +77,7 @@ void cLooseScreen::ChangeToSelected(RenderWindow& window)
 	switch (looseMenuSelected)
 	{
 	case 0: break; //text
-	case 1: cLooseScreen::ChangeOpened(); break; //next level
+	case 1: cLooseScreen::ChangeOpened(); game->Start(); break; //next level
 	case 2: cLooseScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}
 }

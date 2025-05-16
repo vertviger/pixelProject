@@ -3,8 +3,12 @@
 #include "cEntity.h"
 #include <memory>
 #include "cGameControl.h"
+#include "cWinScreen.h"
+#include "cLooseScreen.h"
+
 
 using namespace std;
+float RandValue();
 
 cGame* cGame::Get()
 {
@@ -13,8 +17,9 @@ cGame* cGame::Get()
 }
 void cGame::Start()
 {
-	auto hero = cScene::Get()->Spawn("player");
 	auto scene = cScene::Get();
+	scene->Clear();
+	auto hero = scene->Spawn("player");
 	sf::Vector2f sceneSize = scene->GetSize();
 	for (int i = 0; i < 2; i++)
 	{
@@ -31,6 +36,11 @@ void cGame::Start()
 	clockGame.restart();
 	clockQuant.restart();
 	running = true;
+	loose = false;
+	win = false;
+	pause = false;
+	cWinScreen::ResetCounter();
+	cLooseScreen::ResetCounter();
 }
 void cGame::Quant()
 {
@@ -46,10 +56,10 @@ void cGame::Quant()
 	float deltaQuant = clockQuant.getElapsedTime().asMilliseconds();
 	if(deltaQuant > quantPeriodMs)
 	{
-		if (clockEnemySpawn.getElapsedTime().asSeconds() >= 5)
+		if (clockEnemySpawn.getElapsedTime().asSeconds() >= RandValue()*10 + 5)
 		{
-			std::vector<string> enemyNames = { "enemyAxe", "enemySaw", "enemyChainSaw", "enemyEngeneer" };
-			std::vector<Vector2f> enemySpawnPosRel = { {0.1, 0.1}, {0.9, 0.1}, {0.1, 0.9}, {0.9, 0.9} };
+			std::vector<string> enemyNames = { "enemyAxe", "enemySaw", "enemyChainSaw", "enemyKnife" };
+			std::vector<Vector2f> enemySpawnPosRel = { {-0.1, -0.1}, {1.1, -0.1}, {-0.1, 1.1}, {1.1, 1.1}, {0.35, 1.1}, {0.35, -0.1}, {0.65, 1.1}, {0.65, -0.1}/*, {0.5, 0.5}, {0.3, 0.2}, {0.7, 0.4}, {0.6, 0.5}, {0.3, 0.1}, {0.1, 0.3}, {0.4, 0.8}*/ };
 			auto enemy = scene->Spawn(enemyNames[std::rand() % enemyNames.size()]);
 			auto enemyRelSpawnPos = enemySpawnPosRel[std::rand() % enemySpawnPosRel.size()];
 			Vector2f enemySpawnPos = { sceneSize.x*enemyRelSpawnPos.x, sceneSize.y * enemyRelSpawnPos.y };
@@ -72,7 +82,7 @@ void cGame::CheckGameOver()
 	}
 	if (cGameControl::Get()->ControledEntity()->Health() <= 0)
 	{
-		loose = false; 
+		loose = true; 
 		return;
 	}
 	else
@@ -94,6 +104,7 @@ void cGame::CheckGameOver()
 }
 void cGame::Draw(sf::RenderWindow& window)
 {
+	cScene::Get()->Draw(window);
 	if (!running) return;
 	cGameControl::Get()->Draw(window);
 }

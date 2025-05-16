@@ -23,6 +23,7 @@ public:
 	}
 	FloatRect Bound() const { return FloatRect(position - Vector2f(size.x/2, size.y/2), size);}
 	float Health(){ return health;}
+	float HealthPercentage();
 	void SetMoveDirection(const Vector2f& newDirection) { moveDirection = newDirection; }
 	void Quant(float _deltaTimeSec);
 	void Draw(RenderWindow& window);

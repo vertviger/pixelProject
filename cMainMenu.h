@@ -28,5 +28,6 @@ private:
 	int mainMenuSelected;
 	Font font;
 	vector<Text> items;
+	Sprite* background = NULL;
 };
 

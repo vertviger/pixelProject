@@ -19,10 +19,12 @@ class cAction
 public:
 	cAction(const std::string& name, cEntity* _owner);
 	//virtual bool Can(const cEntity* _who, const cTarget& _target) = 0;
-	bool Do(cEntity* _target); // return false if finished action
+	bool Do(cEntity* _target); // return true if finished action
 private:
+	sf::Vector2f randOffset;
 	struct cConfig;
 	const cConfig* config = NULL;
 	cEntity* owner = NULL;
 	sf::Clock clockForAction;
+	bool Teleport(sf::Vector2f newPos);
 };

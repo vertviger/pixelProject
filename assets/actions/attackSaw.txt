@@ -1,0 +1,4 @@
+distance 0.5f
+damage 25.0f
+manaRequired 10.0f
+timeForAction 1.0f

@@ -12,17 +12,20 @@ cWinScreen::cWinScreen(int widthScreen, int heightScreen)
 	//Text
 	auto textContinue = sf::Text(font, "You won!", 100);
 	textContinue.setFillColor(Color::Green);
-	textContinue.setPosition({ xPos, yPos});
+	textContinue.setPosition({ 400, 200});
+	//textContinue.setPosition({ xPos, yPos});
 	items.push_back(textContinue);
 	//next level
 	auto textLoadLevel = sf::Text(font, "Next Level", 70);
-	textLoadLevel.setFillColor(Color::Black);
-	textLoadLevel.setPosition({ xPos, yPos + yOffset });
+	textLoadLevel.setFillColor(Color::White);
+	textLoadLevel.setPosition({ 400, 350 });
+	//textLoadLevel.setPosition({ xPos, yPos + yOffset });
 	items.push_back(textLoadLevel);
 	//back
 	auto textOptions = sf::Text(font, "Back to main menu", 70);
-	textOptions.setFillColor(Color::Black);
-	textOptions.setPosition({ xPos, yPos + 2*yOffset });
+	textOptions.setFillColor(Color::White);
+	textOptions.setPosition({ 400, 450 });
+	//textOptions.setPosition({ xPos, yPos + 2*yOffset });
 	items.push_back(textOptions);
 	
 	winMenuSelected = 0;
@@ -34,11 +37,6 @@ cWinScreen::~cWinScreen()
 //Draw win menu
 void cWinScreen::Draw(RenderWindow& window)
 {
-	/*Texture backgroundTexture;
-	backgroundTexture.loadFromFile("../assets/Visuals/mainMenuFrame.png");
-	Sprite background(backgroundTexture);
-	background.setPosition({ 325, 135 });
-	window.draw(background);*/
 	for (int i = 0; i < items.size(); i++)
 	{
 		window.draw(items[i]);
@@ -50,7 +48,7 @@ void cWinScreen::MoveUp()
 {
 	if (winMenuSelected >= 0)
 	{
-		items[winMenuSelected].setFillColor(Color::Black);
+		items[winMenuSelected].setFillColor(Color::White);
 		winMenuSelected--;
 		if (winMenuSelected == -1)
 		{
@@ -64,7 +62,7 @@ void cWinScreen::MoveDown()
 {
 	if (winMenuSelected <= items.size() - 1)
 	{
-		items[winMenuSelected].setFillColor(Color::Black);
+		items[winMenuSelected].setFillColor(Color::White);
 		winMenuSelected++;
 		if (winMenuSelected == items.size())
 		{
@@ -79,7 +77,7 @@ void cWinScreen::ChangeToSelected(RenderWindow& window)
 	switch (winMenuSelected)
 	{
 	case 0: break; //text
-	case 1: cWinScreen::ChangeOpened(); break; //next level
+	case 1: cWinScreen::ChangeOpened(); game->Start(); break; //next level
 	case 2: cWinScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}
 }

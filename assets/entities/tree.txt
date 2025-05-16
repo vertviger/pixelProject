@@ -1,2 +1,2 @@
-health 1000.0f
+health 200.0f
 movementSpeed 0.0f

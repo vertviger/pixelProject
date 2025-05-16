@@ -1,6 +1,8 @@
 #include "cMainMenu.h"
 #include "cGame.h"
 #include "cMenuLevels.h"
+#include "cGraphics.h"
+
 
 
 const std::string& AssetsPath();
@@ -15,34 +17,35 @@ cMainMenu::cMainMenu(int width, int height)
 	items.push_back(textContinue);
 	//new game
 	auto textLoadLevel = sf::Text(font, "Choose level", 70);
-	textLoadLevel.setFillColor(Color::Black);
+	textLoadLevel.setFillColor(Color::White);
 	textLoadLevel.setPosition({ 400, 300 });
 	items.push_back(textLoadLevel);
 	//options
 	auto textOptions = sf::Text(font, "Options", 70);
-	textOptions.setFillColor(Color::Black);
+	textOptions.setFillColor(Color::White);
 	textOptions.setPosition({ 400, 400 });
 	items.push_back(textOptions);
 	//exit
 	auto textExit = sf::Text(font, "Exit", 70);
-	textExit.setFillColor(Color::Black);
+	textExit.setFillColor(Color::White);
 	textExit.setPosition({ 400, 500 });
 	items.push_back(textExit);
-
+	if (std::filesystem::exists(AssetsPath() + "Visuals/mainMenuFrame.png"))
+	{
+		const Texture& texture = GetTexture(AssetsPath() + "Visuals/mainMenuFrame.png");
+		background = new Sprite(texture);
+		background->setPosition({ 325, 135 });
+	}
 	mainMenuSelected = 0;
 }
 cMainMenu::~cMainMenu()
 {
-
+	if(background) delete background;
 }
 //Draw main menu
 void cMainMenu::Draw(RenderWindow& window)
 {
-	Texture backgroundTexture;
-	backgroundTexture.loadFromFile(AssetsPath() + "Visuals/mainMenuFrame.png");
-	Sprite background(backgroundTexture);
-	background.setPosition({ 325, 135 });
-	window.draw(background);
+	window.draw(*background);
 	for (int i = 0; i < items.size(); i++)
 	{
 		window.draw(items[i]);
@@ -54,7 +57,7 @@ void cMainMenu::MoveUp()
 {
 	if (mainMenuSelected >= 0)
 	{
-		items[mainMenuSelected].setFillColor(Color::Black);
+		items[mainMenuSelected].setFillColor(Color::White);
 		mainMenuSelected--;
 		if (mainMenuSelected == -1)
 		{
@@ -68,7 +71,7 @@ void cMainMenu::MoveDown()
 {
 	if (mainMenuSelected <= items.size()-1)
 	{
-		items[mainMenuSelected].setFillColor(Color::Black);
+		items[mainMenuSelected].setFillColor(Color::White);
 		mainMenuSelected++;
 		if (mainMenuSelected == items.size())
 		{
@@ -82,7 +85,7 @@ void cMainMenu::ChangeToSelected(RenderWindow& window)
 	cGame* game = cGame::Get();
 	switch (mainMenuSelected)
 	{
-	case 0: if (!game->IsRunning()) { game->Start(); cMainMenu::ChangeOpened(); }
+	case 0: if (!game->IsRunning() || game->Win() || game->Loose()) { game->Start(); cMainMenu::ChangeOpened(); }
 		  else { game->Pause(false); cMainMenu::ChangeOpened(); }  break; //continue
 	case 1: cMenuLevels::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
 	case 2: break;				//options

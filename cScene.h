@@ -12,7 +12,7 @@ public:
 	cScene();
 	~cScene();
 	static cScene* Get();
-
+	void Clear();
 	cEntity*	Spawn(const string& _name);
 	void		Draw(RenderWindow& window);
 	cEntity*	FindEntity(Vector2f pos);
@@ -22,6 +22,7 @@ public:
 private:
 	vector<cEntity*> entities;
 	Vector2f size = {16.0f, 9.0f};
+	Texture backgroundTexture;
 };
 
 void ShowText(const std::string& _text, const sf::Vector2f& _scene_pos, sf::Color _color, float _duration);

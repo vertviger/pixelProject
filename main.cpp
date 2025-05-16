@@ -61,10 +61,6 @@ int main()
 
             if (cLooseScreen::IsOpened()) looseScreen.EventHandle(event, window);
 
-            if(cGame::Get()->Win()) cWinScreen::GameWon();
-            
-            if (cGame::Get()->Loose()) cLooseScreen::GameLost();
-
             if (event->is<sf::Event::Closed>())
             {
                 window.close();
@@ -86,15 +82,23 @@ int main()
         
         //3. Do game logic
         cGame::Get()->Quant();
+        if (cGame::Get()->Win())
+        {
+            cWinScreen::GameWon();
+        }
+        if (cGame::Get()->Loose())
+        {
+            cLooseScreen::GameLost();
+        }
 
         //4. Draw all
         window.clear(sf::Color::White);
-        cScene::Get()->Draw(window);
+        
         cGame::Get()->Draw(window);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
         else if (cMenuLevels::IsOpened()) { levels.Draw(window); }
         else if (cWinScreen::IsOpened()) { cGame::Get()->Pause(true); winScreen.Draw(window); }
-        else if (cGame::Get()->Loose()) { cGame::Get()->Pause(true); looseScreen.Draw(window); }
+        else if (cLooseScreen::IsOpened()) { cGame::Get()->Pause(true); looseScreen.Draw(window); }
         else 
         { 
             

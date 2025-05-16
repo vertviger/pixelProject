@@ -7,7 +7,7 @@ cMenuLevels::cMenuLevels(int width, int height)
 	font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
 	//1
 	auto textStart = sf::Text(font, "Choose a level", 60);
-	textStart.setFillColor(Color::Black);
+	textStart.setFillColor(Color::White);
 	textStart.setPosition({ 400, 100 });
 	levels.push_back(textStart);
 	//1
@@ -17,27 +17,27 @@ cMenuLevels::cMenuLevels(int width, int height)
 	levels.push_back(textlvl1);
 	//2
 	auto textlvl2 = sf::Text(font, "Level 2", 60);
-	textlvl2.setFillColor(Color::Black);
+	textlvl2.setFillColor(Color::White);
 	textlvl2.setPosition({ 400, 300 });
 	levels.push_back(textlvl2);
 	//3
 	auto textlvl3 = sf::Text(font, "Level 3", 60);
-	textlvl3.setFillColor(Color::Black);
+	textlvl3.setFillColor(Color::White);
 	textlvl3.setPosition({ 400, 400 });
 	levels.push_back(textlvl3);
 	//4
 	auto textlvl4 = sf::Text(font, "Level 4", 60);
-	textlvl4.setFillColor(Color::Black);
+	textlvl4.setFillColor(Color::White);
 	textlvl4.setPosition({ 400, 500 });
 	levels.push_back(textlvl4);
 	//5
 	auto textlvl5 = sf::Text(font, "Level 5", 60);
-	textlvl5.setFillColor(Color::Black);
+	textlvl5.setFillColor(Color::White);
 	textlvl5.setPosition({ 400, 600 });
 	levels.push_back(textlvl5);
 	//back
 	auto textBack = sf::Text(font, "Go back", 60);
-	textBack.setFillColor(Color::Black);
+	textBack.setFillColor(Color::White);
 	textBack.setPosition({ 400, 700 });
 	levels.push_back(textBack);
 
@@ -61,7 +61,7 @@ void cMenuLevels::MoveUp()
 {
 	if (levelSelected >= 0)
 	{
-		levels[levelSelected].setFillColor(Color::Black);
+		levels[levelSelected].setFillColor(Color::White);
 		levelSelected--;
 		if (levelSelected == -1)
 		{
@@ -75,7 +75,7 @@ void cMenuLevels::MoveDown()
 {
 	if (levelSelected <= levels.size() - 1)
 	{
-		levels[levelSelected].setFillColor(Color::Black);
+		levels[levelSelected].setFillColor(Color::White);
 		levelSelected++;
 		if (levelSelected == levels.size())
 		{
