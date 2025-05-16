@@ -1,5 +1,7 @@
 #include "cScene.h"
 #include "cEntity.h"
+#include "cGameControl.h"
+
 using namespace std;
 using namespace sf;
 
@@ -159,6 +161,46 @@ void cScene::Quant(float deltaTimeSec)
 	{
 		e->Quant(deltaTimeSec);
 	}
+}
+string cScene::Save() const
+{
+	string allEnt = "";
+	for (int i = 0; i < entities.size(); i++)
+	{
+		auto e = entities[i];
+		if (e->Health() > 0)
+		{
+			string name = e->Name();
+			string positionX = std::to_string(e->GetPosition().x);
+			string positionY = std::to_string(e->GetPosition().y);
+			string health = std::to_string(e->Health());
+			if (i == entities.size() - 1) allEnt += name + " " + positionX + " " + positionY + " " + health;
+			else allEnt += name + " " + positionX + " " + positionY + " " + health + "\n";
+		}
+	}
+	ShowText("Game Saved", entities[0]->GetPosition(), sf::Color::Green, 3);
+	return allEnt;
+}
+void cScene::Load(std::vector<std::string>& _newEntities)
+{
+	Clear();
+	for (auto s : _newEntities)
+	{
+		std::istringstream iss(s);
+		std::string word;
+		std::vector<std::string> entityParts;
+		while (iss >> word)
+		{
+			entityParts.push_back(word);
+		}
+		cEntity* loadedEnt = new cEntity(entityParts[0]);
+		Vector2f loadedEntPos = { std::stof(entityParts[1]),std::stof(entityParts[2]) };
+		loadedEnt->ChangePosition(loadedEntPos);
+		loadedEnt->SetHealth(std::stof(entityParts[3]));
+		entities.push_back(loadedEnt);
+	}
+	cGameControl::Get()->ControledEntity(entities[0]);
+	ShowText("Game Loaded", entities[0]->GetPosition(), sf::Color::Green, 3);
 }
 void cScene::Draw(sf::RenderWindow& window)
 {

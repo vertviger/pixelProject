@@ -2,6 +2,7 @@
 #include "cScene.h"
 #include "cEntity.h"
 #include <memory>
+#include <fstream>
 #include "cGameControl.h"
 #include "cWinScreen.h"
 #include "cLooseScreen.h"
@@ -107,4 +108,34 @@ void cGame::Draw(sf::RenderWindow& window)
 	cScene::Get()->Draw(window);
 	if (!running) return;
 	cGameControl::Get()->Draw(window);
+}
+const string& AssetsPath();
+void cGame::Save(const std::string& _name) const
+{
+	string _path = AssetsPath() + "saves/" + _name + ".txt";
+	std::ofstream file(_path);
+	string whatToSave = cScene::Get()->Save();
+	file.clear();
+	file << whatToSave;
+}
+
+void cGame::Load(const std::string& _name)
+{
+	string _path = AssetsPath() + "saves/" + _name + ".txt";
+	auto file = std::fstream(_path);
+	if (file.is_open())
+	{
+		vector<string> loadedEntities;
+		std::string line;
+		auto words = std::string();
+		while (getline(file, words))
+		{
+			loadedEntities.push_back(words);
+		}
+		cScene::Get()->Load(loadedEntities);
+	}
+	else
+	{
+		std::cout << "Failed to load save from: " << _path;
+	}
 }

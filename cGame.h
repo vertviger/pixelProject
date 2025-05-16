@@ -16,6 +16,9 @@ public:
 	bool IsRunning() { return running; }
 	bool Win() { return win; }
 	bool Loose() { return loose; }
+	void Save(const std::string& _path) const;
+	void Load(const std::string& _path);
+
 private:
 	void CheckGameOver();
 	bool pause = false;

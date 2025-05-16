@@ -14,10 +14,11 @@ public:
 	void Quant();
 	void Draw(sf::RenderWindow& window);
 	void EventHandle(std::optional<sf::Event> event);
-	void ControledEntity(cEntity* _e) { controlledEntity = _e; }
+	void ControledEntity(cEntity* _e);
 	cEntity* ControledEntity() const { return controlledEntity; }
 private:
 	cEntity* target = NULL;
+	cAction* actionSelected = NULL;
 	cAction* action = NULL;
 	std::string selectedActionName;
 	sf::Sprite* slotsSprite;

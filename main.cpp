@@ -74,6 +74,8 @@ int main()
                 switch (keyEvent->code)
                 {
                 case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); cGame::Get()->Pause(mainMenu.IsOpened()); break;
+                case sf::Keyboard::Key::F5: cGame::Get()->Save("QuickSave"); break;
+                case sf::Keyboard::Key::F9: cGame::Get()->Load("QuickSave"); break;
                 }
             }
             //2. Do game control

@@ -72,11 +72,14 @@ void cGameControl::Quant()
 void cGameControl::Draw(RenderWindow& window)
 {
 	Vector2f windowSize = window.getView().getSize();
-	float percent = controlledEntity->HealthPercentage();
-	RectangleShape healthBar = RectangleShape({ 300 * percent, 50 });
-	healthBar.setPosition(windowSize - healthBar.getSize());
-	healthBar.setFillColor(Color::Red);
-	window.draw(healthBar);
+	if (controlledEntity)
+	{
+		float part = controlledEntity->HealthPercentage();
+		RectangleShape healthBar = RectangleShape({ 300 * part, 50 });
+		healthBar.setPosition(windowSize - healthBar.getSize());
+		healthBar.setFillColor(Color::Red);
+		window.draw(healthBar);
+	}
 	float actionPosX = 24;
 	float actionPosY = windowSize.y - (float)slotsSprite->getTexture().getSize().y;
 	slotsSprite->setPosition({0, actionPosY});
@@ -94,12 +97,18 @@ void cGameControl::EventHandle(optional<Event> event)
 {
 	if(auto const keyEvent = event->getIf<Event::KeyPressed>())
 	{
+		std::string prevSelectedActionName = selectedActionName;
 		switch(keyEvent->code)
 		{
 			case Keyboard::Key::Num1: selectedActionName = actions[0]; break;
 			case Keyboard::Key::Num2: selectedActionName = actions[1]; break;
 			case Keyboard::Key::Num3: selectedActionName = actions[2]; break;
 			case Keyboard::Key::Num4: selectedActionName = actions[3]; break;
+		}
+		if (prevSelectedActionName != selectedActionName)
+		{
+			delete actionSelected;
+			actionSelected = new cAction(selectedActionName, controlledEntity);
 		}
 	}
 	if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
@@ -120,4 +129,10 @@ void cGameControl::EventHandle(optional<Event> event)
 			}
 		}
 	}
+}
+
+void cGameControl::ControledEntity(cEntity* _e)
+{
+	controlledEntity = _e;
+	actionSelected = new cAction(selectedActionName, controlledEntity);
 }

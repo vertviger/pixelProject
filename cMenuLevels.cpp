@@ -6,39 +6,44 @@ cMenuLevels::cMenuLevels(int width, int height)
 {
 	font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
 	//1
-	auto textStart = sf::Text(font, "Choose a level", 60);
-	textStart.setFillColor(Color::White);
-	textStart.setPosition({ 400, 100 });
-	levels.push_back(textStart);
+	auto textF = sf::Text(font, "Save/Load Game", 60);
+	textF.setFillColor(Color::White);
+	textF.setPosition({ 400, 100 });
+	levels.push_back(textF);
 	//1
-	auto textlvl1 = sf::Text(font, "Level 1", 60);
-	textlvl1.setFillColor(Color::Green);
-	textlvl1.setPosition({ 400, 200 });
-	levels.push_back(textlvl1);
+	auto text1 = sf::Text(font, "Save to File1", 60);
+	text1.setFillColor(Color::Green);
+	text1.setPosition({ 400, 200 });
+	levels.push_back(text1);
 	//2
-	auto textlvl2 = sf::Text(font, "Level 2", 60);
-	textlvl2.setFillColor(Color::White);
-	textlvl2.setPosition({ 400, 300 });
-	levels.push_back(textlvl2);
+	auto text2 = sf::Text(font, "Save to File2", 60);
+	text2.setFillColor(Color::White);
+	text2.setPosition({ 400, 300 });
+	levels.push_back(text2);
 	//3
-	auto textlvl3 = sf::Text(font, "Level 3", 60);
-	textlvl3.setFillColor(Color::White);
-	textlvl3.setPosition({ 400, 400 });
-	levels.push_back(textlvl3);
+	auto text3 = sf::Text(font, "Save to File3", 60);
+	text3.setFillColor(Color::White);
+	text3.setPosition({ 400, 400 });
+	levels.push_back(text3);
 	//4
-	auto textlvl4 = sf::Text(font, "Level 4", 60);
-	textlvl4.setFillColor(Color::White);
-	textlvl4.setPosition({ 400, 500 });
-	levels.push_back(textlvl4);
+	auto text4 = sf::Text(font, "Load from File1", 60);
+	text4.setFillColor(Color::White);
+	text4.setPosition({ 400, 500 });
+	levels.push_back(text4);
 	//5
-	auto textlvl5 = sf::Text(font, "Level 5", 60);
-	textlvl5.setFillColor(Color::White);
-	textlvl5.setPosition({ 400, 600 });
-	levels.push_back(textlvl5);
+	auto text5 = sf::Text(font, "Load from File2", 60);
+	text5.setFillColor(Color::White);
+	text5.setPosition({ 400, 600 });
+	levels.push_back(text5);
+	//6
+	auto text6 = sf::Text(font, "Load from File3", 60);
+	text6.setFillColor(Color::White);
+	text6.setPosition({ 400, 700 });
+	levels.push_back(text6);
 	//back
 	auto textBack = sf::Text(font, "Go back", 60);
 	textBack.setFillColor(Color::White);
-	textBack.setPosition({ 400, 700 });
+	textBack.setPosition({ 400, 800 });
 	levels.push_back(textBack);
 
 	levelSelected = 0;
@@ -92,13 +97,13 @@ void cMenuLevels::ChangeToSelected(RenderWindow& window)
 	switch (levelSelected)
 	{
 	case 0:	break; //Manual(possibly)
-	case 1: if (!game->IsRunning()) { game->Start(); cMenuLevels::ChangeOpened(); levelSelected = 0; }
-		  else { game->Pause(false); cMenuLevels::ChangeOpened(); levelSelected = 0; }  break; //level1
-	case 2: break; //level2
-	case 3:	break; //level3
-	case 4:	break; //level4
-	case 5:	break; //level5
-	case 6:	cMainMenu::ChangeOpened(); cMenuLevels::ChangeOpened(); levelSelected = 0;break; //back
+	case 1: cGame::Get()->Save("Save1"); levelSelected = 0;break; //Save1
+	case 2: cGame::Get()->Save("Save2"); levelSelected = 0;break; //Save2
+	case 3:	cGame::Get()->Save("Save3"); levelSelected = 0;break; //Save3
+	case 4:	cGame::Get()->Load("Save1"); levelSelected = 0;break; //Load1
+	case 5:	cGame::Get()->Load("Save2"); levelSelected = 0;break; //Load2
+	case 6:	cGame::Get()->Load("Save3"); levelSelected = 0;break; //Load3
+	case 7:	cMainMenu::ChangeOpened(); cMenuLevels::ChangeOpened(); levelSelected = 0;break; //back
 
 	}
 }

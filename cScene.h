@@ -19,6 +19,8 @@ public:
 	Vector2f	GetSize() { return size; }
 	const vector<cEntity*>& Entities() const { return entities; }
 	void		Quant(float deltaTimeSec);
+	string Save() const;
+	void Load(std::vector<std::string>& _newEntities);
 private:
 	vector<cEntity*> entities;
 	Vector2f size = {16.0f, 9.0f};
