@@ -16,7 +16,7 @@ cWinScreen::cWinScreen(int widthScreen, int heightScreen)
 	//textContinue.setPosition({ xPos, yPos});
 	items.push_back(textContinue);
 	//next level
-	auto textLoadLevel = sf::Text(font, "Next Level", 70);
+	auto textLoadLevel = sf::Text(font, "Play again", 70);
 	textLoadLevel.setFillColor(Color::White);
 	textLoadLevel.setPosition({ 400, 350 });
 	//textLoadLevel.setPosition({ xPos, yPos + yOffset });

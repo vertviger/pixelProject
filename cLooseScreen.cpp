@@ -1,5 +1,6 @@
 #include "cLooseScreen.h"
 #include "cMainMenu.h"
+#include "cMenuLevels.h"
 #include "cGame.h"
 
 cLooseScreen::cLooseScreen(int widthScreen, int heightScreen)
@@ -21,10 +22,16 @@ cLooseScreen::cLooseScreen(int widthScreen, int heightScreen)
 	textLoadLevel.setPosition({ 400, 350 });
 	//textLoadLevel.setPosition({ xPos, yPos + yOffset });
 	items.push_back(textLoadLevel);
+	//choose save
+	auto textChooseSave = sf::Text(font, "Choose Save", 70);
+	textChooseSave.setFillColor(Color::White);
+	textChooseSave.setPosition({ 400, 450 });
+	//textLoadLevel.setPosition({ xPos, yPos + yOffset });
+	items.push_back(textChooseSave);
 	//back
 	auto textOptions = sf::Text(font, "Back to main menu", 70);
 	textOptions.setFillColor(Color::White);
-	textOptions.setPosition({ 400, 450 });
+	textOptions.setPosition({ 400, 550 });
 	//textOptions.setPosition({ xPos, yPos + 2*yOffset });
 	items.push_back(textOptions);
 	
@@ -78,7 +85,8 @@ void cLooseScreen::ChangeToSelected(RenderWindow& window)
 	{
 	case 0: break; //text
 	case 1: cLooseScreen::ChangeOpened(); game->Start(); break; //next level
-	case 2: cLooseScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
+	case 2: cLooseScreen::ChangeOpened(); cMenuLevels::ChangeOpened(); break; //back
+	case 3: cLooseScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}
 }
 //event handling

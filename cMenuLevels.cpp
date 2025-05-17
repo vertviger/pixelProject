@@ -97,14 +97,13 @@ void cMenuLevels::ChangeToSelected(RenderWindow& window)
 	switch (levelSelected)
 	{
 	case 0:	break; //Manual(possibly)
-	case 1: cGame::Get()->Save("Save1"); levelSelected = 0;break; //Save1
-	case 2: cGame::Get()->Save("Save2"); levelSelected = 0;break; //Save2
-	case 3:	cGame::Get()->Save("Save3"); levelSelected = 0;break; //Save3
-	case 4:	cGame::Get()->Load("Save1"); levelSelected = 0;break; //Load1
-	case 5:	cGame::Get()->Load("Save2"); levelSelected = 0;break; //Load2
-	case 6:	cGame::Get()->Load("Save3"); levelSelected = 0;break; //Load3
+	case 1: cGame::Get()->Save("Save1"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Save1
+	case 2: cGame::Get()->Save("Save2"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Save2
+	case 3:	cGame::Get()->Save("Save3"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Save3
+	case 4:	cGame::Get()->Load("Save1"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load1
+	case 5:	cGame::Get()->Load("Save2"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load2
+	case 6:	cGame::Get()->Load("Save3"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load3
 	case 7:	cMainMenu::ChangeOpened(); cMenuLevels::ChangeOpened(); levelSelected = 0;break; //back
-
 	}
 }
 //event handling

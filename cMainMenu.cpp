@@ -16,7 +16,7 @@ cMainMenu::cMainMenu(int width, int height)
 	textContinue.setPosition({ 400, 200 });
 	items.push_back(textContinue);
 	//new game
-	auto textLoadLevel = sf::Text(font, "Choose level", 70);
+	auto textLoadLevel = sf::Text(font, "Choose save", 70);
 	textLoadLevel.setFillColor(Color::White);
 	textLoadLevel.setPosition({ 400, 300 });
 	items.push_back(textLoadLevel);

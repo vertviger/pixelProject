@@ -16,12 +16,14 @@ public:
 	void EventHandle(std::optional<sf::Event> event);
 	void ControledEntity(cEntity* _e);
 	cEntity* ControledEntity() const { return controlledEntity; }
+	void SelectAction(int number);
 private:
 	cEntity* target = NULL;
 	cAction* actionSelected = NULL;
 	cAction* action = NULL;
-	std::string selectedActionName;
+	int selectedActionIdx = 0;
 	sf::Sprite* slotsSprite;
+	sf::Sprite* hpBar;
 	std::vector<sf::Sprite*> actionSprites;
 	cEntity* controlledEntity = NULL;
 };

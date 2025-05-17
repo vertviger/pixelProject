@@ -121,6 +121,10 @@ void cGame::Save(const std::string& _name) const
 
 void cGame::Load(const std::string& _name)
 {
+	if (!Get()->IsRunning()) 
+	{
+		Get()->Start(); Get()->Pause(true);
+	}
 	string _path = AssetsPath() + "saves/" + _name + ".txt";
 	auto file = std::fstream(_path);
 	if (file.is_open())

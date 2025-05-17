@@ -20,6 +20,7 @@ public:
 	cAction(const std::string& name, cEntity* _owner);
 	//virtual bool Can(const cEntity* _who, const cTarget& _target) = 0;
 	bool Do(cEntity* _target); // return true if finished action
+	bool Can(cEntity* _target);
 private:
 	sf::Vector2f randOffset;
 	struct cConfig;

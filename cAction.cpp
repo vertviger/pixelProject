@@ -26,7 +26,6 @@ const cAction::cConfig* cAction::cConfig::Get(const std::string& _name)
 	static map<std::string, cAction::cConfig> configStorage;
 	cAction::cConfig& config = configStorage[_name];
 	if (config.loaded) return &config;
-
 	config.loaded = true;
 	std::string path = AssetsPath() + "actions/" + _name + ".txt";
 	auto file = std::fstream(path);
@@ -88,7 +87,7 @@ const cAction::cConfig* cAction::cConfig::Get(const std::string& _name)
 cAction::cAction(const string& name, cEntity* _owner) : owner(_owner)
 {
 	config = cConfig::Get(name);
-	clockForAction.start();
+	clockForAction.stop();
 	randOffset.x = RandValue() * 2 - 1;
 	randOffset.y = RandValue() * 2 - 1;
 }
@@ -109,6 +108,7 @@ bool cAction::Teleport(Vector2f newPos)
 
 bool cAction::Do(cEntity* _target)
 {
+	if (!clockForAction.isRunning()) clockForAction.start();
 	if (config->teleport)
 	{
 		return Teleport(_target->GetPosition());
@@ -140,4 +140,16 @@ bool cAction::Do(cEntity* _target)
 		}
 	}
 	return false;
+}
+
+bool cAction::Can(cEntity* _target)
+{
+	bool isPlayer = owner->Name() == "player";
+	bool isTargetTree = _target->Name() == "tree";
+	bool amITarget = _target == owner;
+	bool isActionHeal = config->damage < 0;
+	if (isActionHeal) return isPlayer && (isTargetTree || amITarget);
+	if (config->teleport) return !amITarget;
+	if (!isPlayer) return true;
+	return !isTargetTree && !amITarget;
 }

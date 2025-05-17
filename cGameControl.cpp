@@ -12,11 +12,11 @@ using namespace std;
 using namespace sf;
 
 const string& AssetsPath();
-std::vector<std::string> actions = { "actionFireball", "actionTeleport"/*, "actionHeal", "actionLightningStrike"*/};
+std::vector<std::string> actionNames = { "actionFireball", "actionTeleport", "actionHeal", "actionLightning"};
 cGameControl::cGameControl()
 {
 	string spritesPath = AssetsPath() + "Visuals/Sprites/";
-	for (auto& action : actions)
+	for (auto& action : actionNames)
 	{
 		const Texture& texture1 = GetTexture(spritesPath + "Actions/" + action + ".png");
 		Sprite* actionSprite = new Sprite(texture1);
@@ -26,13 +26,10 @@ cGameControl::cGameControl()
 	const Texture& texture = GetTexture(spritesPath + "uiActionsFrame.png");
 	slotsSprite = new Sprite(texture);
 	slotsSprite->setPosition({ 100, 500 });
-	selectedActionName = actions[0];
-	/*const Texture& texture5 = GetTexture(spritesPath "hpBar.png");
-	Sprite* hpBar = new Sprite(texture5);
-	hpBar->setPosition({});
-	const Texture& texture6 = GetTexture(spritesPath + "hpBar.png");
-	Sprite* manaBar = new Sprite(texture6);
-	manaBar->setPosition({});*/
+	const Texture& texture5 = GetTexture(spritesPath + "hpBar.png");
+	hpBar = new Sprite(texture5);
+	hpBar->setPosition({ 100, 500 });
+	hpBar->setScale({ 0.5, 0.5 });
 }
 
 cGameControl::~cGameControl()
@@ -75,40 +72,45 @@ void cGameControl::Draw(RenderWindow& window)
 	if (controlledEntity)
 	{
 		float part = controlledEntity->HealthPercentage();
-		RectangleShape healthBar = RectangleShape({ 300 * part, 50 });
-		healthBar.setPosition(windowSize - healthBar.getSize());
+		Vector2f firstSize = { 315,13 };
+		RectangleShape healthBar = RectangleShape({ firstSize.x * part, firstSize.y });
+		healthBar.setOrigin({healthBar.getSize()});
+		healthBar.setPosition({ windowSize.x - firstSize.x*0.19f ,windowSize.y - firstSize.y*2.5f });
 		healthBar.setFillColor(Color::Red);
 		window.draw(healthBar);
 	}
+	hpBar->setPosition({ windowSize.x - hpBar->getTexture().getSize().x*hpBar->getScale().x, windowSize.y - hpBar->getTexture().getSize().y * hpBar->getScale().y });
+	window.draw(*hpBar);
 	float actionPosX = 24;
 	float actionPosY = windowSize.y - (float)slotsSprite->getTexture().getSize().y;
-	slotsSprite->setPosition({0, actionPosY});
+	slotsSprite->setPosition({5, actionPosY});
 	actionPosY += 40;
-	for (auto& i : actionSprites)
+	for (int i = 0; i < actionSprites.size(); i++)
 	{
-		window.draw(*i);
-		i->setPosition({actionPosX, actionPosY});
-		actionPosX += 74.5;
+		auto sprite = actionSprites[i];
+		sprite->setColor(i == selectedActionIdx ? Color(255, 255, 255, 255) : Color(255, 255, 255, 127));
+		sprite->setPosition({ actionPosX, actionPosY });
+		actionPosX += 77;
+		window.draw(*sprite);
 	}
 	window.draw(*slotsSprite);
 }
-
+void cGameControl::SelectAction(int number)
+{
+	if(actionSelected) delete actionSelected;
+	selectedActionIdx = number;
+	actionSelected = new cAction(actionNames[number], controlledEntity);
+}
 void cGameControl::EventHandle(optional<Event> event)
 {
 	if(auto const keyEvent = event->getIf<Event::KeyPressed>())
 	{
-		std::string prevSelectedActionName = selectedActionName;
 		switch(keyEvent->code)
 		{
-			case Keyboard::Key::Num1: selectedActionName = actions[0]; break;
-			case Keyboard::Key::Num2: selectedActionName = actions[1]; break;
-			case Keyboard::Key::Num3: selectedActionName = actions[2]; break;
-			case Keyboard::Key::Num4: selectedActionName = actions[3]; break;
-		}
-		if (prevSelectedActionName != selectedActionName)
-		{
-			delete actionSelected;
-			actionSelected = new cAction(selectedActionName, controlledEntity);
+		case Keyboard::Key::Num1: SelectAction(0); break;
+			case Keyboard::Key::Num2: SelectAction(1); break;
+			case Keyboard::Key::Num3: SelectAction(2); break;
+			case Keyboard::Key::Num4: SelectAction(3); break;
 		}
 	}
 	if (const auto* mouseButtonPressed = event->getIf<sf::Event::MouseButtonPressed>())
@@ -120,10 +122,11 @@ void cGameControl::EventHandle(optional<Event> event)
 				auto mouseScenePos = MouseToScene(mouseButtonPressed->position);
 				for (auto e : cScene::Get()->Entities())
 				{
-					if (e->Bound().contains(mouseScenePos) && e->Name() != "tree" && e->Name() != "player")
+					if (e->Bound().contains(mouseScenePos) && actionSelected->Can(e)/* && e->Name() != "tree" && e->Name() != "player"*/)
 					{
 						target = e;
-						action = new cAction(selectedActionName, controlledEntity);
+						action = new cAction(*actionSelected);
+						break;
 					}
 				}
 			}
@@ -134,5 +137,5 @@ void cGameControl::EventHandle(optional<Event> event)
 void cGameControl::ControledEntity(cEntity* _e)
 {
 	controlledEntity = _e;
-	actionSelected = new cAction(selectedActionName, controlledEntity);
+	SelectAction(selectedActionIdx);
 }
