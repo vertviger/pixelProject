@@ -16,6 +16,7 @@ cGame* cGame::Get()
 	static cGame game;
 	return &game;
 }
+const std::string& AssetsPath();
 void cGame::Start()
 {
 	auto scene = cScene::Get();
@@ -40,8 +41,15 @@ void cGame::Start()
 	loose = false;
 	win = false;
 	pause = false;
+	font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
+	timeLeftVisual.setFillColor(sf::Color::Black);
 	cWinScreen::ResetCounter();
 	cLooseScreen::ResetCounter();
+}
+void cGame::PauseClock(bool _pauseState)
+{
+	if (_pauseState) clockGame.stop();
+	else clockGame.start();
 }
 void cGame::Quant()
 {
@@ -76,7 +84,7 @@ void cGame::Quant()
 void cGame::CheckGameOver()
 {
 	
-	if (clockGame.getElapsedTime().asSeconds() >= 60)
+	if (clockGame.getElapsedTime().asSeconds() >= timeToWinSec)
 	{
 		win = true;
 		return;
@@ -108,13 +116,19 @@ void cGame::Draw(sf::RenderWindow& window)
 	cScene::Get()->Draw(window);
 	if (!running) return;
 	cGameControl::Get()->Draw(window);
+	Vector2f windowSize = window.getView().getSize();
+	timeElapsedSec = clockGame.getElapsedTime().asSeconds();
+	timeLeftVisual.setString("Time left: " + std::to_string(timeToWinSec - timeElapsedSec));
+	timeLeftVisual.setPosition({ windowSize.x - 250 , 0});
+	if(!win && !loose) window.draw(timeLeftVisual);
 }
 const string& AssetsPath();
 void cGame::Save(const std::string& _name) const
 {
 	string _path = AssetsPath() + "saves/" + _name + ".txt";
 	std::ofstream file(_path);
-	string whatToSave = cScene::Get()->Save();
+	string whatToSave = "time " + std::to_string(timeElapsedSec) + "\n";
+	whatToSave += cScene::Get()->Save();
 	file.clear();
 	file << whatToSave;
 }
@@ -129,12 +143,30 @@ void cGame::Load(const std::string& _name)
 	auto file = std::fstream(_path);
 	if (file.is_open())
 	{
+		int lineNumb = 0;
 		vector<string> loadedEntities;
 		std::string line;
 		auto words = std::string();
 		while (getline(file, words))
 		{
-			loadedEntities.push_back(words);
+			if (lineNumb == 0)
+			{
+				stringstream s(words);
+				string str;
+				s >> str;
+				if (str == "time")
+				{
+					while (s >> str)
+					{
+						SetRemainingTime(std::stof(str));
+					}
+				}
+				lineNumb++;
+			}
+			else
+			{
+				loadedEntities.push_back(words);
+			}
 		}
 		cScene::Get()->Load(loadedEntities);
 	}

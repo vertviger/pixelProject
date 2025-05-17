@@ -37,6 +37,9 @@ int main()
         sf::Style::Default, sf::State::Windowed,
         sf::ContextSettings{ .antiAliasingLevel = 8 }
     );
+    const auto cursor = sf::Cursor::createFromSystem(sf::Cursor::Type::Cross).value();
+    window.setMouseCursor(cursor);
+
     sf::Image icon;
     if (!icon.loadFromFile(AssetsPath() + "Visuals/icon2.png"))
     {
@@ -95,7 +98,6 @@ int main()
 
         //4. Draw all
         window.clear(sf::Color::White);
-        
         cGame::Get()->Draw(window);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
         else if (cMenuLevels::IsOpened()) { levels.Draw(window); }

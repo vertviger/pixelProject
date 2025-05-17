@@ -99,11 +99,11 @@ void cEntity::TakeDamage(float damage)
 	int damageTextSize = int(damage / 5);
 	float randPosX = RandValue() * 0.6f - 0.3f;
 	float randPosY = RandValue() * 0.3f - 0.15f;
-	ShowText(damageStr, sf::Vector2f(position.x + randPosX, position.y - size.y * 0.5f + randPosY), Color::Red, 3.0f);
+	ShowText(damageStr, sf::Vector2f(position.x + randPosX, position.y - size.y * 0.5f + randPosY), damage > 0 ? Color::Red : Color::Green, 3.0f);
 	health -= damage;
 	float healthPercentage = HealthPercentage()*100;
 	if (health <= 0) return;
-	if (healthPercentage >= 75);
+	if (healthPercentage >= 75) sprite = sprite100;
 	else if (healthPercentage >= 50 && sprite75) sprite = sprite75;
 	else if (healthPercentage >= 25 && sprite50) sprite = sprite50;
 	else if (healthPercentage >= 0 && sprite25) sprite = sprite25;

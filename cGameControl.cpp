@@ -68,6 +68,14 @@ void cGameControl::Quant()
 
 void cGameControl::Draw(RenderWindow& window)
 {
+	if (action || !GetTarget(Mouse::getPosition(window)))
+	{
+		window.setMouseCursor(cursorCant);
+	}
+	else
+	{
+		window.setMouseCursor(cursorCan);
+	}
 	Vector2f windowSize = window.getView().getSize();
 	if (controlledEntity)
 	{
@@ -101,6 +109,18 @@ void cGameControl::SelectAction(int number)
 	selectedActionIdx = number;
 	actionSelected = new cAction(actionNames[number], controlledEntity);
 }
+cEntity* cGameControl::GetTarget(const Vector2i& mousePos) const
+{
+	auto mouseScenePos = MouseToScene(mousePos);
+	for (auto e : cScene::Get()->Entities())
+	{
+		if (e->Bound().contains(mouseScenePos) && actionSelected->Can(e))
+		{
+			return e;
+		}
+	}
+	return NULL;
+}
 void cGameControl::EventHandle(optional<Event> event)
 {
 	if(auto const keyEvent = event->getIf<Event::KeyPressed>())
@@ -119,15 +139,9 @@ void cGameControl::EventHandle(optional<Event> event)
 		{
 			if (!action)
 			{
-				auto mouseScenePos = MouseToScene(mouseButtonPressed->position);
-				for (auto e : cScene::Get()->Entities())
+				if(target = GetTarget(mouseButtonPressed->position))
 				{
-					if (e->Bound().contains(mouseScenePos) && actionSelected->Can(e)/* && e->Name() != "tree" && e->Name() != "player"*/)
-					{
-						target = e;
-						action = new cAction(*actionSelected);
-						break;
-					}
+					action = new cAction(*actionSelected);
 				}
 			}
 		}

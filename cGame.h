@@ -10,7 +10,9 @@ class cGame
 public:
 	static cGame* Get();
 	void Start();
-	void Pause(bool _on) { pause = _on; }
+	void Pause(bool _on) { pause = _on; PauseClock(_on); }
+	void PauseClock(bool _pauseState);
+	void SetRemainingTime(float _time) { timeToWinSec = timeRemainingSec - _time; clockGame.restart(); }
 	void Quant();
 	void Draw(sf::RenderWindow& window);
 	bool IsRunning() { return running; }
@@ -29,4 +31,9 @@ private:
 	sf::Clock clockQuant;
 	sf::Clock clockEnemySpawn;
 	std::vector<cEntity*> trees;
+	float timeToWinSec = 60.0;
+	float timeRemainingSec = timeToWinSec;
+	float timeElapsedSec = 0;
+	sf::Font font;
+	sf::Text timeLeftVisual = sf::Text(font, "Time left: " + std::to_string(timeToWinSec - clockGame.getElapsedTime().asSeconds()), 50);
 };
