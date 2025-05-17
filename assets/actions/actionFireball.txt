@@ -1,5 +1,5 @@
 distance 10f
 damage 50.0f
 manaRequired 10.0f
-timeForAction 3.0f
+timeForAction 0.5f
 actionSprite actionFireball

@@ -1,15 +1,11 @@
 #include "cMainMenu.h"
 #include "cGame.h"
-#include "cMenuLevels.h"
+#include "cMenuSaves.h"
 #include "cGraphics.h"
-
-
-
-const std::string& AssetsPath();
 
 cMainMenu::cMainMenu(int width, int height)
 {
-	font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
+	auto& font = GetFont();
 	//play
 	auto textContinue = sf::Text(font, "Continue", 70);
 	textContinue.setFillColor(Color::Green);
@@ -87,7 +83,7 @@ void cMainMenu::ChangeToSelected(RenderWindow& window)
 	{
 	case 0: if (!game->IsRunning() || game->Win() || game->Loose()) { game->Start(); cMainMenu::ChangeOpened(); }
 		  else { game->Pause(false); cMainMenu::ChangeOpened(); }  break; //continue
-	case 1: cMenuLevels::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
+	case 1: cMenuSaves::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
 	case 2: break;				//options
 	case 3:	window.close(); break; //exit
 	}

@@ -1,20 +1,19 @@
 #include "cScene.h"
 #include "cEntity.h"
 #include "cGameControl.h"
+#include "cGraphics.h"
 
 using namespace std;
 using namespace sf;
 
-const std::string& AssetsPath();
-const sf::Texture& GetTexture(const std::string& path);
 ////////////////////////////////////////////////////////////////////////
 class cSceneTexts
 {
 public:
-	cSceneTexts() : font(AssetsPath() + "fonts/jersey25.ttf") {}
+	cSceneTexts() {}
 	void Add(const std::string& _text, const sf::Vector2f& _pos, sf::Color _color, float _duration)
 	{
-		items.emplace_back(cItem(font));
+		items.emplace_back(cItem(GetFont()));
 		auto& item = items.back();
 		item.duration = _duration;
 		item.text.setString(_text);
@@ -61,7 +60,6 @@ private:
 		sf::Clock	 clock;
 	};
 	std::vector<cItem> items;
-	const sf::Font font;
 };
 static cSceneTexts scene_texts;
 /////////////////////////////////////////////////////////////////////
@@ -125,7 +123,6 @@ private:
 		sf::Clock	 clock;
 	};
 	std::vector<cItem> items;
-	const sf::Font font;
 };
 static cSceneSprites scene_sprites;
 

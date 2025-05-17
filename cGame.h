@@ -8,6 +8,7 @@ class cEntity;
 class cGame
 {
 public:
+	cGame();
 	static cGame* Get();
 	void Start();
 	void Pause(bool _on) { pause = _on; PauseClock(_on); }
@@ -34,6 +35,5 @@ private:
 	float timeToWinSec = 60.0;
 	float timeRemainingSec = timeToWinSec;
 	float timeElapsedSec = 0;
-	sf::Font font;
-	sf::Text timeLeftVisual = sf::Text(font, "Time left: " + std::to_string(timeToWinSec - clockGame.getElapsedTime().asSeconds()), 50);
+	sf::Text timeLeftVisual;
 };

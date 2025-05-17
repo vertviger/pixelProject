@@ -1,10 +1,11 @@
 #include "cWinScreen.h"
 #include "cMainMenu.h"
+#include "cGraphics.h"
 #include "cGame.h"
 
 cWinScreen::cWinScreen(int widthScreen, int heightScreen)
 {
-	font = sf::Font("../assets/fonts/jersey25.ttf");
+	auto& font = GetFont();
 	const float widthText = 300.0f;
 	float xPos = (float)widthScreen / 2 - widthText / 2;
 	float yPos = (float)heightScreen / 2 - 200;

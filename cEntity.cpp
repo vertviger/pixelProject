@@ -7,8 +7,6 @@
 #include <filesystem>
 #include <iostream>
 
-const string& AssetsPath();
-
 struct cEntity::cConfig
 {
 	static const cConfig* Get(const std::string& name);
@@ -16,6 +14,8 @@ struct cEntity::cConfig
 	float maxMana = 100.0f;
 	float maxHealth = 100.0f;
 	float maxMovementSpeed = 1.0f;
+	float sizeX = 1.0f;
+	float sizeY = 1.0f;
 	string brainName;
 };
 const cEntity::cConfig* cEntity::cConfig::Get(const std::string& _name)
@@ -63,6 +63,20 @@ const cEntity::cConfig* cEntity::cConfig::Get(const std::string& _name)
 					config.brainName = str;
 				}
 			}
+			else if (str == "sizeX")
+			{
+				while (s >> str)
+				{
+					config.sizeX = std::stof(str);
+				}
+			}
+			else if (str == "sizeY")
+			{
+				while (s >> str)
+				{
+					config.sizeY = std::stof(str);
+				}
+			}
 		}
 	}
 	else
@@ -95,7 +109,7 @@ float RandValue()
 }
 void cEntity::TakeDamage(float damage)
 {
-	string damageStr = to_string((int)damage);
+	string damageStr = to_string(std::abs((int)damage));
 	int damageTextSize = int(damage / 5);
 	float randPosX = RandValue() * 0.6f - 0.3f;
 	float randPosY = RandValue() * 0.3f - 0.15f;
@@ -155,15 +169,7 @@ cEntity::cEntity(const string& _name) : name(_name)
 		sprite25->setOrigin(origin);
 	}
 	sprite->setOrigin(origin);
-
-	if (_name == "tree")
-	{
-		size = { 3.0, 3.0 };
-	}
-	else if(_name == "player")
-	{
-		size = { 0.8, 1.0 };
-	}
+	size = { config->sizeX, config->sizeY };
 }
 cEntity::~cEntity()
 {

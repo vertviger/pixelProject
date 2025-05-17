@@ -22,3 +22,15 @@ const sf::Texture& GetTexture(const std::string& path)
 {
 	return textures.Get(path);
 }
+
+const sf::Font& GetFont()
+{
+	static const sf::Font font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
+	return font;
+}
+
+const std::string& AssetsPath()
+{
+	static const std::string assetsPath = "../assets/";
+	return assetsPath;
+}

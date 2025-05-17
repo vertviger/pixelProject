@@ -1,3 +1,4 @@
 health 150.0f
 mana 100.0f
 movementSpeed 1.5f
+sizeX 0.8f

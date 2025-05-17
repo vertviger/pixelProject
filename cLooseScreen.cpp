@@ -1,11 +1,12 @@
 #include "cLooseScreen.h"
+#include "cGraphics.h"
 #include "cMainMenu.h"
-#include "cMenuLevels.h"
+#include "cMenuSaves.h"
 #include "cGame.h"
 
 cLooseScreen::cLooseScreen(int widthScreen, int heightScreen)
 {
-	font = sf::Font("../assets/fonts/jersey25.ttf");
+	auto& font = GetFont();
 	const float widthText = 300.0f;
 	float xPos = (float)widthScreen / 2 - widthText / 2;
 	float yPos = (float)heightScreen / 2 - 200;
@@ -85,7 +86,7 @@ void cLooseScreen::ChangeToSelected(RenderWindow& window)
 	{
 	case 0: break; //text
 	case 1: cLooseScreen::ChangeOpened(); game->Start(); break; //next level
-	case 2: cLooseScreen::ChangeOpened(); cMenuLevels::ChangeOpened(); break; //back
+	case 2: cLooseScreen::ChangeOpened(); cMenuSaves::ChangeOpened(); break; //back
 	case 3: cLooseScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}
 }

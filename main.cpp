@@ -2,19 +2,17 @@
 #include "cMainMenu.h"
 #include "cScene.h"
 #include "cGameControl.h"
-#include "cMenuLevels.h"
+#include "cMenuSaves.h"
 #include "cWinScreen.h"
 #include "cLooseScreen.h"
 #include "cGame.h"
+#include "cGraphics.h"
+
 
 using namespace sf;
 
 
-const std::string& AssetsPath()
-{
-	static const std::string assetsPath = "../assets/";
-	return assetsPath;
-}
+
 sf::Vector2u windowSize = { 1920, 1080 };
 sf::Vector2u windowSizeCurrent = windowSize;
 
@@ -45,10 +43,9 @@ int main()
     {
         return -1;
     }
-    auto font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
-    cMenuLevels levels(window.getSize().x, window.getSize().y);
+    cMenuSaves levels(window.getSize().x, window.getSize().y);
     cWinScreen winScreen(window.getSize().x, window.getSize().y);
     cLooseScreen looseScreen(window.getSize().x, window.getSize().y);
     while (window.isOpen())
@@ -58,7 +55,7 @@ int main()
         {
             if (cMainMenu::IsOpened()) mainMenu.EventHandle(event, window);
             
-            if (cMenuLevels::IsOpened()) levels.EventHandle(event, window);
+            if (cMenuSaves::IsOpened()) levels.EventHandle(event, window);
             
             if (cWinScreen::IsOpened()) winScreen.EventHandle(event, window);
 
@@ -100,7 +97,7 @@ int main()
         window.clear(sf::Color::White);
         cGame::Get()->Draw(window);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
-        else if (cMenuLevels::IsOpened()) { levels.Draw(window); }
+        else if (cMenuSaves::IsOpened()) { levels.Draw(window); }
         else if (cWinScreen::IsOpened()) { cGame::Get()->Pause(true); winScreen.Draw(window); }
         else if (cLooseScreen::IsOpened()) { cGame::Get()->Pause(true); looseScreen.Draw(window); }
         else 

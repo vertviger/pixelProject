@@ -1,6 +1,6 @@
 distance 10f
 damage 0.0f
 manaRequired 10.0f
-timeForAction 0.1f
+timeForAction 0.5f
 actionSprite actionTeleport
 teleport

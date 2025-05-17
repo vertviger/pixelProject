@@ -1,10 +1,9 @@
-#include "cMenuLevels.h"
+#include "cMenuSaves.h"
+#include "cGraphics.h"
 
-const std::string& AssetsPath();
-
-cMenuLevels::cMenuLevels(int width, int height)
+cMenuSaves::cMenuSaves(int width, int height)
 {
-	font = sf::Font(AssetsPath() + "fonts/jersey25.ttf");
+	auto& font = GetFont();
 	//1
 	auto textF = sf::Text(font, "Save/Load Game", 60);
 	textF.setFillColor(Color::White);
@@ -48,12 +47,12 @@ cMenuLevels::cMenuLevels(int width, int height)
 
 	levelSelected = 0;
 }
-cMenuLevels::~cMenuLevels()
+cMenuSaves::~cMenuSaves()
 {
 
 }
 //drawing
-void cMenuLevels::Draw(RenderWindow& window)
+void cMenuSaves::Draw(RenderWindow& window)
 {
 	for (int i = 0; i < levels.size(); i++)
 	{
@@ -62,7 +61,7 @@ void cMenuLevels::Draw(RenderWindow& window)
 	opened = true;
 }
 //move up
-void cMenuLevels::MoveUp()
+void cMenuSaves::MoveUp()
 {
 	if (levelSelected >= 0)
 	{
@@ -76,7 +75,7 @@ void cMenuLevels::MoveUp()
 	}
 }
 //move down
-void cMenuLevels::MoveDown()
+void cMenuSaves::MoveDown()
 {
 	if (levelSelected <= levels.size() - 1)
 	{
@@ -91,7 +90,7 @@ void cMenuLevels::MoveDown()
 	}
 }
 //selecting
-void cMenuLevels::ChangeToSelected(RenderWindow& window)
+void cMenuSaves::ChangeToSelected(RenderWindow& window)
 {
 	cGame* game = cGame::Get();
 	switch (levelSelected)
@@ -103,11 +102,11 @@ void cMenuLevels::ChangeToSelected(RenderWindow& window)
 	case 4:	cGame::Get()->Load("Save1"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load1
 	case 5:	cGame::Get()->Load("Save2"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load2
 	case 6:	cGame::Get()->Load("Save3"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load3
-	case 7:	cMainMenu::ChangeOpened(); cMenuLevels::ChangeOpened(); levelSelected = 0;break; //back
+	case 7:	cMainMenu::ChangeOpened(); cMenuSaves::ChangeOpened(); levelSelected = 0;break; //back
 	}
 }
 //event handling
-void cMenuLevels::EventHandle(optional<Event> event, RenderWindow& window)
+void cMenuSaves::EventHandle(optional<Event> event, RenderWindow& window)
 {
 	if (auto const keyEvent = event->getIf<sf::Event::KeyReleased>())
 	{
@@ -116,7 +115,7 @@ void cMenuLevels::EventHandle(optional<Event> event, RenderWindow& window)
 		case sf::Keyboard::Key::Up: MoveUp();						  break;
 		case sf::Keyboard::Key::Down: MoveDown();					  break;
 		case sf::Keyboard::Key::Enter: ChangeToSelected(window);      break;
-		case sf::Keyboard::Key::Escape: cMenuLevels::ChangeOpened();      break;
+		case sf::Keyboard::Key::Escape: cMenuSaves::ChangeOpened();      break;
 		}
 	}
 }

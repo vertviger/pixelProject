@@ -1,5 +1,5 @@
 distance 10f
-damage -100.0f
+damage -50.0f
 manaRequired 10.0f
 timeForAction 2.0f
 actionSprite actionHeal

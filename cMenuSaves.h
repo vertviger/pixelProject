@@ -10,11 +10,11 @@
 using namespace std;
 using namespace sf;
 
-class cMenuLevels
+class cMenuSaves
 {
 public:
-	cMenuLevels(int width, int height);
-	~cMenuLevels();
+	cMenuSaves(int width, int height);
+	~cMenuSaves();
 	void Draw(RenderWindow& window);
 	void EventHandle(optional<Event> event, RenderWindow& window);
 	void MoveUp();
@@ -29,7 +29,6 @@ public:
 private:
 	inline static bool opened = false; //????????????????
 	int levelSelected;
-	Font font;
 	vector<Text> levels;
 };
 

@@ -26,7 +26,6 @@ public:
 private:
 	inline static bool opened = true;
 	int mainMenuSelected;
-	Font font;
 	vector<Text> items;
 	Sprite* background = NULL;
 };

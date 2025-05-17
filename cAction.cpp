@@ -1,4 +1,5 @@
 #include "cAction.h"
+#include "cGraphics.h"
 #include <map>
 #include <fstream>
 #include <iostream>
@@ -6,7 +7,6 @@
 
 
 using namespace std;
-const string& AssetsPath();
 float RandValue();
 
 

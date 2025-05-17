@@ -1,2 +1,4 @@
-health 200.0f
+health 100.0f
 movementSpeed 0.0f
+sizeX 3.0f
+sizeY 3.0f

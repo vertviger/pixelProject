@@ -11,7 +11,6 @@
 using namespace std;
 using namespace sf;
 
-const string& AssetsPath();
 std::vector<std::string> actionNames = { "actionFireball", "actionTeleport", "actionHeal", "actionLightning"};
 cGameControl::cGameControl()
 {
@@ -26,10 +25,12 @@ cGameControl::cGameControl()
 	const Texture& texture = GetTexture(spritesPath + "uiActionsFrame.png");
 	slotsSprite = new Sprite(texture);
 	slotsSprite->setPosition({ 100, 500 });
+	slotsSprite->setColor(Color(0, 180, 0));
 	const Texture& texture5 = GetTexture(spritesPath + "hpBar.png");
 	hpBar = new Sprite(texture5);
 	hpBar->setPosition({ 100, 500 });
 	hpBar->setScale({ 0.5, 0.5 });
+	hpBar->setColor(Color(0,200,0));
 }
 
 cGameControl::~cGameControl()
@@ -98,7 +99,7 @@ void cGameControl::Draw(RenderWindow& window)
 		auto sprite = actionSprites[i];
 		sprite->setColor(i == selectedActionIdx ? Color(255, 255, 255, 255) : Color(255, 255, 255, 127));
 		sprite->setPosition({ actionPosX, actionPosY });
-		actionPosX += 77;
+		actionPosX += 76.2;
 		window.draw(*sprite);
 	}
 	window.draw(*slotsSprite);

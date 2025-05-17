@@ -25,7 +25,6 @@ private:
 	inline static int counter = 0;
 	inline static bool opened = false;
 	int winMenuSelected;
-	Font font;
 	vector<Text> items;
 };
 
