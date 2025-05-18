@@ -76,6 +76,7 @@ void cGameControl::Draw(RenderWindow& window)
 	if (controlledEntity)
 	{
 		float part = controlledEntity->HealthPercentage();
+		if (part < 0) part = 0;
 		Vector2f firstSize = { 315,13 };
 		RectangleShape healthBar = RectangleShape({ firstSize.x * part, firstSize.y });
 		healthBar.setOrigin({healthBar.getSize()});

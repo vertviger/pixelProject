@@ -85,7 +85,7 @@ void cLooseScreen::ChangeToSelected(RenderWindow& window)
 	switch (looseMenuSelected)
 	{
 	case 0: break; //text
-	case 1: cLooseScreen::ChangeOpened(); game.Start(); break; //next level
+	case 1: cLooseScreen::ChangeOpened(); game.SetRemainingTime(0); game.Start(); break; //next level
 	case 2: cLooseScreen::ChangeOpened(); cMenuSaves::ChangeOpened(); break; //back
 	case 3: cLooseScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}
