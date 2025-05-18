@@ -65,9 +65,23 @@ void cGame::Quant()
 	}
 	const float quantPeriodMs = 10.0f;
 	float deltaQuant = clockQuant.getElapsedTime().asMilliseconds();
+	float spawnInterval = 5.0f;
+	switch(difficulty)
+	{
+	case cGame::EASY: 
+		break;
+	case cGame::NORMAL:  
+		break;
+	case cGame::HARD:
+		break;
+	case cGame::INSANE:
+		break;
+	default:
+		break;
+	}
 	if(deltaQuant > quantPeriodMs)
 	{
-		if (clockEnemySpawn.getElapsedTime().asSeconds() >= RandValue()*10 + 5)
+		if (clockEnemySpawn.getElapsedTime().asSeconds() >= spawnInterval * (RandValue() + 0.5f))
 		{
 			std::vector<string> enemyNames = { "enemyAxe", "enemySaw", "enemyChainSaw", "enemyKnife" };
 			std::vector<Vector2f> enemySpawnPosRel = { {-0.1, -0.1}, {1.1, -0.1}, {-0.1, 1.1}, {1.1, 1.1}, {0.35, 1.1}, {0.35, -0.1}, {0.65, 1.1}, {0.65, -0.1}/*, {0.5, 0.5}, {0.3, 0.2}, {0.7, 0.4}, {0.6, 0.5}, {0.3, 0.1}, {0.1, 0.3}, {0.4, 0.8}*/ };

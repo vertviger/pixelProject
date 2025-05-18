@@ -8,6 +8,7 @@ class cEntity;
 class cGame
 {
 public:
+	enum cDifficulty { EASY, NORMAL, HARD, INSANE };
 	cGame();
 	static cGame& Get();
 	void Start();
@@ -21,7 +22,7 @@ public:
 	bool Loose() { return loose; }
 	void Save(const std::string& _path) const;
 	void Load(const std::string& _path);
-
+	void Difficulty(cDifficulty _d) { difficulty = _d; }
 private:
 	void CheckGameOver();
 	bool pause = false;
@@ -36,4 +37,5 @@ private:
 	float timeRemainingSec = timeToWinSec;
 	float timeElapsedSec = 0;
 	sf::Text timeLeftVisual;
+	cDifficulty difficulty = EASY;
 };
