@@ -3,7 +3,7 @@
 #include "cMenuSaves.h"
 #include "cGraphics.h"
 
-cMainMenu::cMainMenu(int width, int height)
+cMainMenu::cMainMenu(int width, int height) : background(GetTexture(AssetsPath() + "Visuals/mainMenuFrame.png"))
 {
 	auto& font = GetFont();
 	//play
@@ -26,22 +26,14 @@ cMainMenu::cMainMenu(int width, int height)
 	textExit.setFillColor(Color::White);
 	textExit.setPosition({ 400, 500 });
 	items.push_back(textExit);
-	if (std::filesystem::exists(AssetsPath() + "Visuals/mainMenuFrame.png"))
-	{
-		const Texture& texture = GetTexture(AssetsPath() + "Visuals/mainMenuFrame.png");
-		background = new Sprite(texture);
-		background->setPosition({ 325, 135 });
-	}
+	
+	background.setPosition({ 325, 135 });
 	mainMenuSelected = 0;
-}
-cMainMenu::~cMainMenu()
-{
-	if(background) delete background;
 }
 //Draw main menu
 void cMainMenu::Draw(RenderWindow& window)
 {
-	window.draw(*background);
+	window.draw(background);
 	for (int i = 0; i < items.size(); i++)
 	{
 		window.draw(items[i]);

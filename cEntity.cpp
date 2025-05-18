@@ -177,7 +177,7 @@ cEntity::~cEntity()
 	if (sprite75) delete sprite75;
 	if (sprite50) delete sprite50;
 	if (sprite25) delete sprite25;
-	delete brain;
+	if (brain) delete brain;
 }
 
 float cEntity::HealthPercentage()

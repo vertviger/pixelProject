@@ -130,7 +130,10 @@ bool cAction::Do(cEntity* _target)
 		if (owner->Name() != "player") owner->SetMoveDirection({ 0,0 });
 		if (clockForAction.getElapsedTime().asSeconds() >= config->timeForAction)
 		{
-			if(config->actionSprite != "") ShowSprite(AssetsPath() + "Visuals/Sprites/Actions/" +config->actionSprite+ ".png", _target->GetPosition(), Color::White, 3.0f);
+			if(config->actionSprite != "")
+			{
+				ShowSprite(AssetsPath() + "Visuals/Sprites/Actions/" + config->actionSprite + ".png", _target->GetPosition(), Color::White, 3.0f);
+			}
 			_target->TakeDamage(config->damage);
 			if (owner->Name() == "player")
 			{

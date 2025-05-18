@@ -23,9 +23,9 @@ private:
 	cAction* actionSelected = NULL;
 	cAction* action = NULL;
 	int selectedActionIdx = 0;
-	sf::Sprite* slotsSprite;
-	sf::Sprite* hpBar;
-	std::vector<sf::Sprite*> actionSprites;
+	sf::Sprite slotsSprite;
+	sf::Sprite hpBar;
+	std::vector<sf::Sprite> actionSprites;
 	cEntity* controlledEntity = NULL;
 	const sf::Cursor cursorCant = sf::Cursor::createFromSystem(sf::Cursor::Type::NotAllowed).value();
 	const sf::Cursor cursorCan = sf::Cursor::createFromSystem(sf::Cursor::Type::Cross).value();

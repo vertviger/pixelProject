@@ -11,7 +11,6 @@ class cMainMenu
 {
 public: 
 	cMainMenu(int width, int height);
-	~cMainMenu();
 	void Draw(RenderWindow& window);
 	void EventHandle(optional<Event> event, RenderWindow& window);
 	void MoveUp();
@@ -27,6 +26,6 @@ private:
 	inline static bool opened = true;
 	int mainMenuSelected;
 	vector<Text> items;
-	Sprite* background = NULL;
+	Sprite background;
 };
 

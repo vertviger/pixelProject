@@ -66,20 +66,10 @@ static cSceneTexts scene_texts;
 class cSceneSprites
 {
 public:
-	cSceneSprites() {}
-	~cSceneSprites()
-	{
-		for (auto e : items)
-		{
-			delete e.sprite;
-		}
-	}
 	void Add(const std::string& _file, const sf::Vector2f& _pos, sf::Color _color, float _duration)
 	{
 		const Texture& texture = GetTexture(_file);
-		auto sprite = new Sprite(texture);
-		sprite->setPosition(_pos);
-		items.emplace_back(cItem(sprite));
+		items.emplace_back(cItem(texture));
 		auto& item = items.back();
 		item.duration = _duration;
 		item.position = _pos;
@@ -95,17 +85,16 @@ public:
 			float passedSec = it->clock.getElapsedTime().asSeconds();
 			if (passedSec > it->duration)
 			{
-				delete it->sprite;
 				it = items.erase(it);
 			}
 			else
 			{
 				Vector2f pos = { it->position.x * kx, it->position.y * ky };
-				it->sprite->setPosition(pos);
+				it->sprite.setPosition(pos);
 				//animation
 				float k = 1.0f - passedSec / it->duration;
-				it->sprite->setScale({ k, k });
-				window.draw(*it->sprite);
+				it->sprite.setScale({ k, k });
+				window.draw(it->sprite);
 				++it;
 			}
 		}
@@ -113,11 +102,11 @@ public:
 private:
 	struct cItem
 	{
-		cItem(sf::Sprite* _sprite) : sprite(_sprite)
+		cItem(const Texture& _texture) : sprite(_texture)
 		{
 			clock.start();
 		}
-		sf::Sprite* sprite = NULL;
+		sf::Sprite	 sprite;
 		sf::Vector2f position;
 		float		 duration = 2.0;
 		sf::Clock	 clock;
@@ -126,9 +115,8 @@ private:
 };
 static cSceneSprites scene_sprites;
 
-cScene::cScene()
+cScene::cScene() : background(GetTexture(AssetsPath() + "Visuals/level1Background.png"))
 {
-	backgroundTexture = Texture("../assets/Visuals/level1Background.png");
 }
 cScene::~cScene()
 {
@@ -201,7 +189,7 @@ void cScene::Load(std::vector<std::string>& _newEntities)
 }
 void cScene::Draw(sf::RenderWindow& window)
 {
-	window.draw(Sprite(backgroundTexture));
+	window.draw(background);
 	for (auto* e : entities)
 	{
 		e->Draw(window);

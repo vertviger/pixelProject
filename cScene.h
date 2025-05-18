@@ -24,7 +24,7 @@ public:
 private:
 	vector<cEntity*> entities;
 	Vector2f size = {16.0f, 9.0f};
-	Texture backgroundTexture;
+	Sprite		background;
 };
 
 void ShowText(const std::string& _text, const sf::Vector2f& _scene_pos, sf::Color _color, float _duration);
