@@ -31,9 +31,8 @@ public:
 	void TakeDamage(float damage);
 	const string& Name() const { return name; }
 	
-protected:
-	struct cConfig;
 private:
+	struct cConfig;
 	Vector2f position = { 8.0 , 4.5 };
 	Vector2f moveDirection = { 0, 0 }; // x < 0 - left, x > 0 - right, y > 0 - up, y < 0 - down
 	Vector2f size = { 1, 1 };
@@ -41,7 +40,6 @@ private:
 	float mana = 100.0f;
 	float health = 100.0f;
 	float maxMovementSpeed = 1.0f; // m/s
-	cActionType currentAction = A_NONE;
 	cBrain* brain = NULL;
 	std::string name;
 	Clock damageClock;
