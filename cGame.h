@@ -9,7 +9,7 @@ class cGame
 {
 public:
 	cGame();
-	static cGame* Get();
+	static cGame& Get();
 	void Start();
 	void Pause(bool _on) { pause = _on; PauseClock(_on); }
 	void PauseClock(bool _pauseState);

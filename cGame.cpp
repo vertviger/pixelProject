@@ -16,17 +16,17 @@ cGame::cGame() : timeLeftVisual(GetFont(), "", 50)
 {
 	timeLeftVisual.setFillColor(sf::Color::Yellow);
 }
-cGame* cGame::Get()
+cGame& cGame::Get()
 {
 	static cGame game;
-	return &game;
+	return game;
 }
 void cGame::Start()
 {
-	auto scene = cScene::Get();
-	scene->Clear();
-	auto hero = scene->Spawn("player");
-	sf::Vector2f sceneSize = scene->GetSize();
+	auto& scene = cScene::Get();
+	scene.Clear();
+	auto hero = scene.Spawn("player");
+	sf::Vector2f sceneSize = scene.GetSize();
 	for (int i = 0; i < 2; i++)
 	{
 		for (int j = 0; j < 2; j++)
@@ -34,11 +34,11 @@ void cGame::Start()
 			sf::Vector2f pos;
 			pos.x = sceneSize.x / 4 + i * sceneSize.x / 2;
 			pos.y = sceneSize.y / 4 + j * sceneSize.y / 2;
-			auto tree = scene->Spawn("tree");
+			auto tree = scene.Spawn("tree");
 			tree->ChangePosition(pos);
 		}
 	}
-	cGameControl::Get()->ControledEntity(hero);
+	cGameControl::Get().ControledEntity(hero);
 	clockGame.restart();
 	clockQuant.restart();
 	running = true;
@@ -56,8 +56,8 @@ void cGame::PauseClock(bool _pauseState)
 void cGame::Quant()
 {
 	if (!running) return;
-	cScene* scene = cScene::Get();
-	sf::Vector2f sceneSize = scene->GetSize();
+	cScene& scene = cScene::Get();
+	sf::Vector2f sceneSize = scene.GetSize();
 	if(pause)
 	{
 		clockQuant.restart();
@@ -71,14 +71,14 @@ void cGame::Quant()
 		{
 			std::vector<string> enemyNames = { "enemyAxe", "enemySaw", "enemyChainSaw", "enemyKnife" };
 			std::vector<Vector2f> enemySpawnPosRel = { {-0.1, -0.1}, {1.1, -0.1}, {-0.1, 1.1}, {1.1, 1.1}, {0.35, 1.1}, {0.35, -0.1}, {0.65, 1.1}, {0.65, -0.1}/*, {0.5, 0.5}, {0.3, 0.2}, {0.7, 0.4}, {0.6, 0.5}, {0.3, 0.1}, {0.1, 0.3}, {0.4, 0.8}*/ };
-			auto enemy = scene->Spawn(enemyNames[std::rand() % enemyNames.size()]);
+			auto enemy = scene.Spawn(enemyNames[std::rand() % enemyNames.size()]);
 			auto enemyRelSpawnPos = enemySpawnPosRel[std::rand() % enemySpawnPosRel.size()];
 			Vector2f enemySpawnPos = { sceneSize.x*enemyRelSpawnPos.x, sceneSize.y * enemyRelSpawnPos.y };
 			enemy->ChangePosition(enemySpawnPos);
 			clockEnemySpawn.restart();
 		}
-		cGameControl::Get()->Quant();
-		scene->Quant(deltaQuant / 1000.0f); // ms -> sec
+		cGameControl::Get().Quant();
+		scene.Quant(deltaQuant / 1000.0f); // ms -> sec
 		CheckGameOver();
 		clockQuant.restart();
 	}
@@ -91,7 +91,7 @@ void cGame::CheckGameOver()
 		win = true;
 		return;
 	}
-	if (cGameControl::Get()->ControledEntity()->Health() <= 0)
+	if (cGameControl::Get().ControledEntity()->Health() <= 0)
 	{
 		loose = true; 
 		return;
@@ -99,7 +99,7 @@ void cGame::CheckGameOver()
 	else
 	{	
 		bool allDead = true;
-		for (cEntity* entityToCheck : cScene::Get()->Entities())
+		for (const cEntity* entityToCheck : cScene::Get().Entities())
 		{
 			if (entityToCheck->Name() == "tree")
 			{
@@ -115,9 +115,9 @@ void cGame::CheckGameOver()
 }
 void cGame::Draw(sf::RenderWindow& window)
 {
-	cScene::Get()->Draw(window);
+	cScene::Get().Draw(window);
 	if (!running) return;
-	cGameControl::Get()->Draw(window);
+	cGameControl::Get().Draw(window);
 	Vector2f windowSize = window.getView().getSize();
 	timeElapsedSec = clockGame.getElapsedTime().asSeconds();
 	int timeLeftSec = timeToWinSec - timeElapsedSec;
@@ -133,7 +133,7 @@ void cGame::Save(const std::string& _name) const
 	string _path = AssetsPath() + "saves/" + _name + ".txt";
 	std::ofstream file(_path);
 	string whatToSave = "time " + std::to_string(timeElapsedSec) + "\n";
-	whatToSave += cScene::Get()->Save();
+	whatToSave += cScene::Get().Save();
 	file.clear();
 	file << whatToSave;
 }
@@ -173,7 +173,7 @@ void cGame::Load(const std::string& _name)
 				loadedEntities.push_back(words);
 			}
 		}
-		cScene::Get()->Load(loadedEntities);
+		cScene::Get().Load(loadedEntities);
 	}
 	else
 	{

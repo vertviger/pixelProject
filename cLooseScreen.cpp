@@ -81,11 +81,11 @@ void cLooseScreen::MoveDown()
 }
 void cLooseScreen::ChangeToSelected(RenderWindow& window)
 {
-	cGame* game = cGame::Get();
+	cGame& game = cGame::Get();
 	switch (looseMenuSelected)
 	{
 	case 0: break; //text
-	case 1: cLooseScreen::ChangeOpened(); game->Start(); break; //next level
+	case 1: cLooseScreen::ChangeOpened(); game.Start(); break; //next level
 	case 2: cLooseScreen::ChangeOpened(); cMenuSaves::ChangeOpened(); break; //back
 	case 3: cLooseScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}

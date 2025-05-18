@@ -94,7 +94,7 @@ cEntity* cBrain::FindClosestTarget(const std::string& name) const
 	auto& myPos = owner->GetPosition();
 	float distMin = 100000;
 	cEntity* target = NULL;
-	for (auto* i : cScene::Get()->Entities())
+	for (auto* i : cScene::Get().Entities())
 	{
 		if (i->Name() == name && i->Health() > 0)
 		{

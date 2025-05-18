@@ -90,10 +90,10 @@ void cEntity::Draw(sf::RenderWindow& window)
 {
 	if (!sprite) return;
 	if (health <= 0) return;
-	auto scene = cScene::Get();
+	cScene& scene = cScene::Get();
 	Vector2f screen_size = window.getView().getSize();
-	float kx = screen_size.x / scene->GetSize().x;
-	float ky = screen_size.y / scene->GetSize().y;
+	float kx = screen_size.x / scene.GetSize().x;
+	float ky = screen_size.y / scene.GetSize().y;
 	Vector2f pos = { position.x * kx, position.y * ky };
 	sprite->setPosition(pos);
 	Vector2u textureSize = sprite->getTexture().getSize();
@@ -180,7 +180,7 @@ cEntity::~cEntity()
 	if (brain) delete brain;
 }
 
-float cEntity::HealthPercentage()
+float cEntity::HealthPercentage() const
 {
 	return health / config->maxHealth;
 }

@@ -74,11 +74,11 @@ void cWinScreen::MoveDown()
 }
 void cWinScreen::ChangeToSelected(RenderWindow& window)
 {
-	cGame* game = cGame::Get();
+	cGame& game = cGame::Get();
 	switch (winMenuSelected)
 	{
 	case 0: break; //text
-	case 1: cWinScreen::ChangeOpened(); game->Start(); break; //next level
+	case 1: cWinScreen::ChangeOpened(); game.Start(); break; //next level
 	case 2: cWinScreen::ChangeOpened(); cMainMenu::ChangeOpened(); break; //back
 	}
 }

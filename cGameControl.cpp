@@ -33,10 +33,10 @@ cGameControl::~cGameControl()
 {
 }
 
-cGameControl* cGameControl::Get()
+cGameControl& cGameControl::Get()
 {
 	static cGameControl gameControl;
-	return &gameControl;
+	return gameControl;
 }
 
 sf::Vector2f MouseToScene(sf::Vector2i mousePosition);
@@ -108,7 +108,7 @@ void cGameControl::SelectAction(int number)
 cEntity* cGameControl::GetTarget(const Vector2i& mousePos) const
 {
 	auto mouseScenePos = MouseToScene(mousePos);
-	for (auto e : cScene::Get()->Entities())
+	for (auto e : cScene::Get().Entities())
 	{
 		if (e->Bound().contains(mouseScenePos) && actionSelected->Can(e))
 		{

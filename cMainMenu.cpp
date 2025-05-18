@@ -70,11 +70,11 @@ void cMainMenu::MoveDown()
 }
 void cMainMenu::ChangeToSelected(RenderWindow& window)
 {
-	cGame* game = cGame::Get();
+	cGame& game = cGame::Get();
 	switch (mainMenuSelected)
 	{
-	case 0: if (!game->IsRunning() || game->Win() || game->Loose()) { game->Start(); cMainMenu::ChangeOpened(); }
-		  else { game->Pause(false); cMainMenu::ChangeOpened(); }  break; //continue
+	case 0: if (!game.IsRunning() || game.Win() || game.Loose()) { game.Start(); cMainMenu::ChangeOpened(); }
+		  else { game.Pause(false); cMainMenu::ChangeOpened(); }  break; //continue
 	case 1: cMenuSaves::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
 	case 2: break;				//options
 	case 3:	window.close(); break; //exit

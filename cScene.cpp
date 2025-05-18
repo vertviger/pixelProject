@@ -23,10 +23,10 @@ public:
 	}
 	void Draw(sf::RenderWindow& window)
 	{
-		auto scene = cScene::Get();
+		auto& scene = cScene::Get();
 		Vector2f screen_size = window.getView().getSize();
-		float kx = screen_size.x / scene->GetSize().x;
-		float ky = screen_size.y / scene->GetSize().y;
+		float kx = screen_size.x / scene.GetSize().x;
+		float ky = screen_size.y / scene.GetSize().y;
 		for(auto it = items.begin(); it != items.end(); )
 		{
 			float passedSec = it->clock.getElapsedTime().asSeconds();
@@ -76,10 +76,10 @@ public:
 	}
 	void Draw(sf::RenderWindow& window)
 	{
-		auto scene = cScene::Get();
+		auto& scene = cScene::Get();
 		Vector2f screen_size = window.getView().getSize();
-		float kx = screen_size.x / scene->GetSize().x;
-		float ky = screen_size.y / scene->GetSize().y;
+		float kx = screen_size.x / scene.GetSize().x;
+		float ky = screen_size.y / scene.GetSize().y;
 		for (auto it = items.begin(); it != items.end();)
 		{
 			float passedSec = it->clock.getElapsedTime().asSeconds();
@@ -127,10 +127,10 @@ cEntity* cScene::Spawn(const string& _name)
 	entities.push_back(new cEntity(_name));
 	return entities.back();
 }
-cScene* cScene::Get()
+cScene& cScene::Get()
 {
 	static cScene scene;
-	return &scene;
+	return scene;
 }
 void cScene::Clear()
 {
@@ -184,7 +184,7 @@ void cScene::Load(std::vector<std::string>& _newEntities)
 		loadedEnt->SetHealth(std::stof(entityParts[3]));
 		entities.push_back(loadedEnt);
 	}
-	cGameControl::Get()->ControledEntity(entities[0]);
+	cGameControl::Get().ControledEntity(entities[0]);
 	ShowText("Game Loaded", entities[0]->GetPosition(), sf::Color::Green, 3);
 }
 void cScene::Draw(sf::RenderWindow& window)

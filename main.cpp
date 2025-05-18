@@ -18,9 +18,9 @@ sf::Vector2u windowSizeCurrent = windowSize;
 
 sf::Vector2f MouseToScene(sf::Vector2i mousePosition)
 {
-    auto scene = cScene::Get();
-    float kx = windowSizeCurrent.x / scene->GetSize().x;
-    float ky = windowSizeCurrent.y / scene->GetSize().y;
+    auto& scene = cScene::Get();
+    float kx = windowSizeCurrent.x / scene.GetSize().x;
+    float ky = windowSizeCurrent.y / scene.GetSize().y;
     Vector2f pos = { mousePosition.x / kx, mousePosition.y / ky };
     return pos;
 }
@@ -73,33 +73,33 @@ int main()
             {
                 switch (keyEvent->code)
                 {
-                case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); cGame::Get()->Pause(mainMenu.IsOpened()); break;
-                case sf::Keyboard::Key::F5: cGame::Get()->Save("QuickSave"); break;
-                case sf::Keyboard::Key::F9: cGame::Get()->Load("QuickSave"); break;
+                case sf::Keyboard::Key::Escape: cMainMenu::ChangeOpened(); cGame::Get().Pause(mainMenu.IsOpened()); break;
+                case sf::Keyboard::Key::F5: cGame::Get().Save("QuickSave"); break;
+                case sf::Keyboard::Key::F9: cGame::Get().Load("QuickSave"); break;
                 }
             }
             //2. Do game control
-            cGameControl::Get()->EventHandle(event);
+            cGameControl::Get().EventHandle(event);
         }
         
         //3. Do game logic
-        cGame::Get()->Quant();
-        if (cGame::Get()->Win())
+        cGame::Get().Quant();
+        if (cGame::Get().Win())
         {
             cWinScreen::GameWon();
         }
-        if (cGame::Get()->Loose())
+        if (cGame::Get().Loose())
         {
             cLooseScreen::GameLost();
         }
 
         //4. Draw all
         window.clear(sf::Color::White);
-        cGame::Get()->Draw(window);
+        cGame::Get().Draw(window);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
         else if (cMenuSaves::IsOpened()) { levels.Draw(window); }
-        else if (cWinScreen::IsOpened()) { cGame::Get()->Pause(true); winScreen.Draw(window); }
-        else if (cLooseScreen::IsOpened()) { cGame::Get()->Pause(true); looseScreen.Draw(window); }
+        else if (cWinScreen::IsOpened()) { cGame::Get().Pause(true); winScreen.Draw(window); }
+        else if (cLooseScreen::IsOpened()) { cGame::Get().Pause(true); looseScreen.Draw(window); }
         else 
         { 
             

@@ -10,7 +10,7 @@ class cGameControl
 public:
 	cGameControl();
 	~cGameControl();
-	static cGameControl* Get();
+	static cGameControl& Get();
 	void Quant();
 	void Draw(sf::RenderWindow& window);
 	void EventHandle(std::optional<sf::Event> event);

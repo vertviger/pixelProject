@@ -11,7 +11,7 @@ class cScene
 public: 
 	cScene();
 	~cScene();
-	static cScene* Get();
+	static cScene& Get();
 	void Clear();
 	cEntity*	Spawn(const string& _name);
 	void		Draw(RenderWindow& window);
