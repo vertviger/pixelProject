@@ -82,11 +82,11 @@ void cOptionsMenu::ChangeToSelected(RenderWindow& window)
 	switch (difficultySelected)
 	{
 	case 0: break; 	   //text
-	case 1: cGame::Get().Difficulty(cGame::Get().EASY); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();   break;	   //Easy
-	case 2: cGame::Get().Difficulty(cGame::Get().NORMAL); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened(); break;	  //Medium
-	case 3:	cGame::Get().Difficulty(cGame::Get().HARD); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();   break;  //Hard
-	case 4:	cGame::Get().Difficulty(cGame::Get().INSANE); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened(); break; //Insane
-	case 5:	difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();											     break;//GoBack
+	case 1: cGame::Get().Difficulty(cGame::Get().EASY); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();           break;	   //Easy
+	case 2: cGame::Get().Difficulty(cGame::Get().NORMAL); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();         break;	  //Medium
+	case 3:	cGame::Get().Difficulty(cGame::Get().HARD); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();           break;  //Hard
+	case 4:	cGame::Get().Difficulty(cGame::Get().INSANE); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened();         break; //Insane
+	case 5:	items[difficultySelected].setFillColor(Color::White); difficultySelected = 0; ChangeOpened(); cMainMenu::ChangeOpened(); break;//GoBack
 	}
 }
 //event handling
@@ -96,10 +96,10 @@ void cOptionsMenu::EventHandle(optional<Event> event, RenderWindow& window)
 	{
 		switch (keyEvent->code)
 		{
-		case sf::Keyboard::Key::Up: MoveUp();								                  break;
-		case sf::Keyboard::Key::Down: MoveDown();											  break;
-		case sf::Keyboard::Key::Enter: ChangeToSelected(window);							  break;
-		case sf::Keyboard::Key::Escape: ChangeOpened();										  break;
+		case sf::Keyboard::Key::Up: MoveUp();																  break;
+		case sf::Keyboard::Key::Down: MoveDown();															  break;
+		case sf::Keyboard::Key::Enter: ChangeToSelected(window);											  break;
+		case sf::Keyboard::Key::Escape: items[difficultySelected].setFillColor(Color::White); ChangeOpened(); break;
 		}
 	}
 }

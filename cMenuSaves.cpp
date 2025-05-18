@@ -102,7 +102,7 @@ void cMenuSaves::ChangeToSelected(RenderWindow& window)
 	case 4:	game.Load("Save1"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load1
 	case 5:	game.Load("Save2"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load2
 	case 6:	game.Load("Save3"); levels[levelSelected].setFillColor(Color::White); levelSelected = 0;break; //Load3
-	case 7:	cMainMenu::ChangeOpened(); cMenuSaves::ChangeOpened(); levelSelected = 0;break; //back
+	case 7:	levels[levelSelected].setFillColor(Color::White); levelSelected = 0; cMainMenu::ChangeOpened(); cMenuSaves::ChangeOpened(); break; //back
 	}
 }
 //event handling
@@ -112,10 +112,10 @@ void cMenuSaves::EventHandle(optional<Event> event, RenderWindow& window)
 	{
 		switch (keyEvent->code)
 		{
-		case sf::Keyboard::Key::Up: MoveUp();						  break;
-		case sf::Keyboard::Key::Down: MoveDown();					  break;
-		case sf::Keyboard::Key::Enter: ChangeToSelected(window);      break;
-		case sf::Keyboard::Key::Escape: cMenuSaves::ChangeOpened();      break;
+		case sf::Keyboard::Key::Up: MoveUp();																								  break;	
+		case sf::Keyboard::Key::Down: MoveDown();																							  break;
+		case sf::Keyboard::Key::Enter: ChangeToSelected(window);																			  break;
+		case sf::Keyboard::Key::Escape: levels[levelSelected].setFillColor(Color::White); levelSelected = 0; cMenuSaves::ChangeOpened();      break;
 		}
 	}
 }
