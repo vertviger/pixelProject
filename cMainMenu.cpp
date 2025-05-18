@@ -2,6 +2,8 @@
 #include "cGame.h"
 #include "cMenuSaves.h"
 #include "cGraphics.h"
+#include "cOptionsMenu.h"
+
 
 cMainMenu::cMainMenu(int width, int height) : background(GetTexture(AssetsPath() + "Visuals/mainMenuFrame.png"))
 {
@@ -74,10 +76,10 @@ void cMainMenu::ChangeToSelected(RenderWindow& window)
 	switch (mainMenuSelected)
 	{
 	case 0: if (!game.IsRunning() || game.Win() || game.Loose()) { game.Start(); cMainMenu::ChangeOpened(); }
-		  else { game.Pause(false); cMainMenu::ChangeOpened(); }  break; //continue
-	case 1: cMenuSaves::ChangeOpened(); cMainMenu::ChangeOpened(); break; //levels list
-	case 2: break;				//options
-	case 3:	window.close(); break; //exit
+			else { game.Pause(false); cMainMenu::ChangeOpened(); }												break;    //continue
+	case 1: cMenuSaves::ChangeOpened(); cMainMenu::ChangeOpened();												break;   //levels list
+	case 2: cOptionsMenu::ChangeOpened(); cMainMenu::ChangeOpened();											break;	//options
+	case 3:	window.close();																						break; //exit
 	}
 }
 //event handling

@@ -68,13 +68,13 @@ void cGame::Quant()
 	float spawnInterval = 5.0f;
 	switch(difficulty)
 	{
-	case cGame::EASY: 
+	case cGame::EASY: spawnInterval = 7.0f;
 		break;
-	case cGame::NORMAL:  
+	case cGame::NORMAL: spawnInterval = 5.0f;
 		break;
-	case cGame::HARD:
+	case cGame::HARD: spawnInterval = 3.0f;
 		break;
-	case cGame::INSANE:
+	case cGame::INSANE: spawnInterval = 1.0f;
 		break;
 	default:
 		break;

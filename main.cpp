@@ -7,6 +7,7 @@
 #include "cLooseScreen.h"
 #include "cGame.h"
 #include "cGraphics.h"
+#include "cOptionsMenu.h"
 
 
 using namespace sf;
@@ -45,7 +46,8 @@ int main()
     }
     window.setIcon(icon.getSize(), icon.getPixelsPtr());
     cMainMenu mainMenu(window.getSize().x, window.getSize().y);
-    cMenuSaves levels(window.getSize().x, window.getSize().y);
+    cMenuSaves saves(window.getSize().x, window.getSize().y);
+    cOptionsMenu options(window.getSize().x, window.getSize().y);
     cWinScreen winScreen(window.getSize().x, window.getSize().y);
     cLooseScreen looseScreen(window.getSize().x, window.getSize().y);
     while (window.isOpen())
@@ -55,8 +57,10 @@ int main()
         {
             if (cMainMenu::IsOpened()) mainMenu.EventHandle(event, window);
             
-            if (cMenuSaves::IsOpened()) levels.EventHandle(event, window);
-            
+            if (cMenuSaves::IsOpened()) saves.EventHandle(event, window);
+
+            if (cOptionsMenu::IsOpened()) options.EventHandle(event, window);
+
             if (cWinScreen::IsOpened()) winScreen.EventHandle(event, window);
 
             if (cLooseScreen::IsOpened()) looseScreen.EventHandle(event, window);
@@ -97,7 +101,8 @@ int main()
         window.clear(sf::Color::White);
         cGame::Get().Draw(window);
         if (cMainMenu::IsOpened()) { mainMenu.Draw(window);}
-        else if (cMenuSaves::IsOpened()) { levels.Draw(window); }
+        else if (cMenuSaves::IsOpened()) { saves.Draw(window); }
+        else if (cOptionsMenu::IsOpened()) { options.Draw(window); }
         else if (cWinScreen::IsOpened()) { cGame::Get().Pause(true); winScreen.Draw(window); }
         else if (cLooseScreen::IsOpened()) { cGame::Get().Pause(true); looseScreen.Draw(window); }
         else 
