@@ -1,6 +1,6 @@
 <img width="654" height="368" alt="Pixel_Game" src="https://github.com/user-attachments/assets/21f791ef-3588-4739-9205-80fae8f865d6" />
 
-#PixelProject is a small 2D game with its own custom engine in C++ 
+# PixelProject is a small 2D game with its own custom engine in C++ 
 
 **The goal of the game is simple: you are playing as a wizard who's main objective is to defend four trees located on the map.
 Game includes two enemy types: ones that attack player and others that attack trees.
